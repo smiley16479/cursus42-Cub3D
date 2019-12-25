@@ -1,6 +1,15 @@
 #include <math.h>
-#include "essai.h"
-#include "at_mlx_measure.h"
+// #include "essai.h"
+// #include "at_mlx_measure.h"
+
+
+/* A virer apres l'essai */
+typedef struct s_struc {
+	double player_orient;
+	double player_x;
+	double player_y;
+	int * map;
+}			t_data;
 
 int player_init_pos(t_data *su)
 {
@@ -27,7 +36,7 @@ int player_init_pos(t_data *su)
 	return (-1);
 }
 
-int player_mov(t_data *su, int keycode)
+void player_mov(t_data *su, int keycode)
 {
 	if (keycode == 13) // up
 		su->player_y -= 0.02;
@@ -37,10 +46,9 @@ int player_mov(t_data *su, int keycode)
 		su->player_y += 0.02;
 	else if (keycode == 2) // right
 		su->player_x += 0.02;
-	return (0);
 }
 
-int player_rotate(t_data *su, int keycode)
+void player_rotate(t_data *su, int keycode)
 {
 	if (keycode == 13) // left-arrow
 		su->player_orient += 0.9;
@@ -48,32 +56,58 @@ int player_rotate(t_data *su, int keycode)
 		su->player_orient -= 0.9;
 }
 // http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
-int measure_y(t_data *su)
+double measure_y(t_data *su)
 {
-	int player_rx;
-	int player_ry;
 	double y_a;
-	player_rx = (int)su->player_x;
-	player_ry = (int)su->player_y;
-	if (su->player_orient > 0 && su->player_orient < 50)
-		y_a = tan(su->player_orient) ;
-	if (su->player_orient > 50 && su->player_orient < 100)
-		y_a = sin(su->player_orient) ;
-	else if (su->player_orient > 350)
-			;
+
+	if (su->player_orient > 0 && su->player_orient < 100)
+		y_a = tan(su->player_orient) * -1;
+	else if (su->player_orient > 100 && su->player_orient < 200)
+		y_a = tan(su->player_orient);
+	else if (su->player_orient > 200 && su->player_orient < 300)
+		y_a = tan(su->player_orient);
+	else if (su->player_orient > 300 && su->player_orient < 400)
+		y_a = tan(su->player_orient) * -1;
+	else if (su->player_orient == 100)
+		y_a = -1;
+	else if (su->player_orient == 300)
+		y_a = 1;
+	else
+		y_a = 0;
+	return (y_a);
+}
+
+double measure_x(t_data *su)
+{
+	double x_a;
+
+	if (su->player_orient > 0 && su->player_orient < 100)
+		x_a = 1 / tan(su->player_orient), printf("su->player_orient : %f\n", su->player_orient);
+	else if (su->player_orient > 100 && su->player_orient < 200)
+		x_a = 1 / tan(su->player_orient);
+	else if (su->player_orient > 200 && su->player_orient < 300)
+		x_a = 1 / tan(su->player_orient) * -1;
+	else if (su->player_orient > 300 && su->player_orient < 400)
+		x_a = 1 / tan(su->player_orient) * -1;
+	else if (su->player_orient == 0 || su->player_orient == 400)
+		x_a = 1;
+	else if (su->player_orient == 200)
+		x_a = -1;
+	else
+		x_a = 0;
+	return (x_a);
+}
+
+int is_a_wall(t_data *su, double y_offset, double x_offset)
+{
+	// if ("I hit a wall")
+		// "do smth";
 	return (0);
 }
 
-int measure_x(t_data *su)
+int main()
 {
-	int player_rx;
-	int player_ry;
-	double x_a;
-	player_rx = (int)su->player_x;
-	player_ry = (int)su->player_y;
-	if (su->player_orient > 0 && su->player_orient < 50)
-		x_a = 1 / tan(su->player_orient) ;
-	else if (su->player_orient > 350)
-			;
-	return (0);
+	t_data su;
+	su.player_orient = 50;
+	printf("%f\n",measure_x(&su));
 }
