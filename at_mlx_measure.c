@@ -2,7 +2,7 @@
 #include <stdio.h>
 // #include "essai.h"
 // #include "at_mlx_measure.h"
-#define M_PI       3.14159265358979323846
+// #define M_PI       3.14159265358979323846
 
 
 /* A virer apres l'essai */
@@ -13,7 +13,7 @@ typedef struct s_struc {
 	int * map;
 }			t_data;
 
-double deg_to_rad(double degre)
+static inline double deg_to_rad(double degre)
 {
 	return (degre * M_PI / 180);
 }
@@ -30,14 +30,14 @@ int player_init_pos(t_data *su)
 					printf("player found on x : %d, y : %d oriented on :%c\n", x + 1, y + 1, str[i]);
 					su->player_x = x + 0.5;
 					su->player_y = y + 0.5;
-					if (i == 0) // il va surement falloir redefinir ça en gradian
-						su->player_orient = 100; //M_PI / 2; // en gradian 100
+					if (i == 0)
+						su->player_orient = deg_to_rad(90);
 					else if (i == 1)
-						su->player_orient = 300; //3 * M_PI / 2; //300
+						su->player_orient = deg_to_rad(270);
 					else if (i == 2)
-						su->player_orient = 200; //M_PI; // 200
+						su->player_orient = deg_to_rad(180);
 					else if (i == 3)
-						su->player_orient = 0; //2* M_PI; // 0 ou 400... "gon" <- unite
+						su->player_orient = deg_to_rad(360);
 					return (y * 20 + x);
 				}
 	return (-1);
@@ -63,47 +63,44 @@ void player_rotate(t_data *su, int keycode)
 		su->player_orient -= 0.9;
 }
 // http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
-double measure_y(t_data *su)
-{
-	double y_a;
-
-	if (su->player_orient > 0 && su->player_orient < 100)
-		y_a = tan(su->player_orient) * -1;
-	else if (su->player_orient > 100 && su->player_orient < 200)
-		y_a = tan(su->player_orient);
-	else if (su->player_orient > 200 && su->player_orient < 300)
-		y_a = tan(su->player_orient);
-	else if (su->player_orient > 300 && su->player_orient < 400)
-		y_a = tan(su->player_orient) * -1;
-	else if (su->player_orient == 100)
-		y_a = -1;
-	else if (su->player_orient == 300)
-		y_a = 1;
-	else
-		y_a = 0;
-	return (y_a);
-}
 
 double measure_x(t_data *su)
 {
-	double x_a;
+	/*
+		** p_o == player_orientation en radian**
+		degree 0 to radian 0.000000
+		degree 90 to radian 1.570796
+		degree 180 to radian 3.141593
+		degree 270 to radian 4.712389
+		degree 360 to radian 6.283185
+	*/
+	if (su->player_orient > 0 && su->player_orient < 1.570796)
+		"?";
 
-	if (su->player_orient > 0 && su->player_orient < 100)
-		x_a = tan(su->player_orient);//, printf("su->player_orient : %f\n", su->player_orient);
-	//	x_a = 1 / tan(su->player_orient), printf("su->player_orient : %f\n", su->player_orient);
-	else if (su->player_orient > 100 && su->player_orient < 200)
-		x_a = 1 / tan(su->player_orient);
-	else if (su->player_orient > 200 && su->player_orient < 300)
-		x_a = 1 / tan(su->player_orient) * -1;
-	else if (su->player_orient > 300 && su->player_orient < 400)
-		x_a = 1 / tan(su->player_orient) * -1;
-	else if (su->player_orient == 0 || su->player_orient == 400)
-		x_a = 1;
-	else if (su->player_orient == 200)
-		x_a = -1;
+/*
+	if (p_o != 0 && p_o != 1.570796 && p_o != 3.141593
+		&& p_o != 4.712389 && p_o != 6.283185)
+		return (cos(p_o));
+	else if (p_o == 3.141593)
+		return (-1);
 	else
-		x_a = 0;
-	return (x_a);
+		return (p_o == 6.283185 || p_o == 0 ? 1 : 0);*/
+}
+
+double measure_y(t_data *su)
+{
+
+
+
+	/*
+	if (p_o != 0 && p_o != 1.570796 && p_o != 3.141593
+		&& p_o != 4.712389 && p_o != 6.283185)
+		return (sin(p_o) * -1);
+	else if (p_o == 1.570796)
+		return (-1);
+	else
+		return (p_o == 4.712389 ? 1 : 0);
+	*/
 }
 
 int is_a_wall(t_data *su, double y_offset, double x_offset)
@@ -116,8 +113,14 @@ int is_a_wall(t_data *su, double y_offset, double x_offset)
 int main()
 {
 	t_data su;
-	su.player_orient = 0.785398163;
-	printf("degree 45 to radian %f\n", deg_to_rad(45));
-	printf("%f\n",measure_x(&su));
+	su.player_orient = 0;
+	printf("degree 0 to radian %f\n", deg_to_rad(0));
+	printf("degree 90 to radian %f\n", deg_to_rad(90));
+	printf("degree 180 to radian %f\n", deg_to_rad(180));
+	printf("degree 270 to radian %f\n", deg_to_rad(270));
+	printf("degree 360 to radian %f\n", deg_to_rad(360));
+	int i = 0;
+	while (i <= 360)
+		printf("%f\n",measure_x(&su)), su.player_orient = deg_to_rad(i += 45);
 }
 
