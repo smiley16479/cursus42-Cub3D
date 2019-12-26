@@ -1,6 +1,8 @@
 #include <math.h>
+#include <stdio.h>
 // #include "essai.h"
 // #include "at_mlx_measure.h"
+#define M_PI       3.14159265358979323846
 
 
 /* A virer apres l'essai */
@@ -10,6 +12,11 @@ typedef struct s_struc {
 	double player_y;
 	int * map;
 }			t_data;
+
+double deg_to_rad(double degre)
+{
+	return (degre * M_PI / 180);
+}
 
 int player_init_pos(t_data *su)
 {
@@ -82,7 +89,8 @@ double measure_x(t_data *su)
 	double x_a;
 
 	if (su->player_orient > 0 && su->player_orient < 100)
-		x_a = 1 / tan(su->player_orient), printf("su->player_orient : %f\n", su->player_orient);
+		x_a = tan(su->player_orient);//, printf("su->player_orient : %f\n", su->player_orient);
+	//	x_a = 1 / tan(su->player_orient), printf("su->player_orient : %f\n", su->player_orient);
 	else if (su->player_orient > 100 && su->player_orient < 200)
 		x_a = 1 / tan(su->player_orient);
 	else if (su->player_orient > 200 && su->player_orient < 300)
@@ -108,6 +116,8 @@ int is_a_wall(t_data *su, double y_offset, double x_offset)
 int main()
 {
 	t_data su;
-	su.player_orient = 50;
+	su.player_orient = 0.785398163;
+	printf("degree 45 to radian %f\n", deg_to_rad(45));
 	printf("%f\n",measure_x(&su));
 }
+
