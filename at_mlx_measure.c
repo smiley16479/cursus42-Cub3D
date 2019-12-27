@@ -2,8 +2,9 @@
 #include <stdio.h>
 // #include "essai.h"
 // #include "at_mlx_measure.h"
-// #define M_PI       3.14159265358979323846
-
+# ifndef M_PI
+ #define M_PI       3.14159265358979323846
+# endif
 
 /* A virer apres l'essai */
 typedef struct s_struc {
@@ -15,7 +16,7 @@ typedef struct s_struc {
 
 static inline double deg_to_rad(double degre)
 {
-	return (degre * M_PI / 180);
+	return (degre * M_PI / 180.);
 }
 
 int player_init_pos(t_data *su)
@@ -64,18 +65,65 @@ void player_rotate(t_data *su, int keycode)
 }
 // http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
 
+double first_x_intersection(t_data *su)
+{
+	if (su->player_orient > 0 && su->player_orient < M_PI)
+		if (su->player_orient != 0 && su->player_orient != M_PI / 2 && su->player_orient != M_PI
+			&& su->player_orient != 3 * M_PI / 2 && su->player_orient != 2 * M_PI)
+			return (su->player_x + ((su->player_y - (int)su->player_y) / tan(su->player_orient)));
+	else if (su->player_orient < M_PI && su->player_orient < 2 * M_PI)
+			return (su->player_x + ((su->player_y - (int)su->player_y) / tan(su->player_orient)));
+
+	else if (su->player_orient == M_PI /2 || su->player_orient == 3 * M_PI / 2)
+		return (su->player_x);
+	else 
+		return (su->player_orient ==  0 ? (int)su->player_x + 1 : (int)su->player_x);
+}
+
+double first_y_intersection(t_data *su)
+{
+	if (su->player_orient != 0 && su->player_orient != M_PI / 2 && su->player_orient != M_PI
+		&& su->player_orient != 3 * M_PI / 2 && su->player_orient != 2 * M_PI)
+		return (su->player_y + ((su->player_x - (int)su->player_x) * tan(su->player_orient)));
+	// if (su->player_orient > 0 && su->player_orient < M_PI / 2)
+		// return (su->player_y + ((su->player_x - (int)su->player_x) * tan(su->player_orient)));
+	// else if (su->player_orient > M_PI / 2 && su->player_orient < M_PI)
+		// return (su->player_y + ((su->player_x - (int)su->player_x) / tan(su->player_orient)));
+	// else if (su->player_orient > M_PI && su->player_orient < 3 * M_PI / 2)
+		// return (su->player_y + ((su->player_x - (int)su->player_x) / tan(su->player_orient)));
+	// else if (su->player_orient > 3 * M_PI / 2 && su->player_orient < 2 * M_PI)
+		// return (su->player_y + ((su->player_x - (int)su->player_x) / tan(su->player_orient)));
+	else if (su->player_orient == 0 || su->player_orient == M_PI || su->player_orient == 2 * M_PI)
+		return (su->player_y);
+	else 
+		return (su->player_orient ==  M_PI / 2 ? (int)su->player_y : (int)su->player_y + 1);
+}
+
 double measure_x(t_data *su)
 {
 	/*
 		** p_o == player_orientation en radian**
-		degree 0 to radian 0.000000
-		degree 90 to radian 1.570796
-		degree 180 to radian 3.141593
-		degree 270 to radian 4.712389
-		degree 360 to radian 6.283185
+		degree 0 to radian 0.000000   == 0
+		degree 90 to radian 1.570796  == π/2
+		degree 180 to radian 3.141593 == π
+		degree 270 to radian 4.712389 == 3 * π/2
+		degree 360 to radian 6.283185 == 2π
 	*/
+
+		printf("orient :%f\n", su->player_orient);
+	//distance parcouru en x entre la positon du joueur et la 1ere intersection avec les horizontales
+
+
+
 	if (su->player_orient > 0 && su->player_orient < 1.570796)
-		"?";
+		return (1 / tan(su->player_orient));
+	else if (su->player_orient > 1.570796 && su->player_orient < 3.141593)
+		return (1 / tan(su->player_orient));
+	else if (su->player_orient > 3.141593 && su->player_orient < 4.712389)
+		return (1 / tan(su->player_orient));
+	else if (su->player_orient > 4.712389 && su->player_orient < 6.283185)
+		return (1 / tan(su->player_orient) * - 1);
+
 
 /*
 	if (p_o != 0 && p_o != 1.570796 && p_o != 3.141593
@@ -113,14 +161,21 @@ int is_a_wall(t_data *su, double y_offset, double x_offset)
 int main()
 {
 	t_data su;
-	su.player_orient = 0;
-	printf("degree 0 to radian %f\n", deg_to_rad(0));
-	printf("degree 90 to radian %f\n", deg_to_rad(90));
-	printf("degree 180 to radian %f\n", deg_to_rad(180));
-	printf("degree 270 to radian %f\n", deg_to_rad(270));
-	printf("degree 360 to radian %f\n", deg_to_rad(360));
-	int i = 0;
-	while (i <= 360)
-		printf("%f\n",measure_x(&su)), su.player_orient = deg_to_rad(i += 45);
+	su.player_x = 4.5;
+	su.player_y = 4.5;
+	int x = 0;
+	printf("pour x : %f, et y : %f\n", su.player_x, su.player_y);
+	while (x <= 360)
+	{
+		printf("first intersection pour orient %3d: (%f, %f)\n", x, first_x_intersection(&su), first_y_intersection(&su));
+		su.player_orient = deg_to_rad(x += 45);
+	}
+	// printf("degree 180 to radian %f\n", deg_to_rad(180));
+	// while (i <= 360)
+	// su.player_orient = deg_to_rad(20);
+		// printf("%f\n",measure_x(&su));
+		// printf("%f\n",measure_x(&su));
+		// printf("%f\n",measure_x(&su));
+		// printf("%f\n",measure_x(&su));
 }
 
