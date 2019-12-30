@@ -64,9 +64,25 @@ void player_rotate(t_data *su, int keycode)
 		su->player_orient -= 0.9;
 }
 // http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
+// http://zupi.free.fr/PTuto/index.php?ch=ptuto&p=ray#53
 
 double first_x_intersection(t_data *su)
 {
+	int 	first_y_intersection = su->player_orient > 0 && su->player_orient < M_PI ? (int)su->player_y : (int)su->player_y + 1;
+	double 	first_x_intersection = su->player_x + (su->player_y - first_y_intersection) / tan(su->player_orient);
+	int 	y_a = su->player_orient > 0 && su->player_orient < M_PI ? -1 : 1;
+	double	x_a = 1 / tan(su->player_orient);
+
+	printf("first_x_intersection : %f, first_y_intersection : %d, \net x_a %f, et y_a :%d\n\n",first_x_intersection, first_y_intersection, x_a, y_a);
+	// while (su->map[y_a * 20 + (int)x_a] == 0)
+	while (su->map[first_y_intersection * 20 + (int)first_x_intersection] == 0)
+	{
+		first_y_intersection += y_a; 
+		first_x_intersection += x_a;
+	}
+	printf("first_x_intersection : %f, first_y_intersection : %d, \net x_a %f, et y_a :%d\n",first_x_intersection, first_y_intersection, x_a, y_a);
+	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient)));
+/*
 	if (su->player_orient > 0 && su->player_orient < M_PI)
 		if (su->player_orient != 0 && su->player_orient != M_PI / 2 && su->player_orient != M_PI
 			&& su->player_orient != 3 * M_PI / 2 && su->player_orient != 2 * M_PI)
@@ -78,6 +94,7 @@ double first_x_intersection(t_data *su)
 		return (su->player_x);
 	else 
 		return (su->player_orient ==  0 ? (int)su->player_x + 1 : (int)su->player_x);
+*/
 }
 
 double first_y_intersection(t_data *su)
@@ -160,16 +177,45 @@ int is_a_wall(t_data *su, double y_offset, double x_offset)
 
 int main()
 {
+	int map[400] = {
+		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,	0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+	};
+
 	t_data su;
-	su.player_x = 4.5;
-	su.player_y = 4.5;
+	su.player_x = 1;
+	su.player_y = 2.2;
+	su.map = map;
 	int x = 0;
+	su.player_orient = deg_to_rad(x += 45);
+
+	printf("%f\n",first_x_intersection(&su));
+
+	/*
 	printf("pour x : %f, et y : %f\n", su.player_x, su.player_y);
 	while (x <= 360)
 	{
 		printf("first intersection pour orient %3d: (%f, %f)\n", x, first_x_intersection(&su), first_y_intersection(&su));
 		su.player_orient = deg_to_rad(x += 45);
-	}
+	}*/
 	// printf("degree 180 to radian %f\n", deg_to_rad(180));
 	// while (i <= 360)
 	// su.player_orient = deg_to_rad(20);
