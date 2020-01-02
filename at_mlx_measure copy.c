@@ -7,6 +7,8 @@
  #define M_PI       3.14159265358979323846
 # endif
 
+#define MAP_HEIGTH 20
+
 /* A virer apres l'essai */
 typedef struct s_struc {
 	double player_orient;
@@ -17,7 +19,7 @@ typedef struct s_struc {
 
 
 
-char map[401] = {
+char map[400] = {
 	'1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
@@ -30,7 +32,7 @@ char map[401] = {
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
-	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
+	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', 'N', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
 	'1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '1', 
@@ -86,6 +88,7 @@ void player_mov(t_data *su, int keycode)
 	else if (keycode == 2) // right
 		su->player_x += 0.02;
 }
+
 void player_rotate(t_data *su, int keycode)
 {
 	if (keycode == 13) // left-arrow
@@ -94,10 +97,18 @@ void player_rotate(t_data *su, int keycode)
 		su->player_orient -= 0.9;
 }
 
-void clearScreen()
+static inline void clearScreen(void)
 {
   const char *CLEAR_SCREEN_ANSI = "\e[1;1H\e[2J";
   write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
+}
+
+void wall_collision(t_data *su, float x, float y)
+{
+	if (su->map[((int)su->player_y * MAP_HEIGTH + (int)su->player_x)] == 1)
+		return ;
+	else
+
 }
 
 int getchar_player_mov(t_data *su)
@@ -115,9 +126,17 @@ int getchar_player_mov(t_data *su)
 		else if (c == 'd') // right
 			su->player_x += 0.1;
 		else if (c == 'l') // left-arrow
+		{
 			su->player_orient += 0.9;
+			if (su->player_orient > 2 * M_PI)
+				su->player_orient = 0;
+		}
 		else if (c == 'm') // right-arrow
+		{
 			su->player_orient -= 0.9;
+			if (su->player_orient < 0)
+				su->player_orient = 2 * M_PI;
+		}
 		else
 			return (0);
 		c = getchar();
@@ -126,35 +145,65 @@ int getchar_player_mov(t_data *su)
 	return (1);
 }
 
-char is_player_here(t_data *su, int x)
+char get_player_pos(t_data *su)
 {
-	int y = 64 * x + 64;
-	while (x < y)
+	int x;
+
+	x = 0;
+	while (su->map[x])
 	{
 		char *str = "NSEW";
 		while (*str)
-			if (su->int_map[x] == *str++)
-				return (--*str);
+			if (su->map[x] == *str++)
+			{
+				su->player_x = x % MAP_HEIGTH;
+				su->player_y = x / MAP_HEIGTH;
+				if (*(str - 1) == 'N')
+					su->player_orient = deg_to_rad(90);
+				else if (*(str - 1) == 'W')
+					su->player_orient = deg_to_rad(180);
+				else if (*(str - 1) == 'S')
+					su->player_orient = deg_to_rad(270);
+				else
+					su->player_orient = deg_to_rad(0);
+			}
 		++x;
 	}
-
+	return (0);
 }
+
+void display_player_orient(t_data *su)
+{
+	// printf("player_orient : %f, M_PI * 3 / 4 (135): %f et M_PI * 5 / 4 (225): %f, 135 : %f, 270 : %f\n",su->player_orient, M_PI * 3 / 4 , M_PI * 5 / 4, deg_to_rad(135), deg_to_rad(270));
+	if (su->player_orient >= M_PI / 4 && su->player_orient < M_PI * 3 / 4)
+		write(1, "N", 1);
+	else if (su->player_orient >= M_PI * 3 / 4 && su->player_orient < M_PI * 5 / 4)
+		write(1, "W", 1);
+	else if (su->player_orient >= M_PI * 5 / 4 && su->player_orient < M_PI * 7 / 4)
+		write(1, "S", 1);
+	else
+		write(1, "E", 1);
+}
+
 
 void display_map(char *map, t_data *su)
 {
-	int x = -1;
+	int x = 0;
 	char c = 0;
 
-	while (map[++x])
+	while (x < 400)
 	{
 		if (!(x % 20))
 			write(1, "\n", 1);
 		else
 			write(1, " ", 1);
-		if ((c = is_player_here(su, x)))
-			write(1, &c, 1);
+		if (map[x] == '1')
+			write(1, "1", 1);
+		else if (x == ((int)su->player_y * MAP_HEIGTH + (int)su->player_x)/*(c = is_player_here(su, x))*/)
+			display_player_orient(su);
 		else
-			write(1, &map[x], 1);
+			write(1, "0", 1);
+		++x;
 	}	
 	write(1, "\n\n", 2);
 }
@@ -219,15 +268,15 @@ int main()
 	su.player_y = 1.5;
 	su.player_orient = deg_to_rad(179);
 	su.map = map;
+	get_player_pos(&su);
+	printf("playerPos : (%.1f,%.1f)\n",su.player_x, su.player_y);
+
 	int x = 0;
 
 	char boo = 1;
 	while (boo)
 	{
-
-
-
-		display_map(map);
+		display_map(map, &su);
 		boo = getchar_player_mov(&su);
 		clearScreen();
 
