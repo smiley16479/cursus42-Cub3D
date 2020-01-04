@@ -211,71 +211,44 @@ void display_map(char *map, t_data *su)
 // http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
 // http://zupi.free.fr/PTuto/index.php?ch=ptuto&p=ray#53
 
-double horizontal_first_intersection(t_data *su, int first_y_intersection)
-{//Ici en fonction de la direction du rayon il faut adapter la formule sur le : "(su->player_y - first_y_intersection)" 
-	double 	first_x_intersection;
-
-	if (su->player_orient > 0 && su->player_orient < M_PI)
-		first_x_intersection = su->player_x + (su->player_y - first_y_intersection) / tan(su->player_orient);
-	else if (su->player_orient > M_PI && su->player_orient < M_PI * 2)
-		first_x_intersection = su->player_x + (first_y_intersection - su->player_y) / tan(su->player_orient) * -1;
-	else
-		return (-1);
-	return (first_x_intersection);
-}
 
 double horizontal_intersection(t_data *su)
 {
-	int 	first_y_intersection = su->player_orient > 0 && su->player_orient < M_PI ? (int)su->player_y : (int)su->player_y + 1;
-	double 	first_x_intersection = horizontal_first_intersection(su, first_y_intersection);
+	int 	first_y_intersection = su->player_orient > 0 && su->player_orient < M_PI ? (int)(su->player_y - 1): (int)(su->player_y + 1);
+	double 	first_x_intersection = su->player_x + (su->player_y - first_y_intersection) / tan(su->player_orient);
 	int 	y_a = su->player_orient > 0 && su->player_orient < M_PI ? -1 : 1;
 	double	x_a = -1 * y_a / tan(su->player_orient);
 
 	printf("orient %.f, first_x_intersection : %.1f, first_y_intersection : %d, x_a %.1f, et y_a :%d\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
-	// while (su->map[(int)((first_y_intersection + y_a) * MAP_SIDE + first_x_intersection +  x_a)] == '0')
-	while (su->map[(int)(first_y_intersection * MAP_SIDE + first_x_intersection)] == '0')
+	while (su->map[(int)((first_y_intersection + y_a) * MAP_SIDE + first_x_intersection +  x_a)] == '0')
 	{
-		printf("%c\n", su->map[(int)(first_y_intersection * MAP_SIDE + first_x_intersection)]);
+		// printf("%c\n", su->map[(int)(first_y_intersection * MAP_SIDE + first_x_intersection)]);
 		first_x_intersection += x_a;
 		first_y_intersection += y_a;
 	}
-	printf("wall_x_intersection : %.1f, %d, index de la map : %d\n",first_x_intersection, first_y_intersection, (int)(first_y_intersection * MAP_SIDE + first_x_intersection));
-//retour de la fonction dépends de la difference entre la position joueur et le mur
-	if (su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2)
-		return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
-	else
-		return (fabs((first_x_intersection - su->player_x) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
-}
+	printf("wall_x_intersection : %.1f, %d, index de la map : %d\n",first_x_intersection, first_y_intersection, (int)(first_y_intersection * MAP_SIDE + (int)first_x_intersection));
 
-double vertical_first_intersection(t_data *su, int first_x_intersection)
-{
-	double 	first_y_intersection;
-	//Ici en fonction de la direction du rayon il faut adapter la formule sur le : "(su->player_y - first_y_intersection)" 
-	if (su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2)
-		first_y_intersection = su->player_y + (su->player_x - first_x_intersection) * tan(su->player_orient);
-	else if (su->player_orient == 3 * M_PI / 2 || su->player_orient == 2 * M_PI)
-		return (-1);
-	else
-		first_y_intersection = su->player_y - (first_x_intersection - su->player_x) * tan(su->player_orient);
-	return (first_y_intersection);
+//retour de la fonction dépends de la difference entre la position joueur et le mur
+	// if (su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2)
+		return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
+	// else
+		// return (fabs((first_x_intersection - su->player_x) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
 }
 
 double vertical_intersection(t_data *su)
 {
-	int 	first_x_intersection = su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2 ? (int)su->player_x : (int)su->player_x + 1;
-
-	double 	first_y_intersection =  vertical_first_intersection(su, first_x_intersection);
+	int 	first_x_intersection = su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2 ? (int)(su->player_x - 1): (int)(su->player_x + 1);
+	double 	first_y_intersection =   su->player_y + (su->player_x - first_x_intersection) * tan(su->player_orient);
 	int 	x_a = su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2 ? -1 : 1;
 	double	y_a = -1 * x_a * tan(su->player_orient);
 
 	printf("orient %.f, first_x_intersection : %d, first_y_intersection : %.1f, x_a %d, et y_a :%.1f\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
-	while (su->map[(int)(first_y_intersection * MAP_SIDE + first_x_intersection)] == '0')
-	// while (su->map[(int)((first_y_intersection + y_a) * MAP_SIDE + first_x_intersection +  x_a)] == '0')  // <-- modifer ds le horizontal_intersection
+	while (su->map[(int)((first_y_intersection + y_a) * MAP_SIDE + first_x_intersection +  x_a)] == '0')
 	{
 		first_x_intersection += x_a;
 		first_y_intersection += y_a; 
 	}
-	printf("wall_y_intersection : %d, %.1f, index de la map : %d\n",first_x_intersection, first_y_intersection, (int)(first_y_intersection * 20 + first_x_intersection));
+	printf("wall_y_intersection : %d, %.1f, index de la map : %d\n",first_x_intersection, first_y_intersection, (int)((int)first_y_intersection * 20 + first_x_intersection));
 	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient)));
 }
 
@@ -284,7 +257,7 @@ int main()
 	t_data su;
 	su.player_x = 2;
 	su.player_y = 2;
-	su.player_orient = deg_to_rad(225); // si tu mets -1 ds l'index du tab avec comme angle 225 les deux mesures sont bonnes
+	su.player_orient = deg_to_rad(315); // si tu mets -1 ds l'index du tab avec comme angle 225 les deux mesures sont bonnes
 	su.map = map;
 
 	// Pour prendre la position du joueur depuis la map[400]
