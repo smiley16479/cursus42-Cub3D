@@ -1,25 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   at_mlx_render.c                                    :+:      :+:    :+:   */
+/*   at_mlx_color_handler.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 19:12:30 by adtheus          ###   ########.fr       */
+/*   Created: 2020/01/10 16:15:07 by adtheus           #+#    #+#             */
+/*   Updated: 2020/01/10 16:17:58 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#ifndef AT_MLX_COLOR_HANDLER_H
+# define AT_MLX_COLOR_HANDLER_H
+#include <unistd.h>
 
-#include "essai.h"
-#include "at_mlx_shape_square.h"
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
+int		get_oposite(int color);
+void	print_bin(char nb);
+int		add_shade(double distance, unsigned int color);
+int		invert_color(int color);
 
-int     render_next_frame(void *su)
-{
-	int color = ((t_data*)(su))->square_shape->color;
-	((t_data*)(su))->color_offset += 1;
-	// who_wants_a_rainbow((t_data*)(su));
-	draw_me_a_square((*(t_data*)su));
-    mlx_put_image_to_window(((t_data*)su)->mlx, ((t_data*)su)->mlx_win, ((t_data*)su)->img, 0, 0);
-	return (0);
-}
+#endif

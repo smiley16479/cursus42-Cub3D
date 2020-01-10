@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/04 18:37:17 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/10 19:10:21 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,75 +18,11 @@
 #include "at_mlx_hook.h"
 #include "at_mlx_measure.h"
 #include "at_mlx_render.h"
-#include "at_mlx_square.h"
+#include "at_mlx_shape_square.h"
+#include "at_mlx_shape_circle.h"
+#include "angle_convert.h"
+// #include "at_mlx_measure copy.h"
 
-int		get_t(int trgb)
-{
-	// return (trgb & 0xFF000000);
-	return (0xFF & ((char*)(&trgb))[3]);
-}
-
-int		get_r(int trgb)
-{
-	// return (trgb & 0xFF0000);
-	return (0xFF & ((char*)(&trgb))[2]);
-}
-
-int		get_g(int trgb)
-{
-	// return (trgb & 0xFF00);
-	return (0xFF & ((char*)(&trgb))[1]);
-}
-
-int		get_b(int trgb)
-{
-	// return (trgb & 0xFF);
-	return (0xFF & *((char*)(&trgb)));
-}
-
-int get_oposite(int color)
-{
-	int opposite_color;
-	opposite_color = 0;
-
-	return (opposite_color);
-}
-
-void print_bin(char nb)
-{
-	printf("nb : %d\n", (int)nb);
-	unsigned int i = 2147483648; // 128; //
-	int ecart = 0;
-	while (i > 0)
-	{
-		nb & i ? write(1, "1", 1) : write(1, "0", 1);
-	 	!(++ecart % 4) && ecart != 32 ? write(1, " ", 1): 0;
-		i /= 2;
-	}
-	write(1, "\n", 1);
-}
-
-int add_shade(double distance, unsigned int color)
-{
-	int color_shade;
-
-	color_shade = 255;
-	color_shade *= distance;
-	color &= 0xFFFFFF00;
-	color += color_shade;
-	print_bin(color);
-	return (color);
-}
-
-int invert_color(int color)
-{
-	int t;
-	t = color & 0x000000FF;
-	color = ~color;
-	color &= 0xFFFFFF00;
-	color += t;
-	return (color);
-}
 
 void	my_mlx_pixel_put(t_data data, int x, int y, int color)
 {
@@ -94,7 +30,7 @@ void	my_mlx_pixel_put(t_data data, int x, int y, int color)
 
 	if (x < 0 || x >= data.window_width || y < 0 || y >= data.window_heigth)
 	{
-		printf("sortie du window's range dans ton my_mlx_pixel_put\n");
+		printf("window's range overflow in: my_mlx_pixel_put()\n");
 		return ;
 	}
     	{
@@ -184,32 +120,13 @@ int who_wants_a_rainbow(t_data *su)
 	return (*color);
 }
 
-void draw_me_a_circle(t_data data)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	/*
-	while (++i < data.shape_struc->cote)
-	{
-		while (++j < data.shape_struc->cote)
-		{
-			my_mlx_pixel_put(data, i + data.shape_struc->origin_x, 
-							j + data.shape_struc->origin_y, data.shape_struc->color);
-		}
-		j = 0;
-	}*/
-}
-
 int main()
 {
 
 	// double db = 0.5;
 	// add_shade(db, 4294967295);
 	// invert_color(4042322160);
-
+/*
 	int map[400] = {
 		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
 		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
@@ -232,34 +149,64 @@ int main()
 		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
 		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
 	};
+*/
+	char map[5][5] = {
+	{'1', '1', '1', '1', '1'}, 
+	{'1', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '1'}, 
+	{'1', '1', '1', '1', '1'}
+};
 
-
+	int map_side = 5;
     t_data  *su;
 	t_square *square_shape;
+	t_circle *circle_shape;
 	t_line *line_shape;
 	
 	constructor_t_data(&su);
-	su->map = map;
+	for (int i = 0; i < 5; i++)
+		su->map[i] = map[i];
 	constructor_t_square(&square_shape);
+	constructor_t_circle(&circle_shape);
 	constructor_t_line(&line_shape);
 	
 	
 	// measure(su->map, player_pos(su->map));
-	player_init_pos(su);
-	printf("y : %.2f, x : %.2f\n",su->player_y, su->player_x);
+	// player_init_pos(su);
+	// printf("y : %.2f, x : %.2f\n",su->player_y, su->player_x);
 
 	*square_shape = initializer_t_square(50, 50, 50, 0x0000FF00); //0x0000FF00);
+	*circle_shape = initializer_t_circle(50, 50, 20, 0x0000FF00); //0x0000FF00);
 	*line_shape = initializer_t_line(100, 100, 180, 200, 0x0000FF00);
-	*su = initializer_t_data(200, 200); // 1920, 1080,
+	*su = initializer_t_data(64 * map_side, 64 * map_side);//(64 * map_side, 64 * map_side); // 1920, 1080,
 	su->color_offset = 0;
 	su->square_shape = square_shape;
 	su->line_shape = line_shape;
+	su->shape = circle_shape;
 
     su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
     su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),
                                  &(su->endian));
-	unsigned int a = 4278190290;
-	print_bin((char)a);
+	
+	// int i, j;
+	// i = 0;
+	// while (i < map_side)
+	// {
+		// j = 0;
+		// while (j < map_side)
+		// {
+			// if (map[i][j] == '1')
+			// {
+				// *square_shape = initializer_t_square(64 * j, 64 * i, 64, 0x0000FF00); //0x0000FF00);
+				// draw_me_a_square(*su);
+			// }
+			// ++j; 
+		// }
+		// ++i;
+	// }
+
+	draw_me_a_circle(*su);  // <-- marche pas
 	// draw_me_a_square(*su);  // <-- marche
 	// draw_me_a_line(*su); // <-- marche
     // my_mlx_pixel_put(*su, x, y, 0x0000FF00);
@@ -271,6 +218,7 @@ int main()
 
 	//Voici les hook pour les interuptions de touches
 	// mlx_key_hook(vars.mlx_win, close_window, &vars);
+
 
 	mlx_hook(vars.mlx_win, 2, 1L<<0, msg_keypressed_window, &vars);
 	mlx_hook(vars.mlx_win, 3, 1L<<1, msg_keyreleased_window, &vars);

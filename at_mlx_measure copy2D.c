@@ -56,7 +56,7 @@ double horizontal_intersection(t_data *su)
 		first_x_intersection += x_a;
 		first_y_intersection += y_a;
 	}
-	printf("orient %.f, wall_x_intersection : %.3f, %.3f, index de la map : %d , %d\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, (int)first_x_intersection, (int)first_y_intersection);
+	// printf("orient %.f, wall_x_intersection : %.3f, %.3f, index de la map : %d , %d\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, (int)first_x_intersection, (int)first_y_intersection);
 
 //retour de la fonction dépends de la difference entre la position joueur et le mur
 	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
@@ -68,16 +68,17 @@ double vertical_intersection(t_data *su)
 	double 	first_y_intersection =   su->player_y + (su->player_x - first_x_intersection) * tan(su->player_orient);
 	int 	x_a = su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2 ? -1 : 1;
 	double	y_a = -1 * x_a * tan(su->player_orient);
+	int		ajusteur = su->player_orient > M_PI / 2 && su->player_orient < 3 * M_PI / 2 ? -1 : 0;
 
-	printf("orient %.f, first_x_intersection : %d, first_y_intersection : %.2f, x_a %d, et y_a :%f\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
+	// printf("orient %.f, first_x_intersection : %d, first_y_intersection : %.2f, x_a %d, et y_a :%f\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
 
-	while (first_y_intersection < MAP_SIDE && first_y_intersection > 0 && first_x_intersection < MAP_SIDE && first_x_intersection > 0 && su->map[(int)(first_y_intersection) /* + y_a) * MAP_SIDE*/][first_x_intersection /*+ x_a*/] == '0')
+	while (first_y_intersection < MAP_SIDE && first_y_intersection > 0 && first_x_intersection < MAP_SIDE && first_x_intersection > 0 && su->map[(int)(first_y_intersection) /* + y_a) * MAP_SIDE*/][first_x_intersection + ajusteur/*+ x_a*/] == '0')
 	{
 		// printf("first_x_intersection : %d , %f\n", first_x_intersection, first_y_intersection);
 		first_x_intersection += x_a;
 		first_y_intersection += y_a; 
 	}
-	printf("su->player_x : %f, wall_y_intersection : %d, %.2f, index de la map : %d\n", su->player_x ,first_x_intersection, first_y_intersection, (int)((int)first_y_intersection * MAP_SIDE + first_x_intersection));
+	// printf("su->player_x : %f, wall_y_intersection : %d, %.2f, index de la map : %d\n", su->player_x ,first_x_intersection, first_y_intersection, (int)((int)first_y_intersection * MAP_SIDE + first_x_intersection));
 	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient)));
 }
 
@@ -93,8 +94,8 @@ double distance_incorrecte(t_data *su)
 int main()
 {
 	t_data su;
-	su.player_x = 2.5;
-	su.player_y = 2.5;
+	su.player_x = 2.7;
+	su.player_y = 2.7;
 	su.player_orient = su.player_orient_original = deg_to_rad(0); // si tu mets -1 ds l'index du tab avec comme angle 225 les deux mesures sont bonnes
 
 	for (int i = 0; i < 5; i++)
@@ -117,7 +118,8 @@ int main()
 		{
 			su.player_orient = deg_to_rad(x);
 			// printf("orient : %d, vertical_intersection 	: %f\n\n\n", x,vertical_intersection(&su));
-			printf("horizontal_intersection ray lenght : %f\n\n", horizontal_intersection(&su));
+			// printf("horizontal_intersection ray lenght : %f\n\n", horizontal_intersection(&su));
+			printf("orient : %d, distance_incorrecte ray lenght : %f\n\n",x, distance_incorrecte(&su));
 		}
 		++x;
 	}

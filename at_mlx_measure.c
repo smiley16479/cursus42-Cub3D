@@ -150,6 +150,7 @@ double measure_x(t_data *su)
 		return (-1);
 	else
 		return (p_o == 6.283185 || p_o == 0 ? 1 : 0);*/
+	return 0;//to remove
 }
 
 double measure_y(t_data *su)
@@ -166,6 +167,7 @@ double measure_y(t_data *su)
 	else
 		return (p_o == 4.712389 ? 1 : 0);
 	*/
+	return 0;//to remove
 }
 
 int is_a_wall(t_data *su, double y_offset, double x_offset)

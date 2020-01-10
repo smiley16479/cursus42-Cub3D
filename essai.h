@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2019/12/24 18:10:57 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/10 19:10:08 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <mlx.h>
-#include "at_mlx_square.h"
+#include "at_mlx_shape_square.h"
 
 enum color {u_b, u_g, u_r, u_a};
 
@@ -46,7 +46,8 @@ typedef  struct s_data {
 	void		*su;
     char        *addr;
 	char 		*str_error;
-	int 		*map;
+	// int 		*map;
+	char		*map[5];
 	int			window_width;
 	int			window_heigth;
     int         bits_per_pixel;
@@ -59,6 +60,7 @@ typedef  struct s_data {
 
 	t_square	*square_shape;
 	t_line		*line_shape;
+	void		*shape;
 	// t_shape		*circle_shape;
 	// t_shape		*tiangle_shape;
 }               t_data;
