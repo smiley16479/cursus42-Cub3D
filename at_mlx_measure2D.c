@@ -1,31 +1,37 @@
 #include <math.h>
+#include <mlx.h>
 #include <stdio.h>
 #include <unistd.h>
-// #include "essai.h"
-// #include "at_mlx_measure.h"
+#include "essai.h"
+#include "at_mlx_measure.h"
+#include "at_mlx_render.h"
+#include "at_mlx_hook.h"
+#include "at_mlx_player_handler.h"
 # ifndef M_PI
  #define M_PI       3.14159265358979323846
 # endif
 
-#define MAP_SIDE 5
-
-
 /* A virer apres l'essai */
-typedef struct s_struc {
-	double	player_orient;
-	double	player_orient_original;
-	double	player_x;
-	double	player_y;
-	char	*map[5];
-}			t_data;
+// typedef struct s_struc {
+// 	double	player_orient;
+// 	double	player_orient_original;
+// 	double	player_x;
+// 	double	player_y;
+// 	char	*map[5];
+// }			t_data;
 
 
-char map[5][5] = {
-	{'1', '1', '1', '1', '1'}, 
-	{'1', '0', '0', '0', '1'}, 
-	{'1', '0', '0', '0', '1'}, 
-	{'1', '0', '0', '0', '1'}, 
-	{'1', '1', '1', '1', '1'}
+char map[MAP_SIDE][MAP_SIDE] = {
+	{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 	
+	{'1', '0', '0', '0', '0', '0', '0', '0', '1', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '1', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 
+	{'1', '0', '0', '0', '0', '0', '0', '0', '0', '1'}, 
+	{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}
 };
 
 static inline double deg_to_rad(double degre)
@@ -90,39 +96,54 @@ double distance_incorrecte(t_data *su)
 	return (h_intersection < v_intersection ? h_intersection : v_intersection);
 }
 
+void display_wall(t_data *su, int x, double distance)
+{
+	int		height;
+	int		y;
+
+	height = 277 / distance;
+	// Dimensions de l’écran de projection = 320 x 200 (à vous de le choisir)
+	// Centre de l’écran de projection = (160,100)
+	// Distance entre la camera et l’écran de projection = 277
+	// Angle entre deux rayons consécutifs = 60/320 degrés
+	y  = 0;
+	while(y < su->window_heigth)
+		if (y >= su->window_heigth / 2 - (height / 2) && y < su->window_heigth / 2 + (height / 2))
+			my_mlx_pixel_put(*su, x,  y++, 0x0000FF00);
+		else
+			my_mlx_pixel_put(*su, x,  y++, 0x00000000);
+}
+
 
 int main()
 {
-	t_data su;
-	su.player_x = 2.7;
-	su.player_y = 2.7;
-	su.player_orient = su.player_orient_original = deg_to_rad(0); // si tu mets -1 ds l'index du tab avec comme angle 225 les deux mesures sont bonnes
+	t_data  *su;
+	constructor_t_data(&su);
+	*su = initializer_t_data(1000, 500);//(64 * map_side, 64 * map_side); // 1920, 1080,
+	su->player_x = 5;
+	su->player_y = 5;
+	su->player_orient_origin = deg_to_rad(0);
+	// su->player_orient = su->player_orient_original = deg_to_rad(0); // si tu mets -1 ds l'index du tab avec comme angle 225 les deux mesures sont bonnes
 
-	for (int i = 0; i < 5; i++)
-		su.map[i] = map[i];
+	for (int i = 0; i < MAP_SIDE; i++)
+		su->map[i] = map[i];
 
-	// for (int i = 0; i < 5; i++)
-		// for (int j = 0; j < 5; j++)
-		// printf("%c", su.map[i][j]);
- 
+	su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
+	su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),
+	&(su->endian));
+
 	// printf("horizontal_intersection : %f\n\n",horizontal_intersection(&su));
 	// printf("vertical_intersection 	: %f\n",vertical_intersection(&su));
-	printf("playerPos : (%.1f,%.1f) ; player_orient ; %f\n\n",su.player_x, su.player_y, su.player_orient);
+	// printf("playerPos : (%.1f,%.1f) ; player_orient ; %f\n\n",su.player_x, su.player_y, su.player_orient);
 
-	int x = 0;
-	double x_rad;
-	double d_incorrecte, d_correcte;
-	while (x < 360)
-	{
-		if (x != 0 && x != 90 && x != 180 && x != 270)
-		{
-			su.player_orient = deg_to_rad(x);
-			// printf("orient : %d, vertical_intersection 	: %f\n\n\n", x,vertical_intersection(&su));
-			// printf("horizontal_intersection ray lenght : %f\n\n", horizontal_intersection(&su));
-			printf("orient : %d, distance_incorrecte ray lenght : %f\n\n",x, distance_incorrecte(&su));
-		}
-		++x;
-	}
-		return 0;
+	//Voici les hook pour les interuptions de touches
+	// mlx_key_hook(su->mlx_win, close_window, su);
+	// mlx_do_key_autorepeaton(su->mlx);
+	mlx_hook(su->mlx_win, 2, 1L<<0, msg_keypressed_window, su);
+	// mlx_hook(su->mlx_win, 3, 1L<<1, msg_keyreleased_window, su);
+
+	// mlx_loop_hook(su->mlx, render_next_frame1, (void*)su);
+	mlx_loop(su->mlx);
+	return 0;
 }
 

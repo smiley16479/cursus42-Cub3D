@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 19:10:21 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/11 19:55:18 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "at_mlx_render.h"
 #include "at_mlx_shape_square.h"
 #include "at_mlx_shape_circle.h"
+#include "at_mlx_shape_line.h"
 #include "angle_convert.h"
 // #include "at_mlx_measure copy.h"
 
@@ -48,26 +49,6 @@ t_data	*constructor_t_data(t_data **img)
 		return (*img);
 }
 
-t_line	*constructor_t_line(t_line **struc_line)
-{
-	*struc_line = (t_line*)malloc(sizeof(t_line));
-	if (*struc_line == NULL)
-		return (NULL);
-	else
-		return (*struc_line);
-}
-
-t_line initializer_t_line(int origin_x,int origin_y, int fin_x,int fin_y,int color)
-{
-	t_line to_return;
-	to_return.origin_x = origin_x;
-	to_return.origin_y = origin_y;
-	to_return.fin_x = fin_x;
-	to_return.fin_y = fin_y;
-	to_return.color = color;
-		return (to_return);
-}
-
 t_data initializer_t_data(int window_width, int window_heigth)
 {
 	t_data to_return;
@@ -86,24 +67,6 @@ t_data initializer_t_data(int window_width, int window_heigth)
 		return (to_return);
 }
 
-void draw_me_a_line(t_data data)
-{
-	int x;
-	float a;
-	float b;
-
-	x = data.line_shape->origin_x;
-	a = (float)(data.line_shape->fin_y - data.line_shape->origin_y)
-		/ (float)(data.line_shape->fin_x - data.line_shape->origin_x);
-	b = data.line_shape->origin_y - a * data.line_shape->origin_x;
-	printf("a: %f\n", a);
-	while (x <= data.line_shape->fin_x)
-	{
-		my_mlx_pixel_put(data, x, a * x + b, data.line_shape->color);
-		++x;
-	}
-}
-
 int who_wants_a_rainbow(t_data *su)
 {
 	// distance /= (708 / 100);
@@ -120,36 +83,38 @@ int who_wants_a_rainbow(t_data *su)
 	return (*color);
 }
 
+
+/*
 int main()
 {
 
 	// double db = 0.5;
 	// add_shade(db, 4294967295);
 	// invert_color(4042322160);
-/*
-	int map[400] = {
-		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,'W',  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
-		1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
-	};
-*/
+
+	// int map[400] = {
+		// 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,'W',  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  1, 
+		// 1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1, 
+	// };
+
 	char map[5][5] = {
 	{'1', '1', '1', '1', '1'}, 
 	{'1', '0', '0', '0', '1'}, 
@@ -177,9 +142,9 @@ int main()
 	// printf("y : %.2f, x : %.2f\n",su->player_y, su->player_x);
 
 	*square_shape = initializer_t_square(50, 50, 50, 0x0000FF00); //0x0000FF00);
-	*circle_shape = initializer_t_circle(50, 50, 20, 0x0000FF00); //0x0000FF00);
 	*line_shape = initializer_t_line(100, 100, 180, 200, 0x0000FF00);
 	*su = initializer_t_data(64 * map_side, 64 * map_side);//(64 * map_side, 64 * map_side); // 1920, 1080,
+	*circle_shape = initializer_t_circle(su->window_width / 2, su->window_heigth / 2, 10, 0x0000FF00); //0x0000FF00);
 	su->color_offset = 0;
 	su->square_shape = square_shape;
 	su->line_shape = line_shape;
@@ -188,25 +153,25 @@ int main()
     su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
     su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),
                                  &(su->endian));
-	
-	// int i, j;
-	// i = 0;
-	// while (i < map_side)
-	// {
-		// j = 0;
-		// while (j < map_side)
-		// {
-			// if (map[i][j] == '1')
-			// {
-				// *square_shape = initializer_t_square(64 * j, 64 * i, 64, 0x0000FF00); //0x0000FF00);
-				// draw_me_a_square(*su);
-			// }
-			// ++j; 
-		// }
-		// ++i;
-	// }
 
-	draw_me_a_circle(*su);  // <-- marche pas
+	int i, j;
+	i = 0;
+	while (i < map_side)
+	{
+		j = 0;
+		while (j < map_side)
+		{
+			if (map[i][j] == '1')
+			{
+				*square_shape = initializer_t_square(64 * j, 64 * i, 64, 0x0000FF00); //0x0000FF00);
+				draw_me_a_square(*su);
+			}
+			++j; 
+		}
+		++i;
+	}
+ 
+	draw_me_a_circle(*su);  // <-- marche
 	// draw_me_a_square(*su);  // <-- marche
 	// draw_me_a_line(*su); // <-- marche
     // my_mlx_pixel_put(*su, x, y, 0x0000FF00);
@@ -217,7 +182,7 @@ int main()
 	vars.mlx_win = su->mlx_win;
 
 	//Voici les hook pour les interuptions de touches
-	// mlx_key_hook(vars.mlx_win, close_window, &vars);
+	mlx_key_hook(vars.mlx_win, close_window, &vars);
 
 
 	mlx_hook(vars.mlx_win, 2, 1L<<0, msg_keypressed_window, &vars);
@@ -232,3 +197,4 @@ int main()
 	mlx_destroy_window(su->mlx, su->mlx_win);
 	return (0);
 }
+*/
