@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/11 19:55:18 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/22 19:07:19 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,8 @@ void	my_mlx_pixel_put(t_data data, int x, int y, int color)
 		printf("window's range overflow in: my_mlx_pixel_put()\n");
 		return ;
 	}
-    	{
-			dst = data.addr + ((y * data.line_length + x * (data.bits_per_pixel / 8)));
-    		*(unsigned int*)dst = (unsigned int)color;
-		}
+	dst = data.addr + ((y * data.line_length + x * (data.bits_per_pixel / 8)));
+    *(unsigned int*)dst = (unsigned int)color;
 }
 
 t_data	*constructor_t_data(t_data **img)

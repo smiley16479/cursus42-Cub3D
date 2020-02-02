@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/12 19:16:11 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/23 18:41:04 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@ int     render_next_frame(void *su)
 int     render_next_frame1(void *su)
 {
 	int x = 0;
-	double x_rad1 = deg_to_rad((double)60 / ((t_data*)su)->window_width);
-	double x_rad = deg_to_rad(-30);
+	double x_rad_to_add = deg_to_rad((double)60 / ((t_data*)su)->window_width);
+	double x_rad = deg_to_rad(30);
 	double d_incorrecte, d_correcte;
-	((t_data*)su)->player_orient = ((t_data*)su)->player_orient_origin;
-	// printf("orient : %.3f, \n", ((t_data*)su)->player_orient);
 
+	((t_data*)su)->player_orient = ((t_data*)su)->player_orient_origin + x_rad;
 	while (x < ((t_data*)su)->window_width)
 	{
-		x_rad += x_rad1;
-		((t_data*)su)->player_orient = ((t_data*)su)->player_orient + x_rad1;
+		x_rad -= x_rad_to_add;
+		((t_data*)su)->player_orient -= x_rad_to_add;
 		d_incorrecte = distance_incorrecte(su);
 		// printf("orient : %.3f, x_rad : %.3f, distance_incorrecte ray lenght : %f\n", rad_to_deg(((t_data*)su)->player_orient), x_rad, d_incorrecte);
 		display_wall(su, x, d_incorrecte * cos(x_rad));
 		++x;
 	}
+	printf("player_orient_origin : %.3f player_orient : %.3f (ds render.c l47)\n",((t_data*)su)->player_orient_origin, ((t_data*)su)->player_orient);
+
     mlx_put_image_to_window(((t_data*)su)->mlx, ((t_data*)su)->mlx_win, ((t_data*)su)->img, 0, 0);
 	return (0);
 }

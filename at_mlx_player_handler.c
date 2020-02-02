@@ -6,10 +6,11 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/13 11:19:58 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/23 23:42:26 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+# include <stdio.h>
 # include <unistd.h>
 #include "struc.h"
 #include "angle_convert.h"
@@ -46,31 +47,48 @@ int player_init_pos(t_data *su)
 void player_mov(t_data *su, int keycode)
 {
 	double dir = su->player_orient_origin;
-	if (keycode == 13) // up
+	if (keycode == 13) // up -> devant
 	{
-		su->player_x += dir > M_PI / 2 ? cos(dir) : -cos(dir);
-		su->player_y += sin(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x + cos(dir))] == '0')
+			su->player_x += cos(dir);
+		if (su->map[(int)(su->player_y - sin(dir))][(int)(su->player_x)] == '0')
+			su->player_y -= sin(dir);
+	}
+	else if (keycode == 1) // down
+	{
+		if (su->map[(int)(su->player_y)][(int)(su->player_x - cos(dir))] == '0')
+			su->player_x -= cos(dir);
+		if (su->map[(int)(su->player_y + sin(dir))][(int)(su->player_x)] == '0')
+			su->player_y += sin(dir);
 	}
 	else if (keycode == 0) // left
 	{
-		su->player_x += cos(dir);
-		su->player_y -= sin(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x - sin(dir))] == '0')	
+			su->player_x -= sin(dir);
+		if (su->map[(int)(su->player_y - cos(dir))][(int)(su->player_x)] == '0')	
+			su->player_y -= cos(dir);
 	}
-		// su->player_x += 0.1;
-	/*
-	else if (keycode == 1) // down
-		su->player_y += 0.1;
 	else if (keycode == 2) // right
-		su->player_x -= 0.1;
-	*/
+	{
+		if (su->map[(int)(su->player_y)][(int)(su->player_x + sin(dir))] == '0')	
+			su->player_x += sin(dir); 
+		if (su->map[(int)(su->player_y + cos(dir))][(int)(su->player_x)] == '0')	
+			su->player_y += cos(dir);
+	}	
 }
 
 void player_rotate(t_data *su, int keycode)
 {
 	if (keycode == 123) // left-arrow
-		su->player_orient_origin -= deg_to_rad(1);
+		su->player_orient_origin += deg_to_rad(2);
 	else if (keycode == 124) // right-arrow
-		su->player_orient_origin += deg_to_rad(1);
+		su->player_orient_origin -= deg_to_rad(2);
+	
+	//le probleme d'affichage vient de l'orientation... sans savoir encore pourquoi
+	// if (((t_data*)su)->player_orient_origin >= 6.28)
+		// ((t_data*)su)->player_orient_origin = 0.0;
+	// else if (((t_data*)su)->player_orient_origin <= 0)
+		// ((t_data*)su)->player_orient_origin =  6.28;
 }
 
 static inline void clearScreen(void)
@@ -166,24 +184,30 @@ void display_player_orient(t_data *su)
 		write(1, "E", 1);
 }
 
-void display_map(char *map, t_data *su)
+void display_map(char *map[MAP_SIDE], t_data *su)
 {
 	int x;
+	int y;
 
-	x = 0;
-	while (x < 400)
+	y = 0;
+	while (y < MAP_SIDE)
 	{
-		if (!(x % 20))
-			write(1, "\n", 1);
-		else
-			write(1, " ", 1);
-		if (map[x] == '1')
-			write(1, "1", 1);
-		else if (x == ((int)su->player_y * MAP_SIDE + (int)su->player_x)/*(c = is_player_here(su, x))*/)
-			display_player_orient(su);
-		else
-			write(1, "0", 1);
-		++x;
-	}	
+		x = 0;
+		while (x < MAP_SIDE)
+		{
+			if (!(x % 20))
+				write(1, "\n", 1);
+			else
+				write(1, " ", 1);
+			if (map[y][x] == '1')
+				write(1, "1", 1);
+			// else if (x == ((int)su->player_y * MAP_SIDE + (int)su->player_x)/*(c = is_player_here(su, x))*/)
+				// display_player_orient(su);
+			else
+				write(1, "0", 1);
+			++x;
+		}
+		++y;
+	}			
 	write(1, "\n\n", 2);
 }

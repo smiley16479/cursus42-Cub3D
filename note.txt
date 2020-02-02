@@ -1,5 +1,5 @@
-sommes nous bien sur que les couleurs sont RGBT et pas TRGB ds le int --> c'est TRGB !! Bon ba si c BGRA car on est en big endian
-Comment se fait il qu'il n'y ait pas le definition de mlx_pixel_put ?!! --> parce que t'as vu c'est compliqué
+les couleurs sont elles RGBT et pas TRGB ds le int --> c'est TRGB !! Bon ba si c BGRA car on est en big endian
+Comment se fait il qu'il n'y ait pas le definition de mlx_pixel_put ?!! (Pas de reponse)
 
 w : 13 
 a : 0
@@ -7,5 +7,6 @@ s : 1
 d : 2
 ESC : 53
 
-pour un rainbow : RGB 168,50,50 -> 168,168,50 -> 50,168,50 -> 
+pour un arc-en-ciel : RGB 168,50,50 -> 168,168,50 -> 50,168,50 -> 
 50, 168, 168 -> 50, 50, 168 -> 168, 50, 168 -> 168, 50, 50
+

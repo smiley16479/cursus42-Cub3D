@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/12 18:47:55 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/22 15:44:48 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 #define AT_MLX_STRUC
 
 #define MAP_SIDE 10
+
+enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
 
 typedef struct  s_line_struc {
 	int		origin_x;
@@ -52,6 +54,7 @@ typedef  struct s_data {
 	double		player_y;
 	double		player_orient;
 	double		player_orient_origin;
+	int			wall_orient;
 
 	t_square	*square_shape;
 	t_line		*line_shape;

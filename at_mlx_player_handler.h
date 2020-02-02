@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:29:10 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/12 01:02:27 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/16 18:49:38 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void wall_collision_checker(t_data *su, float x, float y);
 int getchar_player_mov(t_data *su);
 char get_player_pos(t_data *su);
 void display_player_orient(t_data *su);
-void display_map(char *map, t_data *su);
+void display_map(char *map[MAP_SIDE], t_data *su);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/13 09:41:32 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/01/23 23:52:27 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ int             close_window(int keycode, t_data *vars)
 
 int             msg_keypressed_window(int keycode, t_data *su)
 {
+	// printf("keycode pressed : %d\n", keycode);
 	player_rotate(su, keycode);
 	player_mov(su, keycode);
-	printf("keycode pressed : %d, player_orient : %.3f\n", keycode, su->player_orient);
+	// printf("player_orient_origin : %.3f player_orient : %.3f\n",su->player_orient_origin, su->player_orient);
 	return (0);
 }
 int             msg_keyreleased_window(int keycode, t_data *su)

@@ -9,7 +9,6 @@
 
 #define MAP_SIDE 5
 
-
 /* A virer apres l'essai */
 typedef struct s_struc {
 	double player_orient;
@@ -58,7 +57,6 @@ double horizontal_intersection(t_data *su)
 		first_y_intersection += y_a;
 	}
 	// printf("wall_x_intersection : %.1f, %d, index de la map : %d\n",first_x_intersection, first_y_intersection, (int)(first_y_intersection * MAP_SIDE + (int)first_x_intersection));
-
 //retour de la fonction dépends de la difference entre la position joueur et le mur
 	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
 }
