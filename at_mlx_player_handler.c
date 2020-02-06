@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/23 23:42:26 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/06 16:47:50 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,43 +46,44 @@ int player_init_pos(t_data *su)
 
 void player_mov(t_data *su, int keycode)
 {
+	double velocity = .2;
 	double dir = su->player_orient_origin;
 	if (keycode == 13) // up -> devant
 	{
-		if (su->map[(int)(su->player_y)][(int)(su->player_x + cos(dir))] == '0')
-			su->player_x += cos(dir);
-		if (su->map[(int)(su->player_y - sin(dir))][(int)(su->player_x)] == '0')
-			su->player_y -= sin(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x + (cos(dir)) * velocity)] == '0')
+			su->player_x += (cos(dir) * velocity);
+		if (su->map[(int)(su->player_y - sin(dir) * velocity)][(int)(su->player_x)] == '0')
+			su->player_y -= (sin(dir) * velocity);
 	}
 	else if (keycode == 1) // down
 	{
-		if (su->map[(int)(su->player_y)][(int)(su->player_x - cos(dir))] == '0')
-			su->player_x -= cos(dir);
-		if (su->map[(int)(su->player_y + sin(dir))][(int)(su->player_x)] == '0')
-			su->player_y += sin(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x - cos(dir) * velocity)] == '0')
+			su->player_x -= cos(dir) * velocity;
+		if (su->map[(int)(su->player_y + sin(dir) * velocity)][(int)(su->player_x)] == '0')
+			su->player_y += sin(dir) * velocity;
 	}
 	else if (keycode == 0) // left
 	{
-		if (su->map[(int)(su->player_y)][(int)(su->player_x - sin(dir))] == '0')	
-			su->player_x -= sin(dir);
-		if (su->map[(int)(su->player_y - cos(dir))][(int)(su->player_x)] == '0')	
-			su->player_y -= cos(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x - sin(dir) * velocity)] == '0')	
+			su->player_x -= sin(dir) * velocity;
+		if (su->map[(int)(su->player_y - cos(dir) * velocity)][(int)(su->player_x)] == '0')	
+			su->player_y -= cos(dir) * velocity;
 	}
 	else if (keycode == 2) // right
 	{
-		if (su->map[(int)(su->player_y)][(int)(su->player_x + sin(dir))] == '0')	
-			su->player_x += sin(dir); 
-		if (su->map[(int)(su->player_y + cos(dir))][(int)(su->player_x)] == '0')	
-			su->player_y += cos(dir);
+		if (su->map[(int)(su->player_y)][(int)(su->player_x + sin(dir) * velocity)] == '0')	
+			su->player_x += sin(dir) * velocity; 
+		if (su->map[(int)(su->player_y + cos(dir) * velocity)][(int)(su->player_x)] == '0')	
+			su->player_y += cos(dir) * velocity;
 	}	
 }
 
 void player_rotate(t_data *su, int keycode)
 {
 	if (keycode == 123) // left-arrow
-		su->player_orient_origin += deg_to_rad(2);
+		su->player_orient_origin += deg_to_rad(3);
 	else if (keycode == 124) // right-arrow
-		su->player_orient_origin -= deg_to_rad(2);
+		su->player_orient_origin -= deg_to_rad(3);
 	
 	//le probleme d'affichage vient de l'orientation... sans savoir encore pourquoi
 	// if (((t_data*)su)->player_orient_origin >= 6.28)

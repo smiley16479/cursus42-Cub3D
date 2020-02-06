@@ -1,9 +1,10 @@
 
 #include <mlx.h>
+#include "struc.h"
 #include <stdio.h>
 
 #define texture_side 32
-
+/*
 typedef struct  s_data {
 	void    	*mlx;
 	void    	*mlx_win;
@@ -41,15 +42,23 @@ void	my_mlx_pixel_put_handler(t_data data, int x, int y)
 	{
 		while (x >= 0 && x < data.win_width)
 		{
-			my_mlx_pixel_put(data,  x, y, *((int*)(data.img_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))));
+			my_mlx_pixel_put(data,  x, y, *((int*)(data.img_addr + (((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8))))));
 			++x;
 		}
 		x = 0;
 		++y;
 	}
+}*/
+
+t_textu_data init_texture(t_data su, char *relative_path)
+{
+	t_textu_data su_textur;
+
+	su_textur.text = mlx_xpm_file_to_image(su.mlx, relative_path, &(su_textur.text_width), &(su_textur.text_height));
+	su_textur.addr = mlx_get_data_addr(su_textur.text, &(su_textur.text_bits_per_pixel), &(su_textur.text_line_length),&(su_textur.endian));
+	return (su_textur);
 }
-
-
+/*
 int main()
 {
 	t_data su;
@@ -65,10 +74,11 @@ int main()
     su.img = mlx_xpm_file_to_image(su.mlx, relative_path, &(su.img_width), &(su.img_height));
 	su.img_addr = mlx_get_data_addr(su.img, &(su.img_bits_per_pixel), &(su.img_line_length),&(su.endian));
 
+	// my_mlx_pixel_put(su, x,  y, color);
 	my_mlx_pixel_put_handler(su, 0, 0);
 
 	mlx_put_image_to_window(su.mlx, su.mlx_win, su.img_win, 0, 0);
 	mlx_loop(su.mlx);
 
 	return (0);
-}
+}*/

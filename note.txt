@@ -10,3 +10,5 @@ ESC : 53
 pour un arc-en-ciel : RGB 168,50,50 -> 168,168,50 -> 50,168,50 -> 
 50, 168, 168 -> 50, 50, 168 -> 168, 50, 168 -> 168, 50, 50
 
+gcc -I minilibx_opengl_20191021 -L minilibx_opengl_20191021 -l mlx -framework OpenGL -framework AppKit  at_mlx_shape_square.c at_mlx_hook.c at_mlx_render.c at_mlx_shape_circle.c angle_convert.c at_mlx_measure2D.c essai.c at_mlx_player_handler.c
+gcc -I minilibx_opengl_20191021 -L minilibx_opengl_20191021 -l mlx -framework OpenGL -framework AppKit texture_essai.c

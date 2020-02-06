@@ -7,4 +7,5 @@
 
 double distance_incorrecte(t_data *su);
 void display_wall(t_data *su, int x, double distance);
+void display_textured_wall(t_data *su, int x, double distance);
 #endif

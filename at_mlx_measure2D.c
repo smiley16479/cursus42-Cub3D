@@ -11,6 +11,7 @@
  #define M_PI       3.14159265358979323846
 # endif
 
+#define t_height 100
 
 char map[MAP_SIDE][MAP_SIDE] = {
 	{'1', '1', '1', '1', '1', '1', '1', '1', '1', '1'}, 
@@ -38,56 +39,46 @@ static inline double rad_to_deg(double rad)
 // http://zupi.free.fr/PTuto/index.php?ch=ptuto&p=ray#53
 
 
-double horizontal_intersection(t_data *su)
+double horizontal_intersection(t_data *su, double sin, double cos, double tan)
 {
-	double 	first_y_intersection = sin(su->player_orient) > 0 ? (int)(su->player_y): (int)(su->player_y + 1);
-	double 	first_x_intersection = su->player_x + (su->player_y - first_y_intersection) / tan(su->player_orient);
-	double	y_a = sin(su->player_orient) > 0 ? -1 : 1;
-	double	x_a = -1 * y_a / tan(su->player_orient);
-	int		ajusteur = sin(su->player_orient) > 0 ? -1 : 0;
+	double 	y = sin > 0 ? (int)(su->player_y): (int)(su->player_y + 1);
+	double 	x = su->player_x + (su->player_y - y) / tan;
+	double	y_a = sin > 0 ? -1 : 1;
+	double	x_a = -1 * y_a / tan;
+	int		ajusteur = sin > 0 ? -1 : 0;
 
-	// printf("orient %.f, first_x_intersection : %.3f, first_y_intersection : %.3f, x_a %.3f, et y_a :%.3f\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
-	while (first_y_intersection < MAP_SIDE && first_y_intersection > 0 && first_x_intersection < MAP_SIDE && first_x_intersection > 0 && su->map[(int)(first_y_intersection) + ajusteur] [(int)first_x_intersection] == '0')
+	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && su->map[(int)(y) + ajusteur][(int)x] == '0')
 	{
-		// printf("%c avec x,y : %f, %f\n", su->map[(int)(first_y_intersection)][(int)first_x_intersection], first_x_intersection, first_y_intersection);
-		first_x_intersection += x_a;
-		first_y_intersection += y_a;
+		x += x_a;
+		y += y_a;
 	}
-	su->wall_orient =  sin(su->player_orient) > 0 /*su->player_orient >= 0 && su->player_orient < M_PI*/ ?  NORD_vert : SUD_rouge;
-	// printf("orient %.f, wall_x_intersection : %.3f, %.3f, index de la map : %d , %d\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, (int)first_x_intersection, (int)first_y_intersection);
-
-// retour de la fonction dépends de la difference entre la position joueur et le mur
-	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient))); // <-- distance entre le joueur et le mur
+	su->wall_orient = sin > 0 ? NORD_vert : SUD_rouge;
+	return (fabs((su->player_x - x) / cos)); // <-- distance entre le joueur et le mur
 }
 
-double vertical_intersection(t_data *su)
+double vertical_intersection(t_data *su, double cos, double tan)
 {
-	int 	first_x_intersection = cos(su->player_orient) < 0 ? (int)(su->player_x): (int)(su->player_x + 1);
-	double 	first_y_intersection =   su->player_y + (su->player_x - first_x_intersection) * tan(su->player_orient);
-	int 	x_a = cos(su->player_orient) < 0  ? -1 : 1;
-	double	y_a = -1 * x_a * tan(su->player_orient);
-	int		ajusteur = cos(su->player_orient) < 0 ? -1 : 0;
+	int 	x = cos < 0 ? (int)(su->player_x): (int)(su->player_x + 1);
+	double 	y = su->player_y + (su->player_x - x) * tan;
+	int 	x_a = cos < 0  ? -1 : 1;
+	double	y_a = -1 * x_a * tan;
+	int		ajusteur = cos < 0 ? -1 : 0;
 
-	// printf("orient %.f, first_x_intersection : %d, first_y_intersection : %.2f, x_a %d, et y_a :%f\n",rad_to_deg(su->player_orient), first_x_intersection, first_y_intersection, x_a, y_a);
-	while (first_y_intersection < MAP_SIDE && first_y_intersection > 0 && first_x_intersection < MAP_SIDE && first_x_intersection > 0 && su->map[(int)(first_y_intersection)][first_x_intersection + ajusteur] == '0')
+	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && su->map[(int)(y)][x + ajusteur] == '0')
 	{
-		// printf("first_x_intersection : %d , %f\n", first_x_intersection, first_y_intersection);
-		first_x_intersection += x_a;
-		first_y_intersection += y_a; 
+		x += x_a;
+		y += y_a;
 	}
-	su->wall_orient = cos(su->player_orient) < 0 ? OUEST_jaune : EST_bleu;
-	// printf("su->player_x : %f, wall_y_intersection : %d, %.2f, index de la map : %d\n", su->player_x ,first_x_intersection, first_y_intersection, (int)((int)first_y_intersection * MAP_SIDE + first_x_intersection));
-	return (fabs((su->player_x - first_x_intersection) / cos(su->player_orient)));
+	su->wall_orient = cos < 0 ? OUEST_jaune : EST_bleu;
+	return (fabs((su->player_x - x) / cos));
 }
-
-
 
 double distance_incorrecte(t_data *su)
 {
 	int V_orient, H_orient;
-	double h_intersection = horizontal_intersection(su);
+	double h_intersection = horizontal_intersection(su, sin(su->player_orient), cos(su->player_orient), tan(su->player_orient));
 	H_orient = su->wall_orient;
-	double v_intersection = vertical_intersection(su);
+	double v_intersection = vertical_intersection(su, cos(su->player_orient), tan(su->player_orient));
 	V_orient = su->wall_orient;
 	su->wall_orient = h_intersection < v_intersection ? H_orient : V_orient;
 	return (h_intersection < v_intersection ? h_intersection : v_intersection);
@@ -113,6 +104,25 @@ void display_wall(t_data *su, int x, double distance)
 			my_mlx_pixel_put(*su, x,  y++, 0x00000000);
 }
 
+void display_textured_wall(t_data *su, int x, double distance)
+{
+	int		height;
+	int		y;
+	double	step;
+
+	height = 277 / distance;
+	step = t_height / height;
+	y  = 0;
+	while(y < su->window_heigth)
+		if (y >= su->window_heigth / 2 - (height / 2) && y < su->window_heigth / 2 + (height / 2))
+		{
+			my_mlx_pixel_put(*su, x, y, ((t_textu_data*)su->text)->text_tab[0]
+			[((y % ((t_textu_data*)su->text)->text_height) * ((t_textu_data*)su->text)->text_line_length + (x % ((t_textu_data*)su->text)->text_width) * (((t_textu_data*)su->text)->text_bits_per_pixel / 8))]);
+			++y;
+		}
+		else
+			my_mlx_pixel_put(*su, x,  y++, 0x00000000);
+}
 
 int main()
 {
@@ -129,12 +139,14 @@ int main()
 	printf("player_orient : %.2f (ds le main l131)\n", su->player_orient_origin);
 	
 	su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
-	su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),
-	&(su->endian));
+	su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),&(su->endian));
 
-	// printf("horizontal_intersection : %f\n\n",horizontal_intersection(&su));
-	// printf("vertical_intersection 	: %f\n",vertical_intersection(&su));
-	// printf("playerPos : (%.1f,%.1f) ; player_orient ; %f\n\n",su.player_x, su.player_y, su.player_orient);
+	t_textu_data t_su;
+    char    *relative_path = "texture/brick.xpm";
+	t_su.text = mlx_xpm_file_to_image(su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
+	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
+
+	su->text = &t_su;
 
 	//Voici les hook pour les interuptions de touches
 	// mlx_key_hook(su->mlx_win, close_window, su);
@@ -142,10 +154,7 @@ int main()
 	mlx_hook(su->mlx_win, 2, 1L<<0, msg_keypressed_window, su);
 	// mlx_hook(su->mlx_win, 3, 1L<<1, msg_keyreleased_window, su);
 
-	// render_next_frame1(su);
 	mlx_loop_hook(su->mlx, render_next_frame1, (void*)su);
 	mlx_loop(su->mlx);
-	// printf("player_orient : %.2f\n", su->player_orient_origin);
 	return 0;
 }
-
