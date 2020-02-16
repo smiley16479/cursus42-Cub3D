@@ -6,26 +6,12 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 19:11:11 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/11 20:31:09 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <mlx.h>
-#include <math.h>
-#include "essai.h"
 #include "at_mlx_shape_circle.h"
 
-
-static inline double deg_to_rad(double degre)
-{
-	return (degre * M_PI / 180);
-}
-static inline double rad_to_deg(double rad)
-{
-	return (rad / (M_PI / 180));
-}
 
 t_circle	*constructor_t_circle(t_circle **struc_circle)
 {
@@ -46,17 +32,17 @@ t_circle initializer_t_circle(int origin_x,int origin_y, int rayon, int color)
 		return (to_return);
 }
 
-void draw_me_a_circle(t_data data)
+void draw_me_a_circle(void)
 {
 	double degre;
 
 	degre = 0;
 	while (degre < 180)
 	{
-		my_mlx_pixel_put(data, ((t_circle*)data.shape)->origin_x + cos(deg_to_rad(degre)) * ((t_circle*)data.shape)->rayon, 
-		 	((t_circle*)data.shape)->origin_y + sin(deg_to_rad(degre)) * ((t_circle*)data.shape)->rayon, ((t_circle*)data.shape)->color); //who_wants_a_rainbow(&data));//
-		my_mlx_pixel_put(data, ((t_circle*)data.shape)->origin_x - cos(deg_to_rad(degre)) * ((t_circle*)data.shape)->rayon, 
-	 		((t_circle*)data.shape)->origin_y - sin(deg_to_rad(degre)) * ((t_circle*)data.shape)->rayon, ((t_circle*)data.shape)->color); //who_wants_a_rainbow(&data));//
+		my_mlx_pixel_put(*(g_su->su_img), g_su->su_cicl->origin_x + cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
+		 	g_su->su_cicl->origin_y + sin(deg_to_rad(degre)) * g_su->su_cicl->rayon, g_su->su_cicl->color); //who_wants_a_rainbow(&data));//
+		my_mlx_pixel_put(*(g_su->su_img), g_su->su_cicl->origin_x - cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
+	 		g_su->su_cicl->origin_y - sin(deg_to_rad(degre)) * g_su->su_cicl->rayon, g_su->su_cicl->color); //who_wants_a_rainbow(&data));//
 		++degre;
 	}
 }

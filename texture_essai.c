@@ -20,9 +20,9 @@ typedef struct  s_data {
     int     	img_height;
     int     	win_width;
     int     	win_height;
-}               t_data;
+}               t_app;
 
-void	my_mlx_pixel_put(t_data data, int x, int y, int color)
+void	my_mlx_pixel_put(t_app data, int x, int y, int color)
 {
     char    *dst;
 
@@ -35,7 +35,7 @@ void	my_mlx_pixel_put(t_data data, int x, int y, int color)
     *(unsigned int*)dst = (unsigned int)color;
 }
 
-void	my_mlx_pixel_put_handler(t_data data, int x, int y)
+void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 {
 	while (y >= 0 && y < data.win_height)
 	{
@@ -52,23 +52,21 @@ void	my_mlx_pixel_put_handler(t_data data, int x, int y)
 
 int main()
 {
-	t_data su;
+	t_app g_su;
     char    *relative_path = "texture/brick.xpm";
-	su.win_width = 160, su.win_height = 160;
+	g_su.win_width = 160, g_su.win_height = 160;
 
-    su.mlx = mlx_init();
-	su.mlx_win = mlx_new_window(su.mlx, su.win_width, su.win_height, "Hello world!");
+    g_su.mlx = mlx_init();
+	g_su.mlx_win = mlx_new_window(g_su.mlx, g_su.win_width, g_su.win_height, "Hello world!");
 
-	su.img_win = mlx_new_image(su.mlx , su.win_width, su.win_height);
-	su.img_win_addr = mlx_get_data_addr(su.img_win, &(su.bits_per_pixel), &(su.line_length),&(su.endian));
+	g_su.img_win = mlx_new_image(g_su.mlx , g_su.win_width, g_su.win_height);
+	g_su.img_win_addr = mlx_get_app_addr(g_su.img_win, &(g_su.bits_per_pixel), &(g_su.line_length),&(g_su.endian));
 
-    su.img = mlx_xpm_file_to_image(su.mlx, relative_path, &(su.img_width), &(su.img_height));
-	su.img_addr = mlx_get_data_addr(su.img, &(su.img_bits_per_pixel), &(su.img_line_length),&(su.endian));
+    g_su.img = mlx_xpm_file_to_image(g_su.mlx, relative_path, &(g_su.img_width), &(g_su.img_height));
+	g_su.img_addr = mlx_get_app_addr(g_su.img, &(g_su.img_bits_per_pixel), &(g_su.img_line_length),&(g_su.endian));
 
-	my_mlx_pixel_put_handler(su, 0, 0);
+	my_mlx_pixel_put_handler(g_su, 0, 0);
+	mlx_put_image_to_window(g_su.mlx, g_su.mlx_win, g_su.img_win, 0, 0);
 
-	mlx_put_image_to_window(su.mlx, su.mlx_win, su.img_win, 0, 0);
-	mlx_loop(su.mlx);
-
-	return (0);
+	return (mlx_loop(g_su.mlx));
 }

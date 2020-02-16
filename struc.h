@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/06 18:54:11 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/16 21:21:42 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #define MAP_SIDE 10
 
 enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
+enum color {u_b, u_g, u_r, u_a};
 
 typedef struct  s_line_struc {
 	int		origin_x;
@@ -34,6 +35,13 @@ typedef struct  s_square_struc {
 	int		color;
 }               t_square;
 
+typedef struct  s_circle_struc {
+	int		origin_x;
+	int		origin_y;
+	int		rayon;
+	int		color;
+}               t_circle;
+
 // Structure de gestion des textures
 typedef  struct s_textu_data {
 	void        *text;
@@ -46,31 +54,45 @@ typedef  struct s_textu_data {
 	char		*text_tab[6];
 }               t_textu_data;
 
-
-typedef  struct s_data {
-	void		*mlx;
-    void    	*mlx_win;
-    void        *img;
-	void		*su;
-    char        *addr;
-	char 		*str_error;
-	char		*map[MAP_SIDE];
-	int			window_width;
-	int			window_heigth;
-    int         bits_per_pixel;
-    int         line_length;
-    int         endian;
-	int			color_offset;
+typedef  struct s_player {
 	double		player_x;
 	double		player_y;
 	double		player_orient;
 	double		player_orient_origin;
+	char		*map[MAP_SIDE];
+	double		cst_tab[3][361];
+	double		wall_impact;
+	double		wall_impact2;
 	int			wall_orient;
+}				t_player;
+
+typedef	struct	s_vector2 {
+	int x;
+	int y;
+}				t_vector2;
+
+typedef  struct s_image {
+	t_vector2	size;
+    void        *img_ptr;
+    char        *addr;
+	int         bits_per_pixel;
+    int         line_length;
+    int         endian;
+}				t_image;
+
+typedef  struct s_app {
+	void		*mlx;
+    void    	*mlx_win;
+	t_vector2	size;
+	// char		*map[MAP_SIDE];
 
 	t_square	*square_shape;
 	t_line		*line_shape;
+	t_player	*p;
+	t_image		*su_img;
+	t_circle	*su_cicl;
 	void		*shape;
 	void		*text;
-}               t_data;
+}               t_app;
 
 # endif

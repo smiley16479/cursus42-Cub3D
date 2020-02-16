@@ -6,16 +6,18 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 15:58:34 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 16:22:02 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/16 19:51:57 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #ifndef ANGLE_CONVERT_H
 # define ANGLE_CONVERT_H
-#include <math.h>
+# include <math.h>
+# include "struc.h"
 
-double deg_to_rad(double degre);
-double rad_to_deg(double rad);
+extern	t_app	*g_su;
+void			cst_tab_init(double tab[][361]);
+double			deg_to_rad(double degre);
+double			rad_to_deg(double rad);
 
-# endif
+#endif

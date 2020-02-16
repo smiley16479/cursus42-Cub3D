@@ -4,8 +4,10 @@
 #ifndef M_PI 
 # define M_PI       3.14159265358979323846
 #endif
+#include "struc.h"
 
-double distance_incorrecte(t_data *su);
-void display_wall(t_data *su, int x, double distance);
-void display_textured_wall(t_data *su, int x, double distance);
+double distance_incorrecte(t_player *pl);
+double horizontal_intersection(t_player *pl, double sin, double cos, double tan);
+double vertical_intersection(t_player *pl, double cos, double tan);
+
 #endif

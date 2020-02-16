@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   essai.c                                            :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/06 18:42:36 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/16 23:59:14 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,73 +14,57 @@
 #include <stdlib.h>
 #include <mlx.h>
 #include <math.h>
-#include "essai.h"
+#include <stdio.h>
+#include "map.h"
 #include "at_mlx_hook.h"
+#include "at_app_initializer.h"
 #include "at_mlx_measure.h"
+#include "at_mlx_player_handler.h"
 #include "at_mlx_render.h"
 #include "at_mlx_shape_square.h"
 #include "at_mlx_shape_circle.h"
 #include "at_mlx_shape_line.h"
 #include "angle_convert.h"
+#include "at_mlx_render.h"
 // #include "at_mlx_measure copy.h"
+//GLOBALE
+	t_app  *g_su;
 
-
-void	my_mlx_pixel_put(t_data data, int x, int y, int color)
+int main()
 {
-    char    *dst;
+	t_player *pl;
+	g_su = constructor_t_app();
+	player_constructeur(&pl);
+	*g_su = initializer_t_app(500, 500, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
+	application_create_content();
+	*pl = player_initializer(1, 4, 0);
+	g_su->p = pl;
 
-	if (x < 0 || x >= data.window_width || y < 0 || y >= data.window_heigth)
+	for (int i = 0; i < MAP_SIDE; i++)
 	{
-		printf("window's range overflow in: my_mlx_pixel_put()\n");
-		return ;
+		pl->map[i] = map[i];
+		// printf("cos 0 -> %d : %f\n", MAP_SIDE, pl->cst_tab[0][i]);
 	}
-	dst = data.addr + ((y * data.line_length + x * (data.bits_per_pixel / 8)));
-    *(unsigned int*)dst = (unsigned int)color;
+	
+	display_map(pl->map);
+	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
+	
+	t_textu_data t_su;
+    char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
+	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
+	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
+	g_su->text = &t_su;
+	
+	//Voici les hook pour les interuptions de touches
+	// mlx_key_hook(g_su->mlx_win, close_window, g_su);
+	// mlx_do_key_autorepeaton(g_su->mlx);
+	mlx_hook(g_su->mlx_win, 2, 1L<<0, msg_keypressed_window, pl);
+	// mlx_hook(g_su->mlx_win, 3, 1L<<1, msg_keyreleased_window, g_su);
+	
+	mlx_loop_hook(g_su->mlx, render_next_frame1, (void*)g_su);
+	
+	return (mlx_loop(g_su->mlx));
 }
-
-t_data	*constructor_t_data(t_data **img)
-{
-	*img = (t_data*)malloc(sizeof(t_data));
-	if (*img == NULL)
-		return (NULL);
-	else
-		return (*img);
-}
-
-t_data initializer_t_data(int window_width, int window_heigth)
-{
-	t_data to_return;
-	to_return.window_width = window_width;
-	to_return.window_heigth = window_heigth;
-    if ((to_return.mlx = mlx_init()) == NULL)
-		{
-			to_return.str_error = "erreur ds initializer_t_data pour mlx_init()";
-			return (to_return);
-		}	
-    if ((to_return.mlx_win = mlx_new_window(to_return.mlx, window_width, window_heigth, "Hello world!"))== NULL)
-		{
-			to_return.str_error = "erreur ds initializer_t_data pour mlx_new_window()";
-			return (to_return);
-		}
-		return (to_return);
-}
-
-int who_wants_a_rainbow(t_data *su)
-{
-	// distance /= (708 / 100);
-	// printf("ditance : %d et en fl %f, et color avant : %d\n", (int)distance, distance, get_g(*color));
-	int *color = &(su->square_shape->color);
-	int *i = &(su->color_offset);
-	if (*i == 320)
-		*i = 0;  
-	((char*)color)[u_r] = (char)(sin(0.01 * *i + 0) * 127 + 128);
-	((char*)color)[u_g] = (char)(sin(0.01 * *i + 2) * 127 + 128);
-	((char*)color)[u_b] = (char)(sin(0.01 * *i + 4) * 127 + 128);
-
-	// printf("color apres ; %d\n", *color);
-	return (*color);
-}
-
 
 /*
 int main()
@@ -122,35 +106,35 @@ int main()
 };
 
 	int map_side = 5;
-    t_data  *su;
+    t_app  *g_su;
 	t_square *square_shape;
 	t_circle *circle_shape;
 	t_line *line_shape;
 	
-	constructor_t_data(&su);
+	constructor_t_app(&g_su);
 	for (int i = 0; i < 5; i++)
-		su->map[i] = map[i];
+		g_su->map[i] = map[i];
 	constructor_t_square(&square_shape);
 	constructor_t_circle(&circle_shape);
 	constructor_t_line(&line_shape);
 	
 	
-	// measure(su->map, player_pos(su->map));
-	// player_init_pos(su);
-	// printf("y : %.2f, x : %.2f\n",su->player_y, su->player_x);
+	// measure(g_su->map, player_pos(g_su->map));
+	// player_init_pos(g_su);
+	// printf("y : %.2f, x : %.2f\n",g_su->player_y, g_su->player_x);
 
 	*square_shape = initializer_t_square(50, 50, 50, 0x0000FF00); //0x0000FF00);
 	*line_shape = initializer_t_line(100, 100, 180, 200, 0x0000FF00);
-	*su = initializer_t_data(64 * map_side, 64 * map_side);//(64 * map_side, 64 * map_side); // 1920, 1080,
-	*circle_shape = initializer_t_circle(su->window_width / 2, su->window_heigth / 2, 10, 0x0000FF00); //0x0000FF00);
-	su->color_offset = 0;
-	su->square_shape = square_shape;
-	su->line_shape = line_shape;
-	su->shape = circle_shape;
+	*g_su = initializer_t_app(64 * map_side, 64 * map_side);//(64 * map_side, 64 * map_side); // 1920, 1080,
+	*circle_shape = initializer_t_circle(g_su->window_width / 2, g_su->window_heigth / 2, 10, 0x0000FF00); //0x0000FF00);
+	g_su->color_offset = 0;
+	g_su->square_shape = square_shape;
+	g_su->line_shape = line_shape;
+	g_su->shape = circle_shape;
 
-    su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
-    su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),
-                                 &(su->endian));
+    g_su->img = mlx_new_image(g_su->mlx, g_su->window_width, g_su->window_heigth);
+    g_su->addr = mlx_get_app_addr(g_su->img, &(g_su->bits_per_pixel), &(g_su->line_length),
+                                 &(g_su->endian));
 
 	int i, j;
 	i = 0;
@@ -162,22 +146,22 @@ int main()
 			if (map[i][j] == '1')
 			{
 				*square_shape = initializer_t_square(64 * j, 64 * i, 64, 0x0000FF00); //0x0000FF00);
-				draw_me_a_square(*su);
+				draw_me_a_square(*g_su);
 			}
 			++j; 
 		}
 		++i;
 	}
  
-	draw_me_a_circle(*su);  // <-- marche
-	// draw_me_a_square(*su);  // <-- marche
-	// draw_me_a_line(*su); // <-- marche
-    // my_mlx_pixel_put(*su, x, y, 0x0000FF00);
-    mlx_put_image_to_window(su->mlx, su->mlx_win, su->img, 0, 0);
+	draw_me_a_circle(*g_su);  // <-- marche
+	// draw_me_a_square(*g_su);  // <-- marche
+	// draw_me_a_line(*g_su); // <-- marche
+    // my_mlx_pixel_put(*g_su, x, y, 0x0000FF00);
+    mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->img, 0, 0);
 
 	t_vars vars;
-	vars.mlx = su->mlx;
-	vars.mlx_win = su->mlx_win;
+	vars.mlx = g_su->mlx;
+	vars.mlx_win = g_su->mlx_win;
 
 	//Voici les hook pour les interuptions de touches
 	mlx_key_hook(vars.mlx_win, close_window, &vars);
@@ -188,11 +172,11 @@ int main()
 	mlx_hook(vars.mlx_win, 02, 1L, close_window, &vars);
 	
 	//voici le hook pour une animation
-	mlx_loop_hook(su->mlx, render_next_frame, (void*)su);
+	mlx_loop_hook(g_su->mlx, render_next_frame, (void*)g_su);
 
 	//voici le hook pour le programme
-	mlx_loop(su->mlx);
-	mlx_destroy_window(su->mlx, su->mlx_win);
+	mlx_loop(g_su->mlx);
+	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
 	return (0);
 }
 */

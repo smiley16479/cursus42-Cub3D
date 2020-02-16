@@ -6,14 +6,10 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 21:15:47 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/11 20:32:26 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdlib.h>
-#include <mlx.h>
-#include "essai.h"
 #include "at_mlx_shape_square.h"
 
 t_square	*constructor_t_square(t_square **struc_square)
@@ -35,19 +31,19 @@ t_square initializer_t_square(int origin_x,int origin_y, int cote, int color)
 		return (to_return);
 }
 
-void draw_me_a_square(t_data data)
+void draw_me_a_square(void)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (i < data.square_shape->cote)
+	while (i < g_su->square_shape->cote)
 	{
 		j = 0;
-		while (j < data.square_shape->cote)
+		while (j < g_su->square_shape->cote)
 		{
-			my_mlx_pixel_put(data, i + data.square_shape->origin_x, 
-							j + data.square_shape->origin_y, data.square_shape->color); //who_wants_a_rainbow(&data));//
+			my_mlx_pixel_put(*(g_su->su_img), i + g_su->square_shape->origin_x, 
+							j + g_su->square_shape->origin_y, g_su->square_shape->color); //who_wants_a_rainbow(&data));//
 			++j;
 		}
 		++i;

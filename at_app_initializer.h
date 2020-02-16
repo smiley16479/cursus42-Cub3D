@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   at_mlx_color_handler.h                             :+:      :+:    :+:   */
+/*   at_app_initializer.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 16:15:07 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/10 19:32:49 by adtheus          ###   ########.fr       */
+/*   Created: 2020/02/10 21:17:19 by adtheus           #+#    #+#             */
+/*   Updated: 2020/02/10 23:50:44 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AT_MLX_COLOR_HANDLER_H
-# define AT_MLX_COLOR_HANDLER_H
-#include <unistd.h>
-int		get_t(int trgb);
-int		get_r(int trgb);
-int		get_g(int trgb);
-int		get_b(int trgb);
-int		get_oposite(int color);
-void	print_bin(char nb);
-int		add_shade(double distance, unsigned int color);
-int		invert_color(int color);
+#ifndef AT_APP_INITIALIZER_H
+# define AT_APP_INITIALIZER_H
+
+# include <stdlib.h>
+# include <mlx.h>
+# include "struc.h"
+# include "at_image.h"
+
+extern	t_app	*g_su;
+t_app	*constructor_t_app(void);
+t_app	initializer_t_app(int x, int y, char *title);
+void 	application_create_content(void);
+void	destructor_t_app(t_app *to_destroy);
+void	free_t_app(t_app *to_free);
 
 #endif

@@ -6,12 +6,12 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 20:34:34 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/12 00:47:56 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/10 21:22:47 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // #include <mlx.h>
-#include "essai.h"
+ 
 #include "at_mlx_shape_line.h"
 
 
@@ -37,7 +37,7 @@ t_line initializer_t_line(int origin_x,int origin_y, int fin_x,int fin_y,int col
 		return (to_return);
 }
 
-void draw_me_a_line(t_data data)
+void draw_me_a_line(t_app data)
 {
 	int x;
 	float a;
@@ -55,27 +55,27 @@ void draw_me_a_line(t_data data)
 	}
 }
 
-int     render_next_frame(void *su)
+int     render_next_frame(void *g_su)
 {
-    mlx_put_image_to_window(((t_data*)su)->mlx, ((t_data*)su)->mlx_win, ((t_data*)su)->img, 0, 0);
+    mlx_put_image_to_window(((t_app*)g_su)->mlx, ((t_app*)g_su)->mlx_win, ((t_app*)g_su)->img, 0, 0);
 	return (0);
 }
 /*
 int main()
 {
-	t_data  *su;
+	t_app  *g_su;
 	t_line *line_shape;
 	
-	constructor_t_data(&su);
+	constructor_t_app(&g_su);
 	constructor_t_line(&line_shape);
 	*line_shape = initializer_t_line(100, 100, 110, 80, 0x0000FF00);
-	*su = initializer_t_data(64 * 5, 64 * 5);//(64 * map_side, 64 * map_side); // 1920, 1080,
-	su->line_shape = line_shape;
-	su->img = mlx_new_image(su->mlx, su->window_width, su->window_heigth);
-	su->addr = mlx_get_data_addr(su->img, &(su->bits_per_pixel), &(su->line_length),&(su->endian));
-	draw_me_a_line(*su); // <-- marche
-	mlx_put_image_to_window(su->mlx, su->mlx_win, su->img, 0, 0);
-	// mlx_loop_hook(su->mlx, render_next_frame, (void*)su);
-	mlx_loop(su->mlx);
+	*g_su = initializer_t_app(64 * 5, 64 * 5);//(64 * map_side, 64 * map_side); // 1920, 1080,
+	g_su->line_shape = line_shape;
+	g_su->img = mlx_new_image(g_su->mlx, g_su->window_width, g_su->window_heigth);
+	g_su->addr = mlx_get_app_addr(g_su->img, &(g_su->bits_per_pixel), &(g_su->line_length),&(g_su->endian));
+	draw_me_a_line(*g_su); // <-- marche
+	mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->img, 0, 0);
+	// mlx_loop_hook(g_su->mlx, render_next_frame, (void*)g_su);
+	mlx_loop(g_su->mlx);
 	return (0);
 }*/
