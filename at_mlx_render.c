@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/17 00:01:36 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/17 19:36:54 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,26 @@ void display_textured_wall(int x, double distance)
 	height = 277 / distance;
 	step = g_su->t->text_height / height;
 	y  = 0;
-	static int a = 0;
+	int a = 0;
 	while(y < g_su->size.y)
 		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
 		{
-			// printf("hello\n");
 			my_mlx_pixel_put(img, x, y, g_su->t->text_tab[0]
-			[(((int)step % g_su->t->text_height) * g_su->t->text_line_length + 
+			[((a % g_su->t->text_height) * g_su->t->text_line_length + 
 			(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8))]);
-			 if (a++ == 0)
+			// a etait en static pour pouvoir verifier la value de la couleur
+			if (a++ == 0)
 				printf("text value : %d\n", *((int*)(g_su->t->addr +
 				((a % g_su->t->text_height) * g_su->t->text_line_length + 
 				(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)))));
-			
+			a++;
 			++y;
 		}
-		else
+		else 
+		{
 			my_mlx_pixel_put(img, x,  y++, 0x00000000);
+			a = 0;
+		}
 }
 
 
