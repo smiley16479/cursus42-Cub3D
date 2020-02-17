@@ -7,9 +7,9 @@
 typedef struct  s_data {
 	void    	*mlx;
 	void    	*mlx_win;
-    void        *img;
+    void        *textur_img;
     void        *img_win;
-    char        *img_addr;
+    char        *textur_addr;
     char        *img_win_addr;
     int         img_bits_per_pixel;
     int         img_line_length;
@@ -37,11 +37,14 @@ void	my_mlx_pixel_put(t_app data, int x, int y, int color)
 
 void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 {
+	static int a = 0;
 	while (y >= 0 && y < data.win_height)
 	{
 		while (x >= 0 && x < data.win_width)
 		{
-			my_mlx_pixel_put(data,  x, y, *((int*)(data.img_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))));
+			if (a++ == 0)
+			printf("text : %d, text.img_line_length : %d, data.img_bits_per_pixel : %d\n", *((int*)(data.textur_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))), data.img_line_length, data.img_bits_per_pixel );
+			my_mlx_pixel_put(data,  x, y, *((int*)(data.textur_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))));
 			++x;
 		}
 		x = 0;
@@ -60,10 +63,10 @@ int main()
 	g_su.mlx_win = mlx_new_window(g_su.mlx, g_su.win_width, g_su.win_height, "Hello world!");
 
 	g_su.img_win = mlx_new_image(g_su.mlx , g_su.win_width, g_su.win_height);
-	g_su.img_win_addr = mlx_get_app_addr(g_su.img_win, &(g_su.bits_per_pixel), &(g_su.line_length),&(g_su.endian));
+	g_su.img_win_addr = mlx_get_data_addr(g_su.img_win, &(g_su.bits_per_pixel), &(g_su.line_length),&(g_su.endian));
 
-    g_su.img = mlx_xpm_file_to_image(g_su.mlx, relative_path, &(g_su.img_width), &(g_su.img_height));
-	g_su.img_addr = mlx_get_app_addr(g_su.img, &(g_su.img_bits_per_pixel), &(g_su.img_line_length),&(g_su.endian));
+    g_su.textur_img = mlx_xpm_file_to_image(g_su.mlx, relative_path, &(g_su.img_width), &(g_su.img_height));
+	g_su.textur_addr = mlx_get_data_addr(g_su.textur_img, &(g_su.img_bits_per_pixel), &(g_su.img_line_length),&(g_su.endian));
 
 	my_mlx_pixel_put_handler(g_su, 0, 0);
 	mlx_put_image_to_window(g_su.mlx, g_su.mlx_win, g_su.img_win, 0, 0);

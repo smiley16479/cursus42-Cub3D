@@ -66,28 +66,28 @@ void player_mov(t_player *pl, int keycode)
 {
 	double velocity = .2;
 	double dir = pl->player_orient_origin;
-	if (keycode == 13) // up -> devant
+	if (keycode == 13 || keycode == 122) // up -> devant // seconde condition pour les keycode de linux
 	{
 		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x + cos(dir) * velocity)] == '0')
 			pl->player_x += (cos(dir) * velocity);
 		if (pl->map[(int)(pl->player_y - sin(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y -= (sin(dir) * velocity);
 	}
-	else if (keycode == 1) // down
+	else if (keycode == 1 || keycode == 115) // down
 	{
 		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x - cos(dir) * velocity)] == '0')
 			pl->player_x -= cos(dir) * velocity;
 		if (pl->map[(int)(pl->player_y + sin(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y += sin(dir) * velocity;
 	}
-	else if (keycode == 0) // left
+	else if (keycode == 0 || keycode == 113) // left
 	{
 		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x - sin(dir) * velocity)] == '0')	
 			pl->player_x -= sin(dir) * velocity;
 		if (pl->map[(int)(pl->player_y - cos(dir) * velocity)][(int)(pl->player_x)] == '0')	
 			pl->player_y -= cos(dir) * velocity;
 	}
-	else if (keycode == 2) // right
+	else if (keycode == 2 || keycode == 100) // right
 	{
 		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x + sin(dir) * velocity)] == '0')	
 			pl->player_x += sin(dir) * velocity; 
@@ -98,10 +98,10 @@ void player_mov(t_player *pl, int keycode)
 
 void player_rotate(t_player *pl, int keycode)
 {
-	if (keycode == 123) // left-arrow
-		pl->player_orient_origin += deg_to_rad(3);
-	else if (keycode == 124) // right-arrow
-		pl->player_orient_origin -= deg_to_rad(3);
+	if (keycode == 123 || keycode == 65361) // left-arrow // seconde condition pour les keycode de linux
+		pl->player_orient_origin += deg_to_rad(2);
+	else if (keycode == 124 || keycode == 65363) // right-arrow
+		pl->player_orient_origin -= deg_to_rad(2);
 	//le probleme d'affichage vient de l'orientation... sans savoir encore pourquoi
 	// if (((t_app*)su)->player_orient_origin >= 6.28)
 		// ((t_app*)su)->player_orient_origin = 0.0;

@@ -50,9 +50,9 @@ void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 	}
 }*/
 
-t_textu_data init_texture(t_app g_su, char *relative_path)
+t_textur init_texture(t_app g_su, char *relative_path)
 {
-	t_textu_data su_textur;
+	t_textur su_textur;
 
 	su_textur.text = mlx_xpm_file_to_image(g_su.mlx, relative_path, &(su_textur.text_width), &(su_textur.text_height));
 	su_textur.addr = mlx_get_app_addr(su_textur.text, &(su_textur.text_bits_per_pixel), &(su_textur.text_line_length),&(su_textur.endian));

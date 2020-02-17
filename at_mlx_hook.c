@@ -30,7 +30,8 @@ int             close_window(int keycode)
 
 int             msg_keypressed_window(int keycode, t_player *pl)
 {
-	// printf("keycode pressed : %d\n", keycode);
+	printf("keycode pressed : %d\n", keycode);
+	// printf("keycode pressed\n");
 	player_rotate(pl, keycode);
 	player_mov(pl, keycode);
 	// printf("player_orient_origin : %.3f player_orient : %.3f\n",su->player_orient_origin, su->player_orient);

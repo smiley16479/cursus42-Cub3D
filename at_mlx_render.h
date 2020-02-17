@@ -23,7 +23,6 @@
 #include "angle_convert.h"
 #include "struc.h"
 
-#define t_height 100
 extern	t_app *g_su;
 
 int     render_next_frame(t_app *YourStruct);

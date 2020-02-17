@@ -29,13 +29,18 @@ FRAMEWORK = AppKit OpenGL
 
 vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
-CFLAG = -fsanitize=address -g3
+CFLAG = #-fsanitize=address -g3
 # flag : -o3 pour accelerer l'execution du code
 IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) )
 LFLAG = $(foreach lib, $(LIB), -l $(lib) ) $(foreach dir, $(LIB_DIR), -L $(dir) )
 #LFLAG = -L lib/libft -L lib/mlx -l mlx -l libft
 
-LFLAG += $(foreach framework, $(FRAMEWORK), -framework $(framework) )
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
+	LFLAG = -L/lib/x86_64-linux-gnu/ -lXext -lX11 -lmlx -lbsd -lm
+else
+	LFLAG += $(foreach framework, $(FRAMEWORK), -framework $(framework) )
+endif
 
 all		: $(NAME)
 
@@ -63,7 +68,7 @@ $(OBJ_DIR)/%.o : %.c
 	@gcc $(CFLAG) $(IFLAG) -c $< -o $@
 
 $(NAME)	: $(OBJ)
-	@gcc $(CFLAG) $(IFLAG) $(LFLAG) $(OBJ) -o $@
+	@gcc $(OBJ) $(CFLAG) $(IFLAG) $(LFLAG) -o $@
 
 debug : $(NAME)
 	@./$(NAME)

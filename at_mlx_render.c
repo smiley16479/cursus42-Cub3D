@@ -45,13 +45,21 @@ void display_textured_wall(int x, double distance)
 	
 	img = *(g_su->su_img);
 	height = 277 / distance;
-	step = t_height / height;
+	step = g_su->t->text_height / height;
 	y  = 0;
+	static int a = 0;
 	while(y < g_su->size.y)
 		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
 		{
-			my_mlx_pixel_put(img, x, y, 2 << ((t_textu_data*)g_su->text)->text_tab[0]
-			[((y % ((t_textu_data*)g_su->text)->text_height) * ((t_textu_data*)g_su->text)->text_line_length + (x % ((t_textu_data*)g_su->text)->text_width) * (((t_textu_data*)g_su->text)->text_bits_per_pixel / 8))]);
+			// printf("hello\n");
+			my_mlx_pixel_put(img, x, y, g_su->t->text_tab[0]
+			[(((int)step % g_su->t->text_height) * g_su->t->text_line_length + 
+			(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8))]);
+			 if (a++ == 0)
+				printf("text value : %d\n", *((int*)(g_su->t->addr +
+				((a % g_su->t->text_height) * g_su->t->text_line_length + 
+				(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)))));
+			
 			++y;
 		}
 		else

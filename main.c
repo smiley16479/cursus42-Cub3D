@@ -30,6 +30,7 @@
 //GLOBALE
 	t_app  *g_su;
 
+
 int main()
 {
 	t_player *pl;
@@ -49,11 +50,12 @@ int main()
 	display_map(pl->map);
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
 	
-	t_textu_data t_su;
-    char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
+	t_textur t_su;
+    char    *relative_path = "texture/brick.xpm";
 	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
 	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
-	g_su->text = &t_su;
+	t_su.addr = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
+	g_su->t = &t_su;
 	
 	//Voici les hook pour les interuptions de touches
 	// mlx_key_hook(g_su->mlx_win, close_window, g_su);

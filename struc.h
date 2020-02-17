@@ -43,7 +43,7 @@ typedef struct  s_circle_struc {
 }               t_circle;
 
 // Structure de gestion des textures
-typedef  struct s_textu_data {
+typedef  struct s_textur {
 	void        *text;
     char        *addr;
 	int         text_bits_per_pixel;
@@ -52,7 +52,7 @@ typedef  struct s_textu_data {
     int     	text_height;
     int     	endian;
 	char		*text_tab[6];
-}               t_textu_data;
+}               t_textur;
 
 typedef  struct s_player {
 	double		player_x;
@@ -90,9 +90,9 @@ typedef  struct s_app {
 	t_line		*line_shape;
 	t_player	*p;
 	t_image		*su_img;
+	t_textur	*t;
 	t_circle	*su_cicl;
 	void		*shape;
-	void		*text;
 }               t_app;
 
 # endif
