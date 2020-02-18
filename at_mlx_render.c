@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/17 19:36:54 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/18 22:24:06 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ int     render_next_frame1(void)
 		if (x == 0 && (g_su->p->wall_orient == NORD_vert || g_su->p->wall_orient == SUD_rouge)) {
 			printf("pl->wall_impact (horizontal) : %f g_su->p->wall_impact2 : %f\nplayer->orient : %f\n", g_su->p->wall_impact, g_su->p->wall_impact2, rad_to_deg(g_su->p->player_orient_origin));
 		}
-		// display_wall(x, d_incorrecte * cos(x_rad));
-		display_textured_wall(x, d_incorrecte * cos(x_rad));
+		display_wall(x, d_incorrecte * cos(x_rad));
+		// display_textured_wall(x, d_incorrecte * cos(x_rad));
 		++x;
 	}
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);

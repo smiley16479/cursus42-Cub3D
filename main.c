@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/16 23:59:14 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/18 23:18:25 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ int main()
 	
 	//Voici les hook pour les interuptions de touches
 	// mlx_key_hook(g_su->mlx_win, close_window, g_su);
-	// mlx_do_key_autorepeaton(g_su->mlx);
 	mlx_hook(g_su->mlx_win, 2, 1L<<0, msg_keypressed_window, pl);
 	// mlx_hook(g_su->mlx_win, 3, 1L<<1, msg_keyreleased_window, g_su);
 	
