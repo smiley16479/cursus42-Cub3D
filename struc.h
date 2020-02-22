@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/17 17:34:20 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/19 22:12:14 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef  struct s_player {
 	char		*map[MAP_SIDE];
 	double		cst_tab[3][361];
 	double		wall_impact;
-	double		wall_impact2;
 	int			wall_orient;
 }				t_player;
 

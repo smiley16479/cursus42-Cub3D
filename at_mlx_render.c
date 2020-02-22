@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/18 22:24:06 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/22 20:13:31 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void display_wall(int x, double distance)
 	t_image	img;
 	
 	img = *(g_su->su_img);
-	// height = 277 / distance;
 	height = 277 / distance;
 	// http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/03-projection
 	// Dimensions de l’écran de projection = 320 x 200 (à vous de le choisir)
@@ -36,37 +35,41 @@ void display_wall(int x, double distance)
 			my_mlx_pixel_put(img, x,  y++, 0x00000000);
 }
 
-void display_textured_wall(int x, double distance)
+void display_textured_wall(int x, double distance, t_player *p)
 {
 	int		height;
 	int		y;
-	double	step;
+	int		step;
 	t_image	img;
 	
 	img = *(g_su->su_img);
-	height = 277 / distance;
+	height = 277 / distance > g_su->size.y ? g_su->size.y : 277 / distance;
+	// printf("distance : %f\n", distance);
 	step = g_su->t->text_height / height;
 	y  = 0;
 	int a = 0;
+	int px = (p->wall_impact * g_su->t->text_width + x) * 4;
 	while(y < g_su->size.y)
+	{
 		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
 		{
-			my_mlx_pixel_put(img, x, y, g_su->t->text_tab[0]
-			[((a % g_su->t->text_height) * g_su->t->text_line_length + 
-			(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8))]);
+			px = ( ((a % g_su->t->text_height) * g_su->t->text_line_length) + (p->wall_impact * g_su->t->text_width)  ) * 4;
+			// printf("px : %d\n", px);
+			my_mlx_pixel_put(img, x, y, *(int*)&(g_su->t->text_tab[0]/*[px]));*/
+			
+			[((a % g_su->t->text_height) * g_su->t->text_line_length + (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8))]));
+			// printf("index : %d, px : %d",((a % g_su->t->text_height) * g_su->t->text_line_length + (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)), px);
 			// a etait en static pour pouvoir verifier la value de la couleur
-			if (a++ == 0)
-				printf("text value : %d\n", *((int*)(g_su->t->addr +
-				((a % g_su->t->text_height) * g_su->t->text_line_length + 
-				(x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)))));
-			a++;
+			// if (a++ == 0)
+				// printf("text value : %d\n", *((int*)(g_su->t->addr +
+				// ((a % g_su->t->text_height) * g_su->t->text_line_length + 
+				// (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)))));
+			a +=step;
 			++y;
 		}
 		else 
-		{
 			my_mlx_pixel_put(img, x,  y++, 0x00000000);
-			a = 0;
-		}
+	}
 }
 
 
@@ -85,7 +88,6 @@ int     render_next_frame1(void)
 	int x = 0;
 	double x_rad_to_add = deg_to_rad((double)60 / g_su->size.x);
 	double x_rad = deg_to_rad(30);
-	double d_incorrecte;
 
 	// *(g_su->su_img) = create_image(1000, 500);
 	g_su->p->player_orient = g_su->p->player_orient_origin + x_rad;
@@ -93,12 +95,11 @@ int     render_next_frame1(void)
 	{
 		x_rad -= x_rad_to_add;
 		g_su->p->player_orient -= x_rad_to_add;
-		d_incorrecte = distance_incorrecte(g_su->p);
-		if (x == 0 && (g_su->p->wall_orient == NORD_vert || g_su->p->wall_orient == SUD_rouge)) {
-			printf("pl->wall_impact (horizontal) : %f g_su->p->wall_impact2 : %f\nplayer->orient : %f\n", g_su->p->wall_impact, g_su->p->wall_impact2, rad_to_deg(g_su->p->player_orient_origin));
-		}
-		display_wall(x, d_incorrecte * cos(x_rad));
-		// display_textured_wall(x, d_incorrecte * cos(x_rad));
+
+		// display_wall(x, d_incorrecte * cos(x_rad));
+		display_textured_wall(x, d_incorrecte(g_su->p) * cos(x_rad), g_su->p);
+		if (x==0)
+		printf("pl->wall_impact (horizontal) : %f\n" /*player->orient : %f\n*/, g_su->p->wall_impact/*, rad_to_deg(g_su->p->player_orient_origin)*/);
 		++x;
 	}
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);

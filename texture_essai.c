@@ -43,7 +43,7 @@ void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 		while (x >= 0 && x < data.win_width)
 		{
 			if (a++ == 0)
-			printf("text : %d, text.img_line_length : %d, data.img_bits_per_pixel : %d\n", *((int*)(data.textur_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))), data.img_line_length, data.img_bits_per_pixel );
+			printf("text : %d, text.img_line_length : %d, data.img_bits_per_pixel : %d\n", *((int*)(data.textur_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))), data.img_line_length, data.img_bits_per_pixel);
 			my_mlx_pixel_put(data,  x, y, *((int*)(data.textur_addr + ((y % texture_side) * data.img_line_length + (x % texture_side) * (data.img_bits_per_pixel / 8)))));
 			++x;
 		}
@@ -51,7 +51,6 @@ void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 		++y;
 	}
 }
-
 
 int main()
 {

@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/18 23:18:25 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/22 20:11:12 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int main()
 	t_player *pl;
 	g_su = constructor_t_app();
 	player_constructeur(&pl);
-	*g_su = initializer_t_app(500, 500, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
+	*g_su = initializer_t_app(500, 400, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
 	application_create_content();
 	*pl = player_initializer(1, 4, 0);
 	g_su->p = pl;
@@ -52,6 +52,7 @@ int main()
 	
 	t_textur t_su;
     char    *relative_path = "texture/brick.xpm";
+    // char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
 	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
 	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
 	t_su.addr = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
