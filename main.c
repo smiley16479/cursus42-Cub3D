@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/22 20:11:12 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/23 23:17:22 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int main()
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
 	
 	t_textur t_su;
-    char    *relative_path = "texture/brick.xpm";
-    // char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
+    // char    *relative_path = "texture/brick.xpm";
+    char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
 	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
 	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
 	t_su.addr = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));

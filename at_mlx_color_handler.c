@@ -6,11 +6,11 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:13:26 by adtheus           #+#    #+#             */
-/*   Updated: 2020/01/10 16:18:06 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/23 21:39:37 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
+#include "at_mlx_color_handler.h"
 
 int		get_t(int trgb)
 {

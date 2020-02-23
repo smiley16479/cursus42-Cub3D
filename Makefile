@@ -6,7 +6,7 @@
 #    By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/09 23:20:17 by adtheus           #+#    #+#              #
-#    Updated: 2020/02/22 20:00:02 by adtheus          ###   ########.fr        #
+#    Updated: 2020/02/23 21:38:14 by adtheus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC = 	main.c 					angle_convert.c 			at_app_initializer.c \
 		at_image.c 				at_mlx_hook.c 				at_mlx_measure.c \
 		at_mlx_pixel_put.c		at_mlx_player_handler.c		at_mlx_render.c \
 		at_mlx_shape_circle.c	at_mlx_shape_square.c		at_vector2.c \
+		at_mlx_color_handler.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 LIB = mlx

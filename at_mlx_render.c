@@ -6,12 +6,11 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/22 20:13:31 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/24 00:07:16 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "at_mlx_render.h"
-#include "at_mlx_pixel_put.h"
 
 void display_wall(int x, double distance)
 {
@@ -40,38 +39,25 @@ void display_textured_wall(int x, double distance, t_player *p)
 	int		height;
 	int		y;
 	int		step;
-	t_image	img;
-	
-	img = *(g_su->su_img);
+	int		px;
+	int a = 0;
+
 	height = 277 / distance > g_su->size.y ? g_su->size.y : 277 / distance;
-	// printf("distance : %f\n", distance);
 	step = g_su->t->text_height / height;
 	y  = 0;
-	int a = 0;
-	int px = (p->wall_impact * g_su->t->text_width + x) * 4;
 	while(y < g_su->size.y)
 	{
 		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
 		{
-			px = ( ((a % g_su->t->text_height) * g_su->t->text_line_length) + (p->wall_impact * g_su->t->text_width)  ) * 4;
-			// printf("px : %d\n", px);
-			my_mlx_pixel_put(img, x, y, *(int*)&(g_su->t->text_tab[0]/*[px]));*/
-			
-			[((a % g_su->t->text_height) * g_su->t->text_line_length + (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8))]));
-			// printf("index : %d, px : %d",((a % g_su->t->text_height) * g_su->t->text_line_length + (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)), px);
-			// a etait en static pour pouvoir verifier la value de la couleur
-			// if (a++ == 0)
-				// printf("text value : %d\n", *((int*)(g_su->t->addr +
-				// ((a % g_su->t->text_height) * g_su->t->text_line_length + 
-				// (x % g_su->t->text_width) * (g_su->t->text_bits_per_pixel / 8)))));
-			a +=step;
+			px = (a * g_su->t->text_width + (int)(p->wall_impact * g_su->t->text_width)) * 4;
+			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+			a += step;
 			++y;
 		}
 		else 
-			my_mlx_pixel_put(img, x,  y++, 0x00000000);
+			my_mlx_pixel_put(*(g_su->su_img), x,  y++, 0x00000000);
 	}
 }
-
 
 int     render_next_frame(t_app *g_su)
 {
