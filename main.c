@@ -36,7 +36,7 @@ int main()
 	t_player *pl;
 	g_su = constructor_t_app();
 	player_constructeur(&pl);
-	*g_su = initializer_t_app(500, 400, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
+	*g_su = initializer_t_app(1000, 1000, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
 	application_create_content();
 	*pl = player_initializer(1, 4, 0);
 	g_su->p = pl;

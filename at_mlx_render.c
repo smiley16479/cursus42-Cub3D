@@ -36,20 +36,21 @@ void display_wall(int x, double distance)
 
 void display_textured_wall(int x, double distance, t_player *p)
 {
-	int		height;
+	double		height;
 	int		y;
-	int		step;
+	double		step;
 	int		px;
-	int a = 0;
+	double a = 0;
 
-	height = 277 / distance > g_su->size.y ? g_su->size.y : 277 / distance;
+	height = 277. / distance > g_su->size.y ? g_su->size.y : 277. / distance;
 	step = g_su->t->text_height / height;
+	printf("step : %f\n", step);
 	y  = 0;
 	while(y < g_su->size.y)
 	{
-		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
+		if (y >= g_su->size.y / 2 - (int)(height / 2.) && y < g_su->size.y / 2 + (int)(height / 2.))
 		{
-			px = (a * g_su->t->text_width + (int)(p->wall_impact * g_su->t->text_width)) * 4;
+			px = ((int)(a * g_su->t->text_width) + (int)(p->wall_impact * g_su->t->text_width)) * 4;
 			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
 			a += step;
 			++y;
