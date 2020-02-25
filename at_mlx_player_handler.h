@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:29:10 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/14 19:51:59 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 15:25:37 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,17 @@
 # include "struc.h"
 # include "angle_convert.h"
 
+#  define w_key 	13
+#  define s_key 	1
+#  define a_key 	0
+#  define d_key		2
+#  define rightArrow_key 123
+#  define leftArrow_key 124
+
 int player_init_pos(void);
-void player_mov(t_player *pl, int keycode);
-void player_rotate(t_player *pl, int keycode);
+int rustine(t_player *pl);
+void player_mov(t_player *pl/*, int keycode*/);
+void player_rotate(t_player *pl/*, int keycode*/);
 // static inline void clearScreen(void); // <- Attention ?
 void wall_collision_checker(float x, float y);
 int getchar_player_mov(void);

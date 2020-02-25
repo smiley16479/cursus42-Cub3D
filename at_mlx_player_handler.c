@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/16 19:50:23 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:52:48 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,55 +52,67 @@ t_player *player_constructeur(t_player **to_return)
 
 t_player player_initializer(int player_x, int player_y, int deg)
 {
-	t_player to_return;
+	t_player	to_return;
 
 	to_return.player_x = player_x + .5;
 	to_return.player_y = player_y + .5;
 	to_return.player_orient = 0;
 	to_return.player_orient_origin = deg_to_rad(0);
-	cst_tab_init(to_return.cst_tab);
+	// cst_tab_init(to_return.cst_tab);
+	// if (!(to_return.key_tab = (int*)malloc(sizeof(int) * 250)))
+		// return (to_return);
+	// i = -1;
+	// while (++i < 10)
+		// (to_return.key_tab)[i] = 0;
 	return (to_return);
 }
 
-void player_mov(t_player *pl, int keycode)
+int rustine(t_player *pl)
 {
-	double velocity = .2;
+	player_mov(pl);
+	player_rotate(pl);
+	return(0);
+}
+
+void player_mov(t_player *pl/*, int keycode*/)
+{	//up 13, down 1, left 0,right 2 (mac)
+	float velocity = .05;
 	double dir = pl->player_orient_origin;
-	if (keycode == 13 || keycode == 122) // up -> devant // seconde condition pour les keycode de linux
+	if (g_su->key_tab[w_key]/*keycode == 13 || keycode == 122*/) // up -> devant // seconde condition pour les keycode de linux
 	{
-		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x + cos(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + cos(dir) * velocity)] == '0')
 			pl->player_x += (cos(dir) * velocity);
-		if (pl->map[(int)(pl->player_y - sin(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y - sin(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y -= (sin(dir) * velocity);
 	}
-	else if (keycode == 1 || keycode == 115) // down
+	if (g_su->key_tab[s_key]/*keycode == 1 || keycode == 115*/) // down
 	{
-		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x - cos(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - cos(dir) * velocity)] == '0')
 			pl->player_x -= cos(dir) * velocity;
-		if (pl->map[(int)(pl->player_y + sin(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y + sin(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y += sin(dir) * velocity;
 	}
-	else if (keycode == 0 || keycode == 113) // left
+	if (g_su->key_tab[a_key]/*keycode == 0 || keycode == 113*/) // left
 	{
-		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x - sin(dir) * velocity)] == '0')	
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - sin(dir) * velocity)] == '0')
 			pl->player_x -= sin(dir) * velocity;
-		if (pl->map[(int)(pl->player_y - cos(dir) * velocity)][(int)(pl->player_x)] == '0')	
+		if (g_su->map[(int)(pl->player_y - cos(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y -= cos(dir) * velocity;
 	}
-	else if (keycode == 2 || keycode == 100) // right
+	if (g_su->key_tab[d_key]/*keycode == 2 || keycode == 100*/) // right
 	{
-		if (pl->map[(int)(pl->player_y)][(int)(pl->player_x + sin(dir) * velocity)] == '0')	
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + sin(dir) * velocity)] == '0')
 			pl->player_x += sin(dir) * velocity; 
-		if (pl->map[(int)(pl->player_y + cos(dir) * velocity)][(int)(pl->player_x)] == '0')	
+		if (g_su->map[(int)(pl->player_y + cos(dir) * velocity)][(int)(pl->player_x)] == '0')
 			pl->player_y += cos(dir) * velocity;
 	}
 }
 
-void player_rotate(t_player *pl, int keycode)
+void player_rotate(t_player *pl/*, int keycode*/)
 {
-	if (keycode == 123 || keycode == 65361) // left-arrow // seconde condition pour les keycode de linux
+	if ( g_su->key_tab[rightArrow_key]/*keycode == 123 || keycode == 65361*/) // left-arrow // seconde condition pour les keycode de linux
 		pl->player_orient_origin += deg_to_rad(2);
-	else if (keycode == 124 || keycode == 65363) // right-arrow
+	else if ( g_su->key_tab[leftArrow_key]/*keycode == 124 || keycode == 65363*/) // right-arrow
 		pl->player_orient_origin -= deg_to_rad(2);
 	//le probleme d'affichage vient de l'orientation... sans savoir encore pourquoi
 	// if (((t_app*)su)->player_orient_origin >= 6.28)

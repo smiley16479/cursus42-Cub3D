@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 21:17:07 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/14 14:21:08 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 16:18:51 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_app	initializer_t_app(int x, int y, char *title)
 	to_ret.mlx_win = mlx_new_window(to_ret.mlx, to_ret.size.x, to_ret.size.y, title);
 	 //ceci ne devrait pas marcher // -> 
 	// to_ret.su_img = malloc_image(x, y);
+	int i = 0;
+	while (i < 300)
+		to_ret.key_tab[i++] = 0;
 	to_ret.su_img = NULL;
 	return (to_ret);
 }

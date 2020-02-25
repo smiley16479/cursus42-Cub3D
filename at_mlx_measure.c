@@ -12,14 +12,13 @@ double horizontal_intersection(t_player *pl, double *tab)
 	double	x_a = -1 * y_a / tab[e_tan];
 	int		ajusteur = tab[e_sin] > 0 ? -1 : 0;
 
-	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && pl->map[(int)y + ajusteur][(int)x] == '0')
+	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && g_su->map[(int)y + ajusteur][(int)x] == '0')
 	{
-		pl->wall_impact += x_a; 
 		x += x_a;
 		y += y_a;
 	}
 	pl->wall_orient = tab[e_sin] > 0 ? NORD_vert : SUD_rouge;
-	pl->wall_impact = pl->wall_orient == NORD_vert ? x - (int)x : 1. - (x - (int)x) ;
+	pl->wall_impact = pl->wall_orient == NORD_vert ? x - (int)x : 1. - (x - (int)x);
 	return (fabs((pl->player_x - x) / tab[e_cos])); // <-- distance entre le joueur et le mur
 }
 
@@ -31,7 +30,7 @@ double vertical_intersection(t_player *pl, double *tab)
 	double	y_a = -1 * x_a * tab[e_tan];
 	int		ajusteur = tab[e_cos] < 0 ? -1 : 0;
 
-	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && pl->map[(int)(y)][x + ajusteur] == '0')
+	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && g_su->map[(int)(y)][x + ajusteur] == '0')
 	{
 		x += x_a;
 		y += y_a;

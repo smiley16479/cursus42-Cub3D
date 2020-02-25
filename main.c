@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/23 23:17:22 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:39:26 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,24 @@ int main()
 
 	for (int i = 0; i < MAP_SIDE; i++)
 	{
-		pl->map[i] = map[i];
+		g_su->map[i] = map[i];
 		// printf("cos 0 -> %d : %f\n", MAP_SIDE, pl->cst_tab[0][i]);
 	}
 	
-	display_map(pl->map);
+	
+	display_map(g_su->map);
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
 	
 	t_textur t_su;
     // char    *relative_path = "texture/brick.xpm";
+    // char    *relative_path = "texture/GrayWalls.xpm";
     char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
 	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
 	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
 	t_su.addr = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
 	g_su->t = &t_su;
 	
-	//Voici les hook pour les interuptions de touches
-	// mlx_key_hook(g_su->mlx_win, close_window, g_su);
-	mlx_hook(g_su->mlx_win, 2, 1L<<0, msg_keypressed_window, pl);
-	// mlx_hook(g_su->mlx_win, 3, 1L<<1, msg_keyreleased_window, g_su);
-	
+	at_mlx_hook_loop(pl);	
 	mlx_loop_hook(g_su->mlx, render_next_frame1, (void*)g_su);
 	
 	return (mlx_loop(g_su->mlx));

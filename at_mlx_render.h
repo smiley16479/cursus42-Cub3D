@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:07:58 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/23 21:36:32 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 15:37:23 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@
 
 #include <math.h>
 #include <stdio.h>
-#include "at_mlx_measure.h"
+#include "angle_convert.h"
 #include "at_image.h"
+#include "at_mlx_measure.h"
 #include "at_mlx_pixel_put.h"
 #include "at_mlx_color_handler.h"
+#include "at_mlx_player_handler.h"
 #include "at_mlx_shape_circle.h"
 #include "at_mlx_shape_square.h"
-#include "angle_convert.h"
 #include "struc.h"
 
 extern	t_app *g_su;

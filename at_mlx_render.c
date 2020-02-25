@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/24 00:07:16 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/25 17:59:47 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,22 +37,25 @@ void display_wall(int x, double distance)
 void display_textured_wall(int x, double distance, t_player *p)
 {
 	double		height;
-	int		y;
-	double		step;
-	int		px;
-	double a = 0;
+	int		step;
+	int 		a;
+	int			y;
+	int			px;
 
-	height = 277. / distance > g_su->size.y ? g_su->size.y : 277. / distance;
+	height = (277 / distance > g_su->size.y) ? g_su->size.y : 277 / distance;
 	step = g_su->t->text_height / height;
-	printf("step : %f\n", step);
-	y  = 0;
+	// printf("step : %f\n", step);
+	y = a = 0;
 	while(y < g_su->size.y)
 	{
-		if (y >= g_su->size.y / 2 - (int)(height / 2.) && y < g_su->size.y / 2 + (int)(height / 2.))
+		if (y >= (g_su->size.y / 2 - height / 2) && y < (g_su->size.y / 2 + height / 2))
 		{
-			px = ((int)(a * g_su->t->text_width) + (int)(p->wall_impact * g_su->t->text_width)) * 4;
-			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+			px = (a * g_su->t->text_width + (int)(p->wall_impact * g_su->t->text_width)) * 4;
+			// if (px > g_su->t->text_width * g_su->t->text_width)
+			// 	px = g_su->t->text_width * g_su->t->text_width;
+			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][(int)px]));
 			a += step;
+			// ++a;
 			++y;
 		}
 		else 
@@ -76,22 +79,22 @@ int     render_next_frame1(void)
 	double x_rad_to_add = deg_to_rad((double)60 / g_su->size.x);
 	double x_rad = deg_to_rad(30);
 
-	// *(g_su->su_img) = create_image(1000, 500);
+	// *(g_su->su_img) = create_image(g_su->size.x, g_su->size.y);
 	g_su->p->player_orient = g_su->p->player_orient_origin + x_rad;
 	while (x < g_su->size.x)
 	{
 		x_rad -= x_rad_to_add;
 		g_su->p->player_orient -= x_rad_to_add;
 
-		// display_wall(x, d_incorrecte * cos(x_rad));
+		// display_wall(x, d_incorrecte(g_su->p) * cos(x_rad)/*, g_su->p*/);
 		display_textured_wall(x, d_incorrecte(g_su->p) * cos(x_rad), g_su->p);
-		if (x==0)
-		printf("pl->wall_impact (horizontal) : %f\n" /*player->orient : %f\n*/, g_su->p->wall_impact/*, rad_to_deg(g_su->p->player_orient_origin)*/);
+		// if (x==0)
+		// printf("pl->wall_impact (horizontal) : %f\n" /*player->orient : %f\n*/, g_su->p->wall_impact/*, rad_to_deg(g_su->p->player_orient_origin)*/);
 		++x;
 	}
-    mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);
-
     
+    mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);
 	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
+	rustine(g_su->p);
 	return (0);
 }
