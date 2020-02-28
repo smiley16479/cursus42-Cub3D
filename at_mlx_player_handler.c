@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 17:52:48 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:48:04 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_player player_initializer(int player_x, int player_y, int deg)
 	return (to_return);
 }
 
-int rustine(t_player *pl)
+int player_mov_hook(t_player *pl)
 {
 	player_mov(pl);
 	player_rotate(pl);

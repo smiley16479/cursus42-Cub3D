@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 15:43:31 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:45:10 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int				at_mlx_hook_loop(t_player *pl)
 
 int             msg_keypressed_window(int keycode, t_player *pl)
 {
-	printf("keycode pressed : %d\n", keycode);
+	// printf("keycode pressed : %d\n", keycode);
 	// printf("keycode pressed\n");
 	g_su->key_tab[keycode] = 1;
 	// player_rotate(pl, keycode);
@@ -54,6 +54,6 @@ int             msg_keypressed_window(int keycode, t_player *pl)
 int             msg_keyreleased_window(int keycode, t_player *pl)
 {
 	g_su->key_tab[keycode] = 0;
-	printf("keycode released : %d\n", keycode);
+	// printf("keycode released : %d\n", keycode);
 	return (0);
 }

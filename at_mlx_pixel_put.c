@@ -10,7 +10,7 @@ void	my_mlx_pixel_put(t_image img, int x, int y, int color)
 		printf("window's range overflow in: my_mlx_pixel_put()\n");
 		return ;
 	}
-	dst = img.addr+ ((y * img.line_length + x * (img.bits_per_pixel / 8)));
+	dst = img.addr + y * img.line_length + x * 4;
 	// printf("dst :%p\n", dst);
     *(unsigned int*)dst = (unsigned int)color;
 }

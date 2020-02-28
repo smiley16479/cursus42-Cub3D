@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 17:00:31 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:51:50 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #ifndef AT_MLX_STRUC
 #define AT_MLX_STRUC
 
-#define MAP_SIDE 10
+#define MAP_SIDE 7
 
 enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
 enum color {u_b, u_g, u_r, u_a};

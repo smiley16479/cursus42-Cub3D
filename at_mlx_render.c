@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 17:59:47 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/28 19:07:54 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,25 +37,29 @@ void display_wall(int x, double distance)
 void display_textured_wall(int x, double distance, t_player *p)
 {
 	double		height;
-	int		step;
-	int 		a;
+	double		step;
+	double 		offset; // si tu l'as en double tu as la bonne taille mais un glitch
+	// si tu le mets en int tu n'as pas toute le taille de la texture
 	int			y;
 	int			px;
 
-	height = (277 / distance > g_su->size.y) ? g_su->size.y : 277 / distance;
-	step = g_su->t->text_height / height;
+	height = ((277 / distance) > g_su->size.y) ? g_su->size.y : 277 / distance;
 	// printf("step : %f\n", step);
-	y = a = 0;
+	y = 0;
+	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : (g_su->size.y / 2 - height / 2);
+	int draw_end = g_su->size.y / 2 + height / 2 > g_su->size.y ? g_su->size.y : g_su->size.y / 2 + height / 2;
+	step = g_su->t->text_height / (1. * draw_end - draw_start);//height;
+	offset = g_su->size.y / 2 - height / 2 < 0 ? (g_su->size.y / 2 - height / 2) * -1. : 0; //(draw_start - g_su->size.y / 2 + height / 2) * step;
 	while(y < g_su->size.y)
 	{
-		if (y >= (g_su->size.y / 2 - height / 2) && y < (g_su->size.y / 2 + height / 2))
+		// if ((g_su->size.y / 2 - height / 2) <= y && y <= (g_su->size.y / 2 + height / 2))
+		if (draw_start < y && y < draw_end)
 		{
-			px = (a * g_su->t->text_width + (int)(p->wall_impact * g_su->t->text_width)) * 4;
+			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4;
 			// if (px > g_su->t->text_width * g_su->t->text_width)
 			// 	px = g_su->t->text_width * g_su->t->text_width;
-			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][(int)px]));
-			a += step;
-			// ++a;
+			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+			offset += step;
 			++y;
 		}
 		else 
@@ -88,13 +92,12 @@ int     render_next_frame1(void)
 
 		// display_wall(x, d_incorrecte(g_su->p) * cos(x_rad)/*, g_su->p*/);
 		display_textured_wall(x, d_incorrecte(g_su->p) * cos(x_rad), g_su->p);
-		// if (x==0)
-		// printf("pl->wall_impact (horizontal) : %f\n" /*player->orient : %f\n*/, g_su->p->wall_impact/*, rad_to_deg(g_su->p->player_orient_origin)*/);
+		if (x==0)
+			printf("player->orient : %f\n", rad_to_deg(g_su->p->player_orient_origin));
 		++x;
 	}
-    
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);
 	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
-	rustine(g_su->p);
+	player_mov_hook(g_su->p);
 	return (0);
 }

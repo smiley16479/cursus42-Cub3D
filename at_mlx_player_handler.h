@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:29:10 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 15:25:37 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/02/27 14:48:10 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #  define leftArrow_key 124
 
 int player_init_pos(void);
-int rustine(t_player *pl);
+int player_mov_hook(t_player *pl);
 void player_mov(t_player *pl/*, int keycode*/);
 void player_rotate(t_player *pl/*, int keycode*/);
 // static inline void clearScreen(void); // <- Attention ?
