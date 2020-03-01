@@ -48,7 +48,7 @@ void display_textured_wall(int x, double distance, t_player *p)
 	y = 0;
 	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : g_su->size.y / 2 - height / 2;
 	int draw_end = draw_start == 0 ? g_su->size.y : g_su->size.y / 2 + height / 2;
-	step = (double)g_su->t->text_height / (1. * (draw_end - draw_start));//height;
+	step = (double)g_su->t->text_height / (1. * (draw_end - draw_start));//height; <--peut etre laisser height
 	offset = draw_end - (draw_end - draw_start);//<-- ici que ça bug // (draw_start - g_su->size.y / 2 + height / 2) * step; //g_su->size.y / 2 - height / 2 < 0 ? (height / 2 - g_su->size.y / 2): 0; //
 	while(y < g_su->size.y)
 	{
