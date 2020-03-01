@@ -43,21 +43,20 @@ void display_textured_wall(int x, double distance, t_player *p)
 	int			y;
 	int			px;
 
-	height = ((277 / distance) > g_su->size.y) ? g_su->size.y : 277 / distance;
+	height = /*((277 / distance) > g_su->size.y) ? g_su->size.y :*/ 277 / distance;
 	// printf("step : %f\n", step);
 	y = 0;
-	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : (g_su->size.y / 2 - height / 2);
-	int draw_end = g_su->size.y / 2 + height / 2 > g_su->size.y ? g_su->size.y : g_su->size.y / 2 + height / 2;
-	step = g_su->t->text_height / (1. * draw_end - draw_start);//height;
-	offset = g_su->size.y / 2 - height / 2 < 0 ? (g_su->size.y / 2 - height / 2) * -1. : 0; //(draw_start - g_su->size.y / 2 + height / 2) * step;
+	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : g_su->size.y / 2 - height / 2;
+	int draw_end = draw_start == 0 ? g_su->size.y : g_su->size.y / 2 + height / 2;
+	step = (double)g_su->t->text_height / (1. * (draw_end - draw_start));//height;
+	offset = draw_end - (draw_end - draw_start);//<-- ici que ça bug // (draw_start - g_su->size.y / 2 + height / 2) * step; //g_su->size.y / 2 - height / 2 < 0 ? (height / 2 - g_su->size.y / 2): 0; //
 	while(y < g_su->size.y)
 	{
 		// if ((g_su->size.y / 2 - height / 2) <= y && y <= (g_su->size.y / 2 + height / 2))
-		if (draw_start < y && y < draw_end)
+		if (draw_start < y && y < draw_end - 1)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4;
-			// if (px > g_su->t->text_width * g_su->t->text_width)
-			// 	px = g_su->t->text_width * g_su->t->text_width;
+			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4.;
+			// printf("px : %d\n", px);
 			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
 			offset += step;
 			++y;

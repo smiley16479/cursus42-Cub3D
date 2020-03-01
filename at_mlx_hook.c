@@ -43,7 +43,8 @@ int				at_mlx_hook_loop(t_player *pl)
 int             msg_keypressed_window(int keycode, t_player *pl)
 {
 	// printf("keycode pressed : %d\n", keycode);
-	// printf("keycode pressed\n");
+	printf("keycode pressed : %d\n", keycode);
+	keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 1;
 	// player_rotate(pl, keycode);
 	// player_mov(pl, keycode);
@@ -53,7 +54,35 @@ int             msg_keypressed_window(int keycode, t_player *pl)
 
 int             msg_keyreleased_window(int keycode, t_player *pl)
 {
+	printf("keycode released : %d\n", keycode);
+	keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 0;
-	// printf("keycode released : %d\n", keycode);
 	return (0);
+}
+
+int             convert_key_code_linux(int keycode)
+{
+	if (keycode == 65293)
+		return(123);
+	if (keycode == 65362)
+		return(123);
+	if (keycode == 65364)
+		return(123);
+	if (keycode == 65363) //right array
+		return(124);
+	if (keycode == 65361) //left array
+		return(123);
+	if (keycode == 65289) //left array
+		return(0);
+	if (keycode == 122) //w_key
+		return(13);
+	if (keycode == 113) //a_key
+		return(0);
+	if (keycode == 100) //d_key
+		return(2);
+	if (keycode == 115) //s_key
+		return(1);
+	if (keycode == 65513)//alt_key
+		return(0);
+		
 }
