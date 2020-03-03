@@ -37,34 +37,27 @@ void display_wall(int x, double distance)
 void display_textured_wall(int x, double distance, t_player *p)
 {
 	double		height;
-	double		step;
-	double 		offset; // si tu l'as en double tu as la bonne taille mais un glitch
-	// si tu le mets en int tu n'as pas toute le taille de la texture
+	double 		offset;
 	int			y;
 	int			px;
 
-	height = /*((277 / distance) > g_su->size.y) ? g_su->size.y :*/ 277 / distance;
-	// printf("step : %f\n", step);
-	y = 0;
-	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : g_su->size.y / 2 - height / 2;
-	int draw_end = draw_start == 0 ? g_su->size.y : g_su->size.y / 2 + height / 2;
-	step = (double)g_su->t->text_height / (1. * (draw_end - draw_start));//height; <--peut etre laisser height
-	offset = draw_end - (draw_end - draw_start);//<-- ici que ça bug // (draw_start - g_su->size.y / 2 + height / 2) * step; //g_su->size.y / 2 - height / 2 < 0 ? (height / 2 - g_su->size.y / 2): 0; //
-	while(y < g_su->size.y)
+	height = 277 / distance;
+	// on calcule la proportion de la texture sur y a afficher en premier
+	(offset = (height - g_su->size.y) / 2 * g_su->t->text_height / height) < 0 ? offset = 0 : 0;
+	y = -1;
+	while(++y < g_su->size.y)
 	{
-		// if ((g_su->size.y / 2 - height / 2) <= y && y <= (g_su->size.y / 2 + height / 2))
-		if (draw_start < y && y < draw_end - 1)
+		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4.;
-			// printf("px : %d\n", px);
+			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4;
 			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
-			offset += step;
-			++y;
+			offset += g_su->t->text_height / height;
 		}
 		else 
-			my_mlx_pixel_put(*(g_su->su_img), x,  y++, 0x00000000);
+			my_mlx_pixel_put(*(g_su->su_img), x,  y, 0x00000000);
 	}
 }
+
 
 int     render_next_frame(t_app *g_su)
 {
@@ -82,7 +75,7 @@ int     render_next_frame1(void)
 	double x_rad_to_add = deg_to_rad((double)60 / g_su->size.x);
 	double x_rad = deg_to_rad(30);
 
-	// *(g_su->su_img) = create_image(g_su->size.x, g_su->size.y);
+	*(g_su->su_img) = create_image(g_su->size.x, g_su->size.y);
 	g_su->p->player_orient = g_su->p->player_orient_origin + x_rad;
 	while (x < g_su->size.x)
 	{
@@ -96,7 +89,7 @@ int     render_next_frame1(void)
 		++x;
 	}
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);
-	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
+	mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
 	player_mov_hook(g_su->p);
 	return (0);
 }
