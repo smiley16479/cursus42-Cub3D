@@ -14,7 +14,7 @@
 #ifndef AT_MLX_STRUC
 #define AT_MLX_STRUC
 
-#define MAP_SIDE 7
+#define MAP_SIDE 11
 
 enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
 enum color {u_b, u_g, u_r, u_a};
@@ -44,14 +44,13 @@ typedef struct  s_circle_struc {
 
 // Structure de gestion des textures
 typedef  struct s_textur {
-	void        *text;
-    char        *addr;
-	int         text_bits_per_pixel;
-    int         text_line_length;
-    int     	text_width;
-    int     	text_height;
-    int     	endian;
+	void        *text[6];
 	char		*text_tab[6];
+	int         text_bits_per_pixel[6];
+    int         text_line_length[6];
+    int     	text_width[6];
+    int     	text_height[6];
+    int     	endian[6];
 }               t_textur;
 
 typedef  struct s_player {

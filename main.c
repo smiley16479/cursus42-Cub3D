@@ -52,12 +52,13 @@ int main()
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
 	
 	t_textur t_su;
-    // char    *relative_path = "texture/brick.xpm";
     // char    *relative_path = "texture/GrayWalls.xpm";
     char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
-	t_su.text = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width), &(t_su.text_height));
-	t_su.text_tab[0] = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
-	t_su.addr = mlx_get_data_addr(t_su.text, &(t_su.text_bits_per_pixel), &(t_su.text_line_length),&(t_su.endian));
+	t_su.text[0] = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width[0]), &(t_su.text_height[0]));
+	t_su.text_tab[0] = mlx_get_data_addr(t_su.text[0], &(t_su.text_bits_per_pixel[0]), &(t_su.text_line_length[0]),&(t_su.endian[0]));
+    relative_path = "texture/brick.xpm";
+	t_su.text[1] = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width[1]), &(t_su.text_height[1]));
+	t_su.text_tab[1] = mlx_get_data_addr(t_su.text[1], &(t_su.text_bits_per_pixel[1]), &(t_su.text_line_length[1]),&(t_su.endian[1]));
 	g_su->t = &t_su;
 	
 	at_mlx_hook_loop(pl);	

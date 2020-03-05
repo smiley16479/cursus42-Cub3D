@@ -38,23 +38,44 @@ void display_textured_wall(int x, double distance, t_player *p)
 {
 	double		height;
 	double 		offset;
+	double		floor_offset;
 	int			y;
 	int			px;
 
 	height = 277 / distance;
 	// on calcule la proportion de la texture sur y a afficher en premier
-	(offset = (height - g_su->size.y) / 2 * g_su->t->text_height / height) < 0 ? offset = 0 : 0;
+	(offset = (height - g_su->size.y) / 2 * g_su->t->text_height[0] / height) < 0 ? offset = 0 : 0;
+
+	// offset pour le Floor & Ceilling // On sait pas encore trop ce qu'on fait
+	// if (p->wall_orient == EST_bleu || p->wall_orient == OUEST_jaune) // SUD_rouge == 0 , NORD_vert == 1
+		floor_offset = g_su->size.y - height < 0 ? 0 : (g_su->size.y - height) / 2 + height;
+	
 	y = -1;
 	while(++y < g_su->size.y)
 	{
 		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4;
+			px = (int)(p->wall_impact * g_su->t->text_width[0] + (int)offset * g_su->t->text_width[0]) * 4;
 			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
-			offset += g_su->t->text_height / height;
+			offset += g_su->t->text_height[0] / height;
 		}
-		else 
-			my_mlx_pixel_put(*(g_su->su_img), x,  y, 0x00000000);
+		else
+		{
+			/*
+Trouve l’endroit ou le mur s’arrête
+Trouve l’orientation du sol
+Récupère la valeur du pixel touché 
+			*/
+			if (p->wall_orient == EST_bleu || p->wall_orient == OUEST_jaune)
+				px = (int)(p->wall_impact * g_su->t->text_height[1] + (int)floor_offset * g_su->t->text_width[1]) * 4;
+			else
+				px = (int)(p->wall_impact * g_su->t->text_width[1] + (int)floor_offset * g_su->t->text_height[1]) * 4;
+			my_mlx_pixel_put(*(g_su->su_img), x,  y, 
+			*(int*)&(g_su->t->text_tab[1][px % (g_su->t->text_width[1] * g_su->t->text_height[1])]));
+			floor_offset += g_su->t->text_height[1] / ((g_su->size.y - height) / 2 + height);
+		}
+		// else
+			// my_mlx_pixel_put(*(g_su->su_img), x,  y, 0x00000000);
 	}
 }
 
