@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/27 14:51:50 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/09 18:12:22 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@
 enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
 enum color {u_b, u_g, u_r, u_a};
 
+typedef	struct	s_vector2 {
+	int		x;
+	int		y;
+}				t_vector2;
+
+typedef	struct	s_vector2_d {
+	double		s_dist;
+	double		s_impact;
+	int			sprite;
+}				t_vector2_d;
+
 typedef struct  s_line_struc {
 	int		origin_x;
 	int		origin_y;
@@ -26,7 +37,6 @@ typedef struct  s_line_struc {
 	int		fin_y;
 	int		color;
 }               t_line;
-
 
 typedef struct  s_square_struc {
 	int		origin_x;
@@ -61,12 +71,9 @@ typedef  struct s_player {
 	// double		cst_tab[3][361];
 	double		wall_impact;
 	int			wall_orient;
+	t_vector2_d	sprite_v2[100];
+	int			sprite_num;
 }				t_player;
-
-typedef	struct	s_vector2 {
-	int x;
-	int y;
-}				t_vector2;
 
 typedef  struct s_image {
 	t_vector2	size;
@@ -82,6 +89,7 @@ typedef  struct s_app {
     void    	*mlx_win;
 	t_vector2	size;
 	char		*map[MAP_SIDE];
+	char		sprite_tab[10];
 	int			key_tab[300];
 
 	t_square	*square_shape;

@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/27 14:45:10 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/05 16:37:17 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int				at_mlx_hook_loop(t_player *pl)
 int             msg_keypressed_window(int keycode, t_player *pl)
 {
 	// printf("keycode pressed : %d\n", keycode);
-	printf("keycode pressed : %d\n", keycode);
-	keycode = convert_key_code_linux(keycode);
+	// printf("keycode pressed : %d\n", keycode);
+	// keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 1;
 	// player_rotate(pl, keycode);
 	// player_mov(pl, keycode);
@@ -54,8 +54,8 @@ int             msg_keypressed_window(int keycode, t_player *pl)
 
 int             msg_keyreleased_window(int keycode, t_player *pl)
 {
-	printf("keycode released : %d\n", keycode);
-	keycode = convert_key_code_linux(keycode);
+	// printf("keycode released : %d\n", keycode);
+	// keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 0;
 	return (0);
 }
@@ -84,5 +84,5 @@ int             convert_key_code_linux(int keycode)
 		return(1);
 	if (keycode == 65513)//alt_key
 		return(0);
-		
+	return(0);	
 }

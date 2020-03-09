@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/28 19:07:54 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/09 20:54:03 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,19 +53,23 @@ void display_textured_wall(int x, double distance, t_player *p)
 	y = -1;
 	while(++y < g_su->size.y)
 	{
-		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2)
+		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2 - 1)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width[0] + (int)offset * g_su->t->text_width[0]) * 4;
-			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
-			offset += g_su->t->text_height[0] / height;
+			if (p->sprite_num)
+				my_mlx_pixel_put(*(g_su->su_img), x, y, 0x00FF0000);
+			else
+			{		
+				px = (int)(p->wall_impact * g_su->t->text_width[0] + (int)offset * g_su->t->text_width[0]) * 4;
+				my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+				offset += g_su->t->text_height[0] / height;
+			}
 		}
 		else
-		{
 			/*
+		{
 Trouve l’endroit ou le mur s’arrête
 Trouve l’orientation du sol
 Récupère la valeur du pixel touché 
-			*/
 			if (p->wall_orient == EST_bleu || p->wall_orient == OUEST_jaune)
 				px = (int)(p->wall_impact * g_su->t->text_height[1] + (int)floor_offset * g_su->t->text_width[1]) * 4;
 			else
@@ -74,8 +78,9 @@ Récupère la valeur du pixel touché
 			*(int*)&(g_su->t->text_tab[1][px % (g_su->t->text_width[1] * g_su->t->text_height[1])]));
 			floor_offset += g_su->t->text_height[1] / ((g_su->size.y - height) / 2 + height);
 		}
+			*/
 		// else
-			// my_mlx_pixel_put(*(g_su->su_img), x,  y, 0x00000000);
+			my_mlx_pixel_put(*(g_su->su_img), x,  y, 0x00000000);
 	}
 }
 
@@ -103,10 +108,15 @@ int     render_next_frame1(void)
 		x_rad -= x_rad_to_add;
 		g_su->p->player_orient -= x_rad_to_add;
 
-		// display_wall(x, d_incorrecte(g_su->p) * cos(x_rad)/*, g_su->p*/);
-		display_textured_wall(x, d_incorrecte(g_su->p) * cos(x_rad), g_su->p);
+		// display_wall(x, distance(g_su->p) * cos(x_rad)/*, g_su->p*/);
+		display_textured_wall(x, distance(g_su->p, x_rad), g_su->p);
 		if (x==0)
-			printf("player->orient : %f\n", rad_to_deg(g_su->p->player_orient_origin));
+		{	// printf(" g_su->p->sprite_v2[0] : (%f, %f)\n", g_su->p->sprite_v2[0].x,  g_su->p->sprite_v2[0].y);
+			if (g_su->p->wall_orient == NORD_vert || g_su->p->wall_orient == SUD_rouge)
+				printf("horizontal\n");
+			else
+				printf("verticale\n");
+		}
 		++x;
 	}
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);

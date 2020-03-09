@@ -12,3 +12,36 @@ pour un arc-en-ciel : RGB 168,50,50 -> 168,168,50 -> 50,168,50 ->
 
 gcc -I minilibx_opengl_20191021 -L minilibx_opengl_20191021 -l mlx -framework OpenGL -framework AppKit  at_mlx_shape_square.c at_mlx_hook.c at_mlx_render.c at_mlx_shape_circle.c angle_convert.c at_mlx_measure2D.c essai.c at_mlx_player_handler.c
 gcc -I minilibx_opengl_20191021 -L minilibx_opengl_20191021 -l mlx -framework OpenGL -framework AppKit texture_essai.c
+
+
+void display_textured_wall(int x, double distance, t_player *p)
+{
+	double		height;
+	double		step;
+	double 		offset; // si tu l'as en double tu as la bonne taille mais un glitch
+	// si tu le mets en int tu n'as pas toute le taille de la texture
+	int			y;
+	int			px;
+
+	height = /*((277 / distance) > g_su->size.y) ? g_su->size.y :*/ g_su->size.y / distance; //
+	// printf("step : %f\n", step);
+	y = 0;
+	int draw_start = g_su->size.y / 2 - height / 2 < 0 ? 0 : g_su->size.y / 2 - height / 2;
+	int draw_end = draw_start == 0 ? g_su->size.y : g_su->size.y / 2 + height / 2;
+	step = /*(double)g_su->t->text_height g_su->size.y - height < 0 ? g_su->t->text_height / g_su->size.y :*/ g_su->t->text_height / height;// .../ (1. * (draw_end - draw_start))
+	offset = g_su->size.y - height < 0 ? (height - g_su->size.y) / 2 : 0; //step;//draw_end - (draw_end - draw_start);//<-- ici que ça bug // (draw_start - g_su->size.y / 2 + height / 2) * step; //g_su->size.y / 2 - height / 2 < 0 ? (height / 2 - g_su->size.y / 2): 0; //
+	while(y < g_su->size.y)
+	{
+		// if ((g_su->size.y / 2 - height / 2) <= y && y <= (g_su->size.y / 2 + height / 2))
+		if (draw_start < y && y < draw_end - 1)
+		{
+			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4.;
+			// printf("px : %d\n", px);
+			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+			offset += step;
+			++y;
+		}
+		else
+			my_mlx_pixel_put(*(g_su->su_img), x,  y++, 0x00000000);
+	}
+}

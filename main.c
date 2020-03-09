@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/27 16:05:08 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/08 08:40:27 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,19 @@ int main()
 	*pl = player_initializer(3, 3, 0);
 	g_su->p = pl;
 
+//initialise map and sprite
 	for (int i = 0; i < MAP_SIDE; i++)
-	{
 		g_su->map[i] = map[i];
-		// printf("cos 0 -> %d : %f\n", MAP_SIDE, pl->cst_tab[0][i]);
-	}
-	
-	
+	for (int i = 0; i < 3; i++)
+		g_su->sprite_tab[i] = '2' + i;
+	g_su->sprite_tab[3] = '\0';
+
 	display_map(g_su->map);
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
 	
 	t_textur t_su;
     // char    *relative_path = "texture/GrayWalls.xpm";
-    char    *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
+    char	 *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";
 	t_su.text[0] = mlx_xpm_file_to_image(g_su->mlx, relative_path, &(t_su.text_width[0]), &(t_su.text_height[0]));
 	t_su.text_tab[0] = mlx_get_data_addr(t_su.text[0], &(t_su.text_bits_per_pixel[0]), &(t_su.text_line_length[0]),&(t_su.endian[0]));
     relative_path = "texture/brick.xpm";

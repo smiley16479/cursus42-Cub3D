@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 22:40:58 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 16:08:29 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/09 20:54:03 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 # include <stdio.h>  // est tu oblige de les integrer ?
 # include <unistd.h>  // est tu oblige de les integrer ?
 # include "struc.h"
+#include "at_mlx_sprite.h"
 
 extern	t_app *g_su;
-enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v};
-double			d_incorrecte(t_player *pl);
+enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v, e_x_rad};
+double			distance(t_player *pl, double x_rad);
 double			horizontal_intersection(t_player *pl, double *tab);
 double			vertical_intersection(t_player *pl, double *tab);
 
