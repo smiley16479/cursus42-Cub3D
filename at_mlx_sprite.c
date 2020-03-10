@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include "at_mlx_sprite.h"
 #include "struc.h"
-
+/*
 int which_sprite(char is_a_sprite)
 {
 	int i;
@@ -23,11 +23,10 @@ int which_sprite(char is_a_sprite)
 		if (is_a_sprite == g_su->sprite_tab[i])
 			return(g_su->sprite_tab[i]);
 	return (0);
-}
+}*/
 
-void	join_sprites(t_player *p1, t_player *p2)
+void init_vector2_d(t_vector2_d *tab)
 {
-	t_vector2_d tab[100];
 	int i = -1;
 	while (++i < 100)
 	{
@@ -35,19 +34,35 @@ void	join_sprites(t_player *p1, t_player *p2)
 		tab[i].s_impact = 0;
 		tab[i].sprite = 0;
 	}
+}
+
+void	join_sprites(t_player *p1, t_player *p2)
+{
+	t_vector2_d tab[100];
+	int i;
 	int sprite_num = p1->sprite_num + p2->sprite_num < 100 ? p1->sprite_num + p2->sprite_num : 100;
+
+	init_vector2_d(tab);
 	i = 0;
 	while (p1->sprite_num + p2->sprite_num)
 	{
-		if (p1->sprite_num < 0 || p2->sprite_num < 0)
+		if (p1->sprite_num >= 0 && p2->sprite_num >= 0)
 		{
-			printf("Revoie ton algo coco : dans at_mlx_sprite.c l 44\n");
-			break;
-		}	
-		tab[i].s_dist = p1->sprite_v2[p1->sprite_num - 1].s_dist > p2->sprite_v2[p2->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
-		tab[i].sprite = tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
-		tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_num-- : p2->sprite_num--;
-		++i;
+			tab[i].s_dist = p1->sprite_v2[p1->sprite_num - 1].s_dist > p2->sprite_v2[p2->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
+			tab[i].sprite = tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
+			tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_num-- : p2->sprite_num--;
+			++i;
+		}
+		else 
+		{
+			int bool;
+			if (bool = p1->sprite_num >= 0 ? 1 : 0)
+			{
+				tab[i].s_dist = bool ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
+				tab[i].sprite = bool ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
+				bool ? p1->sprite_num-- : p2->sprite_num--;
+			}
+		}
 	}
 	p1->sprite_num = sprite_num;
 	i = 0;
@@ -58,7 +73,7 @@ void	join_sprites(t_player *p1, t_player *p2)
 		++i;
 	}
 }
-/*
+
 int main()
 {
 	t_player tab[2];
@@ -84,6 +99,8 @@ int main()
 	tab[0].sprite_num = 4;
 	tab[1].sprite_num = 5;
 
+	// init_vector2_d(tab[0].sprite_v2);
+	// init_vector2_d(tab[1].sprite_v2);
 	join_sprites(&tab[0] , &tab[1]);
 
 	int i = 0;
@@ -93,4 +110,4 @@ int main()
 		++i;
 	}
 
-}*/
+}

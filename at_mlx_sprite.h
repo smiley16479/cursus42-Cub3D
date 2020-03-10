@@ -16,6 +16,7 @@
 
 extern t_app *g_su;
 int		which_sprite(char is_a_sprite);
+void    init_vector2_d(t_vector2_d *tab);
 void	join_sprites(t_player *p1, t_player *p2);
 
 #endif
