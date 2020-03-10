@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:07:17 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/09 20:33:15 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/10 17:21:06 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	join_sprites(t_player *p1, t_player *p2)
 	t_vector2_d tab[100];
 	int i;
 	int sprite_num = p1->sprite_num + p2->sprite_num < 100 ? p1->sprite_num + p2->sprite_num : 100;
+	double dist;
 
 	init_vector2_d(tab);
 	i = 0;
@@ -50,17 +51,22 @@ void	join_sprites(t_player *p1, t_player *p2)
 		{
 			tab[i].s_dist = p1->sprite_v2[p1->sprite_num - 1].s_dist > p2->sprite_v2[p2->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
 			tab[i].sprite = tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
-			tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? p1->sprite_num-- : p2->sprite_num--;
+			tab[i].s_dist == p1->sprite_v2[p1->sprite_num - 1].s_dist ? --p1->sprite_num : --p2->sprite_num;
+			if (tab[i].s_dist > p1->dist)
+				continue;
 			++i;
 		}
-		else 
+		else if (p1->sprite_num >= 0 || p2->sprite_num >= 0)
 		{
-			int bool;
-			if (bool = p1->sprite_num >= 0 ? 1 : 0)
+			int bool = p1->sprite_num >= 0 ? 1 : 2;
+			if (p1->dist > bool == 1 ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist)
 			{
-				tab[i].s_dist = bool ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
-				tab[i].sprite = bool ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
-				bool ? p1->sprite_num-- : p2->sprite_num--;
+				tab[i].s_dist = bool == 1 ? p1->sprite_v2[p1->sprite_num - 1].s_dist : p2->sprite_v2[p2->sprite_num - 1].s_dist;
+				tab[i].sprite = bool == 1 ? p1->sprite_v2[p1->sprite_num - 1].sprite : p2->sprite_v2[p2->sprite_num - 1].sprite;
+				bool == 1 ? --p1->sprite_num : --p2->sprite_num;
+				if (tab[i].s_dist > p1->dist)
+					continue;
+				++i;
 			}
 		}
 	}
@@ -77,27 +83,34 @@ void	join_sprites(t_player *p1, t_player *p2)
 int main()
 {
 	t_player tab[2];
+	tab[0].dist = 11.5;
+	
 	tab[0].sprite_v2[0].s_dist = 2;
-	tab[0].sprite_v2[0].sprite = 2;
-	tab[1].sprite_v2[0].s_dist = 3;
-	tab[1].sprite_v2[0].sprite = 3;
+	tab[0].sprite_v2[0].sprite = 2;//
 	tab[0].sprite_v2[1].s_dist = 4;
-	tab[0].sprite_v2[1].sprite = 4;
-	tab[1].sprite_v2[1].s_dist = 5;
-	tab[1].sprite_v2[1].sprite = 5;
+	tab[0].sprite_v2[1].sprite = 4;//
 	tab[0].sprite_v2[2].s_dist = 10;
-	tab[0].sprite_v2[2].sprite = 10;
-	tab[1].sprite_v2[2].s_dist = 11;
-	tab[1].sprite_v2[2].sprite = 11;
+	tab[0].sprite_v2[2].sprite = 10;//	
 	tab[0].sprite_v2[3].s_dist = 15;
-	tab[0].sprite_v2[3].sprite = 15;
+	tab[0].sprite_v2[3].sprite = 15;//
+
+//benmoham <- celui qui t'a emprunte ton cable
+
+	tab[1].sprite_v2[0].s_dist = 3;
+	tab[1].sprite_v2[0].sprite = 3;//
+	tab[1].sprite_v2[1].s_dist = 5;
+	tab[1].sprite_v2[1].sprite = 5;//
+	tab[1].sprite_v2[2].s_dist = 11;
+	tab[1].sprite_v2[2].sprite = 11;//
+	tab[1].sprite_v2[2].s_dist = 11.2;
+	tab[1].sprite_v2[2].sprite = 11;//
 	tab[1].sprite_v2[3].s_dist = 16;
-	tab[1].sprite_v2[3].sprite = 16;
+	tab[1].sprite_v2[3].sprite = 16;//
 	tab[1].sprite_v2[4].s_dist = 19;
-	tab[1].sprite_v2[4].sprite = 19;
+	tab[1].sprite_v2[4].sprite = 19;//
 
 	tab[0].sprite_num = 4;
-	tab[1].sprite_num = 5;
+	tab[1].sprite_num = 6;
 
 	// init_vector2_d(tab[0].sprite_v2);
 	// init_vector2_d(tab[1].sprite_v2);

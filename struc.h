@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 21:03:27 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/09 18:12:22 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/10 15:38:08 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ typedef  struct s_player {
 	double		player_orient;
 	double		player_orient_origin;
 	// double		cst_tab[3][361];
+	double		dist;
 	double		wall_impact;
 	int			wall_orient;
 	t_vector2_d	sprite_v2[100];
@@ -92,11 +93,11 @@ typedef  struct s_app {
 	char		sprite_tab[10];
 	int			key_tab[300];
 
-	t_square	*square_shape;
-	t_line		*line_shape;
 	t_player	*p;
 	t_image		*su_img;
 	t_textur	*t;
+	t_square	*square_shape;
+	t_line		*line_shape;
 	t_circle	*su_cicl;
 	void		*shape;
 }               t_app;
