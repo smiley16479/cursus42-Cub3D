@@ -57,7 +57,7 @@ t_player player_initializer(int player_x, int player_y, int deg)
 	to_return.player_x = player_x + .5;
 	to_return.player_y = player_y + .5;
 	to_return.player_orient = 0;
-	to_return.player_orient_origin = deg_to_rad(0);
+	to_return.player_orient_origin = deg_to_rad(deg);
 	// cst_tab_init(to_return.cst_tab);
 	// if (!(to_return.key_tab = (int*)malloc(sizeof(int) * 250)))
 		// return (to_return);

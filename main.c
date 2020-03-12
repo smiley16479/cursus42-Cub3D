@@ -38,7 +38,7 @@ int main()
 	player_constructeur(&pl);
 	*g_su = initializer_t_app(1000, 1000, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
 	application_create_content();
-	*pl = player_initializer(3, 3, 0);
+	*pl = player_initializer(2, 7, 45);
 	g_su->p = pl;
 
 //initialise map and sprite
@@ -50,7 +50,7 @@ int main()
 
 	display_map(g_su->map);
 	printf("player_orient : %.2f (ds le main l131)\n", ((t_player*)(g_su->p))->player_orient_origin);
-	
+
 	t_textur t_su;
     // char    *relative_path = "texture/GrayWalls.xpm";
     char	 *relative_path = "texture/texture-floral-ornament-retro-elegant.xpm";

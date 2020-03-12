@@ -72,8 +72,8 @@ typedef  struct s_player {
 	double		dist;
 	double		wall_impact;
 	int			wall_orient;
-	t_vector2_d	sprite_v2[100];
 	int			sprite_num;
+	t_vector2_d	sprite_v2[100];
 }				t_player;
 
 typedef  struct s_image {

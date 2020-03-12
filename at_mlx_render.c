@@ -56,7 +56,13 @@ void display_textured_wall(int x, double distance, t_player *p)
 		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2 - 1)
 		{
 			if (p->sprite_num)
-				my_mlx_pixel_put(*(g_su->su_img), x, y, 0x00FF0000);
+				while (p->sprite_num-- >= 0)
+				{
+					// int i = 0; // servira à itérer sur l'axe y en fonction du 
+					// calcul de la distance qui est encore à faire pour dessiner successivement les sprites
+					my_mlx_pixel_put(*(g_su->su_img), x, y, 0x00FF0000);
+
+				}
 			else
 			{		
 				px = (int)(p->wall_impact * g_su->t->text_width[0] + (int)offset * g_su->t->text_width[0]) * 4;
@@ -98,7 +104,7 @@ int     render_next_frame(t_app *g_su)
 int     render_next_frame1(void)
 {
 	int x = 0;
-	double x_rad_to_add = deg_to_rad((double)60 / g_su->size.x);
+	double x_rad_to_add = deg_to_rad(60. / g_su->size.x);
 	double x_rad = deg_to_rad(30);
 
 	*(g_su->su_img) = create_image(g_su->size.x, g_su->size.y);
@@ -110,13 +116,9 @@ int     render_next_frame1(void)
 
 		// display_wall(x, distance(g_su->p) * cos(x_rad)/*, g_su->p*/);
 		display_textured_wall(x, distance(g_su->p, x_rad), g_su->p);
-		if (x==0)
-		{	// printf(" g_su->p->sprite_v2[0] : (%f, %f)\n", g_su->p->sprite_v2[0].x,  g_su->p->sprite_v2[0].y);
-			if (g_su->p->wall_orient == NORD_vert || g_su->p->wall_orient == SUD_rouge)
-				printf("horizontal\n");
-			else
-				printf("verticale\n");
-		}
+		// if (x==0)
+			// printf(" g_su->p->sprite_v2[0] : (%f, %f)\n", g_su->p->sprite_v2[0].x,  g_su->p->sprite_v2[0].y);
+
 		++x;
 	}
     mlx_put_image_to_window(g_su->mlx, g_su->mlx_win, g_su->su_img->img_ptr, 0, 0);
