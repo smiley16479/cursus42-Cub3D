@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/08 08:40:27 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/12 16:50:54 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int main()
 	t_player *pl;
 	g_su = constructor_t_app();
 	player_constructeur(&pl);
-	*g_su = initializer_t_app(1000, 1000, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
+	*g_su = initializer_t_app(500, 500, "PinkY_WynKi");//(64 * map_side, 64 * map_side); // 1920, 1080,
 	application_create_content();
-	*pl = player_initializer(2, 7, 45);
+	*pl = player_initializer(2.5, 2.5, 45);
 	g_su->p = pl;
 
 //initialise map and sprite

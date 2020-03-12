@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 22:40:58 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/09 20:54:03 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/12 18:01:59 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,6 @@ extern	t_app *g_su;
 enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v, e_x_rad};
 double			distance(t_player *pl, double x_rad);
 double			horizontal_intersection(t_player *pl, double *tab);
-double			vertical_intersection(t_player *pl, double *tab,  double x_rad);
+double			vertical_intersection(t_player *pl, double *tab);
 
 #endif

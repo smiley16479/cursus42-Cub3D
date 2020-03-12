@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/27 14:48:04 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/12 16:47:47 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ t_player *player_constructeur(t_player **to_return)
 	return (*to_return);
 }
 
-t_player player_initializer(int player_x, int player_y, int deg)
+t_player player_initializer(double player_x, double player_y, int deg)
 {
 	t_player	to_return;
 
-	to_return.player_x = player_x + .5;
-	to_return.player_y = player_y + .5;
+	to_return.player_x = player_x;
+	to_return.player_y = player_y;
 	to_return.player_orient = 0;
 	to_return.player_orient_origin = deg_to_rad(deg);
 	// cst_tab_init(to_return.cst_tab);
@@ -80,30 +80,30 @@ void player_mov(t_player *pl/*, int keycode*/)
 	double dir = pl->player_orient_origin;
 	if (g_su->key_tab[w_key]/*keycode == 13 || keycode == 122*/) // up -> devant // seconde condition pour les keycode de linux
 	{
-		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + cos(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + cos(dir) * velocity)] != '1')
 			pl->player_x += (cos(dir) * velocity);
-		if (g_su->map[(int)(pl->player_y - sin(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y - sin(dir) * velocity)][(int)(pl->player_x)] != '1')
 			pl->player_y -= (sin(dir) * velocity);
 	}
 	if (g_su->key_tab[s_key]/*keycode == 1 || keycode == 115*/) // down
 	{
-		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - cos(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - cos(dir) * velocity)] != '1')
 			pl->player_x -= cos(dir) * velocity;
-		if (g_su->map[(int)(pl->player_y + sin(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y + sin(dir) * velocity)][(int)(pl->player_x)] != '1')
 			pl->player_y += sin(dir) * velocity;
 	}
 	if (g_su->key_tab[a_key]/*keycode == 0 || keycode == 113*/) // left
 	{
-		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - sin(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x - sin(dir) * velocity)] != '1')
 			pl->player_x -= sin(dir) * velocity;
-		if (g_su->map[(int)(pl->player_y - cos(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y - cos(dir) * velocity)][(int)(pl->player_x)] != '1')
 			pl->player_y -= cos(dir) * velocity;
 	}
 	if (g_su->key_tab[d_key]/*keycode == 2 || keycode == 100*/) // right
 	{
-		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + sin(dir) * velocity)] == '0')
+		if (g_su->map[(int)(pl->player_y)][(int)(pl->player_x + sin(dir) * velocity)] != '1')
 			pl->player_x += sin(dir) * velocity; 
-		if (g_su->map[(int)(pl->player_y + cos(dir) * velocity)][(int)(pl->player_x)] == '0')
+		if (g_su->map[(int)(pl->player_y + cos(dir) * velocity)][(int)(pl->player_x)] != '1')
 			pl->player_y += cos(dir) * velocity;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:29:10 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/27 14:48:10 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/12 16:47:31 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,6 @@ char get_player_pos(void);
 void display_player_orient(t_player *pl);
 void display_map(char *map[MAP_SIDE]);
 t_player *player_constructeur(t_player **to_return);
-t_player player_initializer(int player_x, int player_y, int deg);
+t_player player_initializer(double player_x, double player_y, int deg);
 
 #endif
