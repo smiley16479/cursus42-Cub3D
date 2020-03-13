@@ -50,18 +50,22 @@ double vertical_intersection(t_player *pl, double *tab)
 	i = 0;
 	while (y < MAP_SIDE && y > 0 && x < MAP_SIDE && x > 0 && g_su->map[(int)y][x + ajusteur] != '1')
 	{
-		if ((is_sprite  = which_sprite(g_su->map[(int)y][x + ajusteur])) && i < 100)
+		if ((is_sprite = which_sprite(g_su->map[(int)y][x + ajusteur])) && i < 100)
 		{
-			double dist_x, dist_y;
+			double dist_x, dist_y, delta_ang, delta_sprite_center;
 			// dist_x = fabs(pl->player_x - (x + (tab[e_cos] < 0 ? -.5 : .5)));
 			// dist_y = fabs(pl->player_y - ((int)y + (tab[e_sin] < 0 ? -.5 : .5)));
-			dist_x = tab[e_cos] > 0 ? x + ajusteur + .5 - pl->player_x : pl->player_x - (x + ajusteur) - .5; 
-			dist_y = tab[e_sin] > 0 ? pl->player_y - (int)y - .5 : (int)y - pl->player_y + .5;
+			dist_x = fabs(x + ajusteur + .5 - pl->player_x); //tab[e_cos] > 0 ? x + ajusteur + .5 - pl->player_x : pl->player_x - (x + ajusteur) - .5; 
+			dist_y = fabs(pl->player_y - (int)y - .5); //tab[e_sin] > 0 ? pl->player_y - (int)y - .5 : (int)y - pl->player_y + .5;
+			delta_ang = /*fabs(*/atan2(dist_x, dist_y) - pl->player_orient/*)*/;
 			pl->sprite_v2[i].s_dist = hypot(dist_x, dist_y); //fabs((pl->player_x - x + tab[e_cos] < 0 ? -.5 : .5) / tab[e_cos]) * cos(tab[e_x_rad]);
-			pl->sprite_v2[i].s_impact = pl->wall_orient == EST_bleu ? y - (int)y : 1. - (y - (int)y);
+			delta_sprite_center = pl->sprite_v2[i].s_dist * tan(delta_ang); // ecart entre le centre du sprite et le point d'impact du rayon
+			pl->sprite_v2[i].s_dist = pl->sprite_v2[i].s_dist * cos(delta_ang); // pour eviter le fishEye -> distance entre le rayon et le sprite
+			pl->sprite_v2[i].s_impact = delta_sprite_center; // pl->wall_orient == EST_bleu ? y - (int)y : 1. - (y - (int)y);
 			pl->sprite_v2[i].sprite = is_sprite;
 			if (-0.01 <= tab[e_x_rad] && tab[e_x_rad] <= 0.01)
-				printf("orient : %f, x_rad : %f, dist_x : %f, dist_y : %f, pl->sprite_v2[i].s_dist(hypot) : %f, is_sprite %d;%d player (%.1f;%.1f)\n" ,rad_to_deg(pl->player_orient_origin), tab[e_x_rad] ,dist_x, dist_y, pl->sprite_v2[i].s_dist, /*is_sprite*/x + ajusteur , (int)(y), pl->player_x, pl->player_y);
+				// printf("orient : %f, x_rad : %f, dist_x : %f, dist_y : %f, pl->sprite_v2[i].s_dist(hypot) : %f, is_sprite %d;%d player (%.1f;%.1f)\n" ,rad_to_deg(pl->player_orient_origin), tab[e_x_rad] ,dist_x, dist_y, pl->sprite_v2[i].s_dist, /*is_sprite*/x + ajusteur , (int)(y), pl->player_x, pl->player_y);
+				printf("atan2 en degre : %.2f) delta_ang : %.2f, delta_sprite_center : %.2f, centre du sprite (%.2f;%.2f) joueur (%.2f;%.2f)\n" ,rad_to_deg(atan2(dist_x, dist_y)), delta_ang, delta_sprite_center, dist_x, dist_y, pl->player_x, pl->player_y);
 			++i;
 		}
 		x += x_a;

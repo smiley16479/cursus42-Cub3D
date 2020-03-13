@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/09 20:54:03 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/13 10:43:55 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,23 @@ void display_textured_wall(int x, double distance, t_player *p)
 		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2 - 1)
 		{
 			if (p->sprite_num)
+			{
+				int i = 0, yy = y;
+				double s_height = 277 / p->sprite_v2[i].s_dist;
 				while (p->sprite_num-- >= 0)
 				{
-					// int i = 0; // servira à itérer sur l'axe y en fonction du 
-					// calcul de la distance qui est encore à faire pour dessiner successivement les sprites
-					my_mlx_pixel_put(*(g_su->su_img), x, y, 0x00FF0000);
-
+					while ((g_su->size.y - s_height) / 2 <= yy && yy <= (g_su->size.y + s_height) / 2 - 1)
+					{
+						px = (int)(p->sprite_v2[i].s_impact * g_su->t->text_width[1] + (int)offset * g_su->t->text_width[1]) * 4;
+						// int i = 0; // servira à itérer sur l'axe y en fonction du 
+						// calcul de la distance qui est encore à faire pour dessiner successivement les sprites
+						my_mlx_pixel_put(*(g_su->su_img), x, yy++, 0x00FF0000);
+					}
+						++i;
 				}
+			}
 			else
-			{		
+			{
 				px = (int)(p->wall_impact * g_su->t->text_width[0] + (int)offset * g_su->t->text_width[0]) * 4;
 				my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
 				offset += g_su->t->text_height[0] / height;

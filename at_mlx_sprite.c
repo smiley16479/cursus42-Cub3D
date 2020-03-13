@@ -6,13 +6,38 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/06 16:07:17 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/10 17:21:06 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/03/13 08:23:31 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
 #include "at_mlx_sprite.h"
 #include "struc.h"
+
+void sprite_process(int x, int ajusteur, double y, double *tab)
+{ //pale copie de l'ebauche faite ds measure.c a adapter/ameliorer
+	int		is_sprite = 0;
+	int		i;
+		if ((is_sprite = which_sprite(g_su->map[(int)y][x + ajusteur])) && i < 100)
+		{
+			double dist_x, dist_y, delta_ang, delta_sprite_center;
+			// dist_x = fabs(pl->player_x - (x + (tab[e_cos] < 0 ? -.5 : .5)));
+			// dist_y = fabs(pl->player_y - ((int)y + (tab[e_sin] < 0 ? -.5 : .5)));
+			dist_x = fabs(x + ajusteur + .5 - g_su->p->player_x); //tab[e_cos] > 0 ? x + ajusteur + .5 - pl->player_x : pl->player_x - (x + ajusteur) - .5; 
+			dist_y = fabs(g_su->p->player_y - (int)y - .5); //tab[e_sin] > 0 ? pl->player_y - (int)y - .5 : (int)y - pl->player_y + .5;
+			delta_ang = /*fabs(*/atan2(dist_x, dist_y) - g_su->p->player_orient/*)*/;
+			g_su->p->sprite_v2[i].s_dist = hypot(dist_x, dist_y); //fabs((pl->player_x - x + tab[e_cos] < 0 ? -.5 : .5) / tab[e_cos]) * cos(tab[e_x_rad]);
+			delta_sprite_center = g_su->p->sprite_v2[i].s_dist * tan(delta_ang); // ecart entre le centre du sprite et le point d'impact du rayon
+			g_su->p->sprite_v2[i].s_dist = g_su->p->sprite_v2[i].s_dist * cos(delta_ang); // pour eviter le fishEye -> distance entre le rayon et le sprite
+			g_su->p->sprite_v2[i].s_impact = delta_sprite_center; // g_su->p->wall_orient == EST_bleu ? y - (int)y : 1. - (y - (int)y);
+			g_su->p->sprite_v2[i].sprite = is_sprite;
+			if (-0.01 <= tab[e_x_rad] && tab[e_x_rad] <= 0.01)
+				// printf("orient : %f, x_rad : %f, dist_x : %f, dist_y : %f, g_su->p->sprite_v2[i].s_dist(hypot) : %f, is_sprite %d;%d player (%.1f;%.1f)\n" ,rad_to_deg(g_su->p->player_orient_origin), tab[e_x_rad] ,dist_x, dist_y, g_su->p->sprite_v2[i].s_dist, /*is_sprite*/x + ajusteur , (int)(y), g_su->p->player_x, g_su->p->player_y);
+				printf("atan2 en degre : %.2f) delta_ang : %.2f, delta_sprite_center : %.2f, centre du sprite (%.2f;%.2f) joueur (%.2f;%.2f)\n" ,rad_to_deg(atan2(dist_x, dist_y)), delta_ang, delta_sprite_center, dist_x, dist_y, g_su->p->player_x, g_su->p->player_y);
+			++i;
+		}
+	
+}
 
 int which_sprite(char is_a_sprite)
 {
