@@ -22,8 +22,6 @@
 #include "at_mlx_pixel_put.h"
 #include "at_mlx_color_handler.h"
 #include "at_mlx_player_handler.h"
-#include "at_mlx_shape_circle.h"
-#include "at_mlx_shape_square.h"
 #include "at_bmp.h"
 #include "struc.h"
 
