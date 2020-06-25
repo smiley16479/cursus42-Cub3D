@@ -39,9 +39,9 @@ void draw_me_a_circle(void)
 	degre = 0;
 	while (degre < 180)
 	{
-		my_mlx_pixel_put(*(g_su->su_img), g_su->su_cicl->origin_x + cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
+		my_mlx_pixel_put(g_su->su_img, g_su->su_cicl->origin_x + cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
 		 	g_su->su_cicl->origin_y + sin(deg_to_rad(degre)) * g_su->su_cicl->rayon, g_su->su_cicl->color); //who_wants_a_rainbow(&data));//
-		my_mlx_pixel_put(*(g_su->su_img), g_su->su_cicl->origin_x - cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
+		my_mlx_pixel_put(g_su->su_img, g_su->su_cicl->origin_x - cos(deg_to_rad(degre)) * g_su->su_cicl->rayon, 
 	 		g_su->su_cicl->origin_y - sin(deg_to_rad(degre)) * g_su->su_cicl->rayon, g_su->su_cicl->color); //who_wants_a_rainbow(&data));//
 		++degre;
 	}

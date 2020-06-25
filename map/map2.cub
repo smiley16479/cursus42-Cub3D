@@ -1,0 +1,20 @@
+R 800 800
+F 220,100,0
+C 225,30,0
+NO ./texture/GrayWalls.xpm
+SO ./texture/bluestone.xpm
+S  ./texture/barrel.xpm
+WE ./texture/CRTXPM.xpm
+EA ./texture/brick.xpm
+
+11111111111
+10000000001
+10010100101 
+10000000001 
+10000010001 
+11000010101 
+10000010001 
+10000000001 
+10000100101 
+100N0000001 
+11111111111

@@ -1,5 +1,5 @@
 les couleurs sont elles RGBT et pas TRGB ds le int --> c'est TRGB !! Bon ba si c BGRA car on est en big endian
-Comment se fait il qu'il n'y ait pas le definition de mlx_pixel_put ?!! (Pas de reponse)
+Comment se fait il qu'il n'y ait pas la definition de mlx_pixel_put ?!! (Pas de reponse)
 
 w : 13 
 a : 0
@@ -45,3 +45,7 @@ void display_textured_wall(int x, double distance, t_player *p)
 			my_mlx_pixel_put(*(g_su->su_img), x,  y++, 0x00000000);
 	}
 }
+
+liens utilies:
+https://permadi.com/1996/05/ray-casting-tutorial-11/
+lodev

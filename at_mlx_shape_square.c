@@ -42,7 +42,7 @@ void draw_me_a_square(void)
 		j = 0;
 		while (j < g_su->square_shape->cote)
 		{
-			my_mlx_pixel_put(*(g_su->su_img), i + g_su->square_shape->origin_x, 
+			my_mlx_pixel_put(g_su->su_img, i + g_su->square_shape->origin_x, 
 							j + g_su->square_shape->origin_y, g_su->square_shape->color); //who_wants_a_rainbow(&data));//
 			++j;
 		}

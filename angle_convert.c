@@ -12,8 +12,6 @@
 
 #include "angle_convert.h"
 
-
-
 double	deg_to_rad(double degre)
 {
 	return (degre * M_PI / 180);
@@ -22,6 +20,20 @@ double	deg_to_rad(double degre)
 double	rad_to_deg(double rad)
 {
 	return (rad / (M_PI / 180));
+}
+
+double atan_sur_360(double angle)
+{
+	//Sur interval 360°
+	// if (angle < 0) { angle += 2 * M_PI; }
+	
+	// Sur interval -π; π
+	if (angle > M_PI)
+		angle -= 2 * M_PI;
+	else if (angle <= -M_PI)
+		angle += 2 * M_PI;
+	return (angle);
+	// return (fmod(angle, 2 * M_PI));
 }
 
 void cst_tab_init(double tab[][361])

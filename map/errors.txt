@@ -1,0 +1,19 @@
+Error\nRedoundancy entrance\n
+Error\nInformation missing\n
+Error\nInfo Parsing failed\n
+Error\nWhile opening textures\n
+Error\nInformations badly formated for the path line\n
+Error\nInformations badly formated for the screen resolution\n
+Error\nInformations badly formated for the colors\n
+Error\nGnl failed\n
+Error\nOpen failed\n
+Error\nInformation badly formated\n
+Error\nWrong character in map description\n
+Error\nWrong player layout\n
+Error\nSpace in map description; tile undifined (' ')\nAborting map generation\n
+Error\nOpened map description\n
+Error\nWrong args number\n
+Error\nWrong extention\n
+Error\nWrong 2nd argument\nUsage : screen saver with "--save"\n
+Error\nMalloc() failed in duplicate_2dchar_array_part2()\n
+Error\nNo such file or directory\n

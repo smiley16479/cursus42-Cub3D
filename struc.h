@@ -14,7 +14,7 @@
 #ifndef AT_MLX_STRUC
 #define AT_MLX_STRUC
 
-#define MAP_SIDE 5
+#define MS 11 // 5
 
 enum orient {SUD_rouge, NORD_vert, EST_bleu, OUEST_jaune};
 enum color {u_b, u_g, u_r, u_a};
@@ -61,18 +61,19 @@ typedef  struct s_textur {
     int     	text_width[6];
     int     	text_height[6];
     int     	endian[6];
+	t_vector2	fc;
 }               t_textur;
 
 typedef  struct s_player {
-	double		player_x;
-	double		player_y;
+	double		pl_x;
+	double		pl_y;
 	double		player_orient;
 	double		player_orient_origin;
 	// double		cst_tab[3][361];
 	double		dist;
 	double		wall_impact;
 	int			wall_orient;
-	int			sprite_num;
+	int			s_num;
 	t_vector2_d	sprite_v2[100];
 }				t_player;
 
@@ -89,9 +90,13 @@ typedef  struct s_app {
 	void		*mlx;
     void    	*mlx_win;
 	t_vector2	size;
-	char		*map[MAP_SIDE];
+	int			e_dist;
+	char		**map;
+	t_vector2	ms;
 	char		sprite_tab[10];
 	int			key_tab[300];
+	char		**err;
+	int			save;
 
 	t_player	*p;
 	t_image		*su_img;

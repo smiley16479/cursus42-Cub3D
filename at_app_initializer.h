@@ -17,10 +17,11 @@
 # include <mlx.h>
 # include "struc.h"
 # include "at_image.h"
+# include "at_mlx_player_handler.h"
 
 extern	t_app	*g_su;
-t_app	*constructor_t_app(void);
-t_app	initializer_t_app(int x, int y, char *title);
+void    constructor_t_app(void);
+void	initializer_t_app(int x, int y, char *title);
 void 	application_create_content(void);
 void	destructor_t_app(t_app *to_destroy);
 void	free_t_app(t_app *to_free);

@@ -19,5 +19,6 @@ extern	t_app	*g_su;
 void			cst_tab_init(double tab[][361]);
 double			deg_to_rad(double degre);
 double			rad_to_deg(double rad);
+double          atan_sur_360(double angle);
 
 #endif

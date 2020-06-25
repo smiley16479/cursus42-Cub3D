@@ -55,7 +55,7 @@ void	my_mlx_pixel_put_handler(t_app data, int x, int y)
 int main()
 {
 	t_app g_su;
-    char    *relative_path = "texture/brick.xpm";
+    char    *relative_path = "../../texture/brick.xpm";
 	g_su.win_width = 160, g_su.win_height = 160;
 
     g_su.mlx = mlx_init();

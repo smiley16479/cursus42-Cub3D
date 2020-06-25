@@ -24,6 +24,7 @@
 #include "at_mlx_player_handler.h"
 #include "at_mlx_shape_circle.h"
 #include "at_mlx_shape_square.h"
+#include "at_bmp.h"
 #include "struc.h"
 
 extern	t_app *g_su;

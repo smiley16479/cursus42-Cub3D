@@ -26,17 +26,12 @@
 #  define rightArrow_key 123
 #  define leftArrow_key 124
 
-int player_init_pos(void);
+int ft_exit();
 int player_mov_hook(t_player *pl);
 void player_mov(t_player *pl/*, int keycode*/);
 void player_rotate(t_player *pl/*, int keycode*/);
 // static inline void clearScreen(void); // <- Attention ?
-void wall_collision_checker(float x, float y);
-int getchar_player_mov(void);
-char get_player_pos(void);
-void display_player_orient(t_player *pl);
-void display_map(char *map[MAP_SIDE]);
-t_player *player_constructeur(t_player **to_return);
-t_player player_initializer(double player_x, double player_y, int deg);
+t_player *player_constructeur(void);
+t_player player_initializer(double pl_x, double pl_y, int deg);
 
 #endif

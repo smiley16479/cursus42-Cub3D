@@ -12,29 +12,32 @@
 
 #include "at_app_initializer.h"
 
-t_app	*constructor_t_app(void)
+void	constructor_t_app(void)
 {
+	int i;
+
 	g_su = (t_app*)malloc(sizeof(t_app));
-	if (g_su == NULL)
-		return (NULL);
+	g_su->t = (t_textur*)malloc(sizeof(t_textur));
+	g_su->p = player_constructeur();
+	i = -1;
+	while (++i < 3)
+		g_su->sprite_tab[i] = '2' + i;
+	g_su->sprite_tab[3] = '\0';
+	if (g_su == NULL || g_su->t == NULL || g_su->p == NULL)
+		exit(EXIT_FAILURE);
 	else
-		return (g_su);
+		g_su->mlx = mlx_init();
 }
 
-t_app	initializer_t_app(int x, int y, char *title)
+void	initializer_t_app(int x, int y, char *title)
 {
-	t_app to_ret;
-
-	to_ret.mlx = mlx_init();
-	to_ret.size = create_vector2(x, y);
-	to_ret.mlx_win = mlx_new_window(to_ret.mlx, to_ret.size.x, to_ret.size.y, title);
-	 //ceci ne devrait pas marcher // -> 
-	// to_ret.su_img = malloc_image(x, y);
+	g_su->size = create_vector2(x, y);
+	g_su->e_dist = x / 2 / 0.57735; // pour une FOV de 60° le 0.5.. correspond à tan(30°)
+	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y, title);
 	int i = 0;
 	while (i < 300)
-		to_ret.key_tab[i++] = 0;
-	to_ret.su_img = NULL;
-	return (to_ret);
+		g_su->key_tab[i++] = 0;
+	g_su->su_img = NULL;
 }
 
 void application_create_content(void)

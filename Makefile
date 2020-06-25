@@ -18,11 +18,14 @@ NAME = cub3D
 LIB_DIR =  lib/minilibx_opengl_20191021
 OBJ_DIR = obj
 
-SRC = 	main.c 					angle_convert.c 			at_app_initializer.c \
-		at_image.c 				at_mlx_hook.c 				at_mlx_measure.c \
-		at_mlx_pixel_put.c		at_mlx_player_handler.c		at_mlx_render.c \
-		at_mlx_shape_circle.c	at_mlx_shape_square.c		at_vector2.c \
-		at_mlx_color_handler.c	at_mlx_sprite.c
+SRC = 	main.c 							angle_convert.c 			at_app_initializer.c \
+		at_image.c 						at_mlx_hook.c 				at_mlx_measure.c \
+		at_mlx_pixel_put.c				at_mlx_player_handler.c		at_mlx_render.c \
+		at_mlx_shape_circle.c			at_mlx_shape_square.c		at_vector2.c \
+		at_mlx_color_handler.c			at_mlx_sprite.c				cub3D_map_analyser_tools_1.c\
+		cub3D_map_analyser_tools_2.c	cub3D_map_analyser.c		cub3D_map_info_init.c\
+		error_handling.c				ft_split.c					gnl.c\
+		gnl_2000.c						at_bmp.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 LIB = mlx
