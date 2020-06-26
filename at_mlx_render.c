@@ -20,8 +20,8 @@ static inline void clearScreen(void)
 
 void display_terminal(void)
 {
-	char *screen_str;
-	int		height;
+	char 	*screen_str;
+	int		h; //height
 	int		y;
 	int		x;
 	double x_rad_to_add = deg_to_rad(60. / g_su->size.x);
@@ -29,20 +29,19 @@ void display_terminal(void)
 	g_su->p->player_orient = g_su->p->player_orient_origin + x_rad;
 	if (!(screen_str = malloc((g_su->size.x * g_su->size.y + 1))))
 		return;
-
 	x = -1;
 	while (++x < g_su->size.x)
 	{
 		x_rad -= x_rad_to_add;
 		g_su->p->player_orient -= x_rad_to_add;
-		height = g_su->e_dist / distance(g_su->p, x_rad);
+		h = g_su->e_dist / distance(g_su->p, x_rad);
 		y = -1;
 		while(++y < g_su->size.y)
 			if (x == g_su->size.x - 1)
 				screen_str[x + (g_su->size.x * y)] = '\n';
 			else {
-				if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
-					screen_str[x + (g_su->size.x * y)] = '!' + g_su->p->wall_orient;
+				if (y >= (g_su->size.y - h) / 2 && y < (g_su->size.y + h) / 2)
+					screen_str[x + (g_su->size.x * y)] = '!' + g_su->p->w_o;
 				else
 					screen_str[x + (g_su->size.x * y)] = ' ';
 			}
@@ -67,9 +66,9 @@ void display_wall(int x, double distance)
 	y  = 0;
 	while(y < g_su->size.y)
 		if (y >= g_su->size.y / 2 - (height / 2) && y < g_su->size.y / 2 + (height / 2))
-			my_mlx_pixel_put(g_su->su_img, x,  y++, color_tab[g_su->p->wall_orient]);
+			p_p(g_su->su_img, x,  y++, color_tab[g_su->p->w_o]);
 		else
-			my_mlx_pixel_put(g_su->su_img, x,  y++, 0x00000000);
+			p_p(g_su->su_img, x,  y++, 0x00000000);
 }
 
 			/*
@@ -77,40 +76,39 @@ void display_wall(int x, double distance)
 Trouve l’endroit ou le mur s’arrête
 Trouve l’orientation du sol
 Récupère la valeur du pixel touché 
-			if (p->wall_orient == EST_bleu || p->wall_orient == OUEST_jaune)
-				px = (int)(p->wall_impact * g_su->t->text_height[1] + (int)floor_offset * g_su->t->text_width[1]) * 4;
+			if (p->w_o == EST_bleu || p->w_o == OUEST_jaune)
+				px = (int)(p->wall_impact * g_su->t->t_h[1] + (int)floor_offset * g_su->t->t_w[1]) * 4;
 			else
-				px = (int)(p->wall_impact * g_su->t->text_width[1] + (int)floor_offset * g_su->t->text_height[1]) * 4;
-			my_mlx_pixel_put(g_su->su_img, x,  y, 
-			*(int*)&(g_su->t->text_tab[1][px % (g_su->t->text_width[1] * g_su->t->text_height[1])]));
-			floor_offset += g_su->t->text_height[1] / ((g_su->size.y - height) / 2 + height);
+				px = (int)(p->wall_impact * g_su->t->t_w[1] + (int)floor_offset * g_su->t->t_h[1]) * 4;
+			p_p(g_su->su_img, x,  y, 
+			*(int*)&(g_su->t->t_t[1][px % (g_su->t->t_w[1] * g_su->t->t_h[1])]));
+			floor_offset += g_su->t->t_h[1] / ((g_su->size.y - height) / 2 + height);
 		}
 			*/
 
 void display_sprite(int x, int y, t_player *p)
 {
-	double		s_height;
-	double 		s_offset;
+	double		h; //height
+	double 		o; //offset
 	int 		px;
 	int i = 4; // le numéro de la texture concernée : à changer quand on gerera le dinamique
 
 	while (p->s_num >= 0)
 	{
-		s_height = g_su->e_dist / p->sprite_v2[p->s_num].s_dist;
-		(s_offset = (s_height - g_su->size.y) / 2 * g_su->t->text_height[p->sprite_v2[p->s_num].sprite] / s_height) < 0 ? s_offset = 0 : 0;
+		h = g_su->e_dist / p->s_v2[p->s_num].s_dist;
+		(o = (h - g_su->size.y) / 2 * g_su->t->t_h
+		[p->s_v2[p->s_num].sprite] / h) < 0 ? o = 0 : 0;
 		y = -1;
 		while (++y < g_su->size.y)
-		{//Quand on mets plus d'un sprite sur la carte l'affichage freeze.
-			if (0 <= p->sprite_v2[p->s_num].s_impact && p->sprite_v2[p->s_num].s_impact < 1)
-				while  ((g_su->size.y - s_height) / 2 <= y && y <= (g_su->size.y + s_height) / 2 && y < g_su->size.y - 1)
+			if (0 <= p->s_v2[p->s_num].s_imp && p->s_v2[p->s_num].s_imp < 1)
+				while  ((g_su->size.y - h) / 2 <= y && y <= (g_su->size.y + h) / 2 && y < g_su->size.y - 1)
 				{
-					px = (int)(p->sprite_v2[p->s_num].s_impact * g_su->t->text_width[i] + (int)s_offset * g_su->t->text_width[i]) * 4;
-					if (*(int*)&(g_su->t->text_tab[i][px]) != 0)
-						my_mlx_pixel_put(g_su->su_img, x, y, *(int*)&(g_su->t->text_tab[i][px]));
+					px = (int)(p->s_v2[p->s_num].s_imp * g_su->t->t_w[i] + (int)o * g_su->t->t_w[i]) * 4;
+					if (*(int*)&(g_su->t->t_t[i][px]) != 0)
+						p_p(g_su->su_img, x, y, *(int*)&(g_su->t->t_t[i][px]));
 					y++;
-					s_offset += g_su->t->text_height[i] / s_height;
+					o += g_su->t->t_h[i] / h;
 				}
-		}
 		--p->s_num;
 	}
 }
@@ -118,28 +116,25 @@ void display_sprite(int x, int y, t_player *p)
 
 void display_textured_wall(int x, double distance, t_player *p)
 {
-	double		height;
-	double 		offset;
-	double		s_height;
-	double 		s_offset;
-	// double		floor_offset;
+	double		h; //height
+	double 		of; //offset
 	int			y;
 	int			px;
 	
-	height = g_su->e_dist / distance;
-	(offset = (height - g_su->size.y) / 2 * g_su->t->text_height[p->wall_orient] / height) < 0 ? offset = 0 : 0;
+	h = g_su->e_dist / distance;
+	(of = (h - g_su->size.y) / 2 * g_su->t->t_h[p->w_o] / h) < 0 ? of = 0 : 0;
 	y = -1;
 	while(++y < g_su->size.y)
-	{
-		if ((g_su->size.y - height) / 2 <= y && y <= (g_su->size.y + height) / 2 - 1)
+		if ((g_su->size.y - h) / 2 <= y && y <= (g_su->size.y + h) / 2 - 1)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width[p->wall_orient] + (int)offset * g_su->t->text_width[p->wall_orient]) * 4;
-			my_mlx_pixel_put(g_su->su_img, x, y, *(int*)&(g_su->t->text_tab[p->wall_orient][px]));
-			offset += g_su->t->text_height[p->wall_orient] / height;
+			px = (int)(p->wall_impact * g_su->t->t_w[p->w_o] + 
+			(int)of * g_su->t->t_w[p->w_o]) * 4;
+			p_p(g_su->su_img, x, y, *(int*)&(g_su->t->t_t[p->w_o][px]));
+			of += g_su->t->t_h[p->w_o] / h;
 		}
 		else
-			y < g_su->size.y / 2 ? my_mlx_pixel_put(g_su->su_img, x,  y, g_su->t->fc.x) : my_mlx_pixel_put(g_su->su_img, x,  y, g_su->t->fc.y);
-	}
+			y < g_su->size.y / 2 ? p_p(g_su->su_img, x,  y, g_su->t->fc.x) :
+			p_p(g_su->su_img, x,  y, g_su->t->fc.y);
 	display_sprite(x, y, p);
 }
 
@@ -159,7 +154,7 @@ int     render_next_frame1(void)
 		// display_wall(x, distance(g_su->p) * cos(x_rad));
 		display_textured_wall(x, distance(g_su->p, x_rad), g_su->p);
 		// if (x==0)
-			// printf(" g_su->p->sprite_v2[0] : (%f, %f)\n", g_su->p->sprite_v2[0].x,  g_su->p->sprite_v2[0].y);
+			// printf(" g_su->p->s_v2[0] : (%f, %f)\n", g_su->p->s_v2[0].x,  g_su->p->s_v2[0].y);
 		++x;
 	}
 	// display_terminal();

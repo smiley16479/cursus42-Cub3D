@@ -25,7 +25,7 @@
 #include "angle_convert.h"
 
 extern	t_app *g_su;
-enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v, e_x_rad};
+enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v, e_x_rad, e_ydist, e_xdist};
 double			distance(t_player *pl, double x_rad);
 double			horizontal_intersection(t_player *pl, double *tab);
 double			vertical_intersection(t_player *pl, double *tab);

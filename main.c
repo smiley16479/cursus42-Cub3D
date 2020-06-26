@@ -21,14 +21,10 @@
 #include "at_mlx_measure.h"
 #include "at_mlx_player_handler.h"
 #include "at_mlx_render.h"
-#include "at_mlx_shape_square.h"
-#include "at_mlx_shape_circle.h"
-#include "at_mlx_shape_line.h"
 #include "angle_convert.h"
 #include "at_mlx_render.h"
 #include "cub3D_map_analyser.h"
 #include "at_bmp.h"
-// #include "at_mlx_measure copy.h"
 //GLOBALE
 	t_app  *g_su;
 

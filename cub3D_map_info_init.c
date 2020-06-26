@@ -48,10 +48,10 @@ void open_texture(int info_t, char* file_path)
     // (void)file_path;
     if (!(g_su->t->text[info_t] = mlx_xpm_file_to_image(g_su->mlx,
         file_path,
-		&(g_su->t->text_width[info_t]),
-        &(g_su->t->text_height[info_t]))))
+		&(g_su->t->t_w[info_t]),
+        &(g_su->t->t_h[info_t]))))
 		print_error(3, g_su->err);
-	if (!(g_su->t->text_tab[info_t] = /* (int*) */mlx_get_data_addr(
+	if (!(g_su->t->t_t[info_t] = /* (int*) */mlx_get_data_addr(
         g_su->t->text[info_t], 
         &(g_su->t->text_bits_per_pixel[info_t]),
 		&(g_su->t->text_line_length[info_t]),

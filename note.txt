@@ -35,9 +35,9 @@ void display_textured_wall(int x, double distance, t_player *p)
 		// if ((g_su->size.y / 2 - height / 2) <= y && y <= (g_su->size.y / 2 + height / 2))
 		if (draw_start < y && y < draw_end - 1)
 		{
-			px = (int)(p->wall_impact * g_su->t->text_width + (int)offset * g_su->t->text_width) * 4.;
+			px = (int)(p->wall_impact * g_su->t->t_w + (int)offset * g_su->t->t_w) * 4.;
 			// printf("px : %d\n", px);
-			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->text_tab[0][px]));
+			my_mlx_pixel_put(*(g_su->su_img), x, y, *(int*)&(g_su->t->t_t[0][px]));
 			offset += step;
 			++y;
 		}

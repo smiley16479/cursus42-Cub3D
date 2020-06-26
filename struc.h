@@ -26,7 +26,7 @@ typedef	struct	s_vector2 {
 
 typedef	struct	s_vector2_d {
 	double		s_dist;
-	double		s_impact;
+	double		s_imp;
 	int			sprite;
 }				t_vector2_d;
 
@@ -55,13 +55,13 @@ typedef struct  s_circle_struc {
 // Structure de gestion des textures
 typedef  struct s_textur {
 	void        *text[6];
-	char		*text_tab[6];
+	char		*t_t[6]; //text_tab
 	int         text_bits_per_pixel[6];
     int         text_line_length[6];
-    int     	text_width[6];
-    int     	text_height[6];
+    int     	t_w[6]; // text_width
+    int     	t_h[6]; //text_height
     int     	endian[6];
-	t_vector2	fc;
+	t_vector2	fc; //floor ceiling color
 }               t_textur;
 
 typedef  struct s_player {
@@ -72,9 +72,9 @@ typedef  struct s_player {
 	// double		cst_tab[3][361];
 	double		dist;
 	double		wall_impact;
-	int			wall_orient;
+	int			w_o; //Wall_orient
 	int			s_num;
-	t_vector2_d	sprite_v2[100];
+	t_vector2_d	s_v2[100];
 }				t_player;
 
 typedef  struct s_image {
