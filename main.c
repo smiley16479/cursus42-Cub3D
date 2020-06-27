@@ -53,7 +53,7 @@ int main(int ac, char **av)
 	check_args(ac, av);
     g_su->map = read_map(av[1]);
 	at_mlx_hook(g_su->p);
-	mlx_loop_hook(g_su->mlx, render_next_frame1, (void*)g_su);
+	mlx_loop_hook(g_su->mlx, render_next_frame, (void*)g_su);
 	
 	return (mlx_loop(g_su->mlx));
 }

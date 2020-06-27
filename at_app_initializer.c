@@ -29,11 +29,11 @@ void	constructor_t_app(void)
 		g_su->mlx = mlx_init();
 }
 
-void	initializer_t_app(int x, int y, char *title)
+void	initializer_t_app(int x, int y, char *nam)
 {
 	g_su->size = create_vector2(x, y);
 	g_su->e_dist = x / 2 / 0.57735; // pour une FOV de 60° le 0.5.. correspond à tan(30°)
-	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y, title);
+	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y, nam);
 	int i = 0;
 	while (i < 300)
 		g_su->key_tab[i++] = 0;

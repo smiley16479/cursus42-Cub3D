@@ -13,31 +13,35 @@
 #include <stdio.h>
 #include "at_mlx_sprite.h"
 
-/* void sprite_process(int x, int ajusteur, double y, double *tab)
-{ //pale copie de l'ebauche faite ds measure.c a adapter/ameliorer
-	int		is_sprite = 0;
-	int		i;
-	if ((is_sprite = which_sprite(g_su->map[(int)y][x + ajusteur])) && i < 100)
+
+int sprite(double *tab, int *t, t_player *pl)
+{
+	double ang_center_sprite;
+	double delta_ang;
+	double ang_sprite_impact;
+	double x;
+	double y;
+
+	if (t[5])
 	{
-		double dist_x, dist_y, delta_ang, delta_sprite_center;
-		// dist_x = fabs(pl->pl_x - (x + (tab[e_cos] < 0 ? -.5 : .5)));
-		// dist_y = fabs(pl->pl_y - ((int)y + (tab[e_sin] < 0 ? -.5 : .5)));
-		dist_x = fabs(x + ajusteur + .5 - g_su->p->pl_x); //tab[e_cos] > 0 ? x + ajusteur + .5 - pl->pl_x : pl->pl_x - (x + ajusteur) - .5; 
-		dist_y = fabs(g_su->p->pl_y - (int)y - .5); //tab[e_sin] > 0 ? pl->pl_y - (int)y - .5 : (int)y - pl->pl_y + .5;
-		delta_ang = atan2(dist_x, dist_y) - g_su->p->player_orient;
-		g_su->p->s_v2[i].s_dist = hypot(dist_x, dist_y); //fabs((pl->pl_x - x + tab[e_cos] < 0 ? -.5 : .5) / tab[e_cos]) * cos(tab[e_x_rad]);
-		delta_sprite_center = g_su->p->s_v2[i].s_dist * tan(delta_ang); // ecart entre le centre du sprite et le point d'impact du rayon
-		g_su->p->s_v2[i].s_dist = g_su->p->s_v2[i].s_dist * cos(delta_ang); // pour eviter le fishEye -> distance entre le rayon et le sprite
-		g_su->p->s_v2[i].s_imp = delta_sprite_center; // g_su->p->w_o == EST_bleu ? y - (int)y : 1. - (y - (int)y);
-		g_su->p->s_v2[i].sprite = is_sprite;
-		if (-0.01 <= tab[e_x_rad] && tab[e_x_rad] <= 0.01)
-			// printf("orient : %f, x_rad : %f, dist_x : %f, dist_y : %f, g_su->p->s_v2[i].s_dist(hypot) : %f, is_sprite %d;%d player (%.1f;%.1f)\n" ,rad_to_deg(g_su->p->player_orient_origin), tab[e_x_rad] ,dist_x, dist_y, g_su->p->s_v2[i].s_dist, x + ajusteur , (int)(y), g_su->p->pl_x, g_su->p->pl_y);
-			printf("atan2 en degre : %.2f) delta_ang : %.2f, delta_sprite_center : %.2f, centre du sprite (%.2f;%.2f) joueur (%.2f;%.2f)\n" ,rad_to_deg(atan2(dist_x, dist_y)), delta_ang, delta_sprite_center, dist_x, dist_y, g_su->p->pl_x, g_su->p->pl_y);
-		++i;
+		x = tab[6];
+		y = (double)t[0];
 	}
-	
+	else
+	{
+		x = (double)t[0];
+		y = tab[6];
+	}
+	pl->s_v2[t[4]].s_d = hypot(tab[8], tab[9]) * cos(tab[e_x_rad]); // distance du sprite et e_x_rad pour eviter le fishEye -> distance entre le rayon et le sprite
+	ang_center_sprite = atan2(tab[9], tab[8]); // angle du centre du sprite
+	ang_sprite_impact = atan2(pl->pl_y - y, x - pl->pl_x);
+	delta_ang = atan_sur_360(ang_center_sprite - ang_sprite_impact); // diffrence angle du centre du sprite et celui du rayon actuel
+	pl->s_v2[t[4]].s_imp  = pl->s_v2[t[4]].s_d * tan(delta_ang) + 0.5; // ecart entre le centre du sprite et le point d'impact du rayon
+	pl->s_v2[t[4]].sprite = t[3];
+	t[3] = 0;
+	++t[4];
 }
-*/
+
 int which_sprite(char is_a_sprite)
 {
 	int i;
@@ -54,48 +58,54 @@ void init_vector2_d(t_vector2_d *tab, int borne)
 	int i = -1;
 	while (++i < borne)
 	{
-		tab[i].s_dist = 0;
+		tab[i].s_d = 0;
 		tab[i].s_imp = 0;
 		tab[i].sprite = 0;
 	}
 }
 
-void	join_sprites(t_player *p1, t_player *p2)
+void	join_sprites_sub_func(t_player *p1, t_player *p2, t_vector2_d *tab, int *t)
 {
-	t_vector2_d tab[100];
-	int i;
-	int boole;
-	init_vector2_d(tab, 100);
-	i = 0;
-	while ((p1->s_num >= 0 || p2->s_num >= 0) && i < 100)
-	{
+	while ((p1->s_num >= 0 || p2->s_num >= 0) && t[0] < 100)
 		if (p1->s_num >= 0 && p2->s_num >= 0)
 		{
-			tab[i] = p1->s_v2[p1->s_num].s_dist > p2->s_v2[p2->s_num].s_dist ? p1->s_v2[p1->s_num] : p2->s_v2[p2->s_num];
-			tab[i].s_dist == p1->s_v2[p1->s_num].s_dist ? --p1->s_num : --p2->s_num;
-			if (tab[i].s_dist > p1->dist)
+			tab[t[0]] = p1->s_v2[p1->s_num].s_d > p2->s_v2[p2->s_num].s_d ?
+			p1->s_v2[p1->s_num] : p2->s_v2[p2->s_num];
+			tab[t[0]].s_d == p1->s_v2[p1->s_num].s_d ?
+			--p1->s_num : --p2->s_num;
+			if (tab[t[0]].s_d > p1->dist)
 				continue;
-			++i;
+			++t[0];
 		}
 		else
 		{
-			boole = p1->s_num != -1 ? 1 : 2;
-			if (p1->dist > boole == 1 ? p1->s_v2[p1->s_num].s_dist : p2->s_v2[p2->s_num].s_dist)
+			t[1] = p1->s_num != -1 ? 1 : 2;
+			if (p1->dist > t[1] == 1 ?
+			p1->s_v2[p1->s_num].s_d : p2->s_v2[p2->s_num].s_d)
 			{
-				tab[i] = boole == 1 ? p1->s_v2[p1->s_num]: p2->s_v2[p2->s_num];
-				boole == 1 ? --p1->s_num : --p2->s_num;
-				if (tab[i].s_dist > p1->dist)
+				tab[t[0]] = t[1] == 1 ?
+				p1->s_v2[p1->s_num]: p2->s_v2[p2->s_num];
+				t[1] == 1 ? --p1->s_num : --p2->s_num;
+				if (tab[t[0]].s_d > p1->dist)
 					continue;
-				++i;
+				++t[0];
 			}
 		}
-	}
-	p1->s_num = i != 0 ? i : p1->s_num;
-	i = 0;
-	while (i <= p1->s_num)
+}
+
+void	join_sprites(t_player *p1, t_player *p2)
+{
+	t_vector2_d tab[100];
+	int t[2];
+	init_vector2_d(tab, 100);
+	t[0] = 0;
+	join_sprites_sub_func(p1, p2, tab, t);
+	p1->s_num = t[0] != 0 ? t[0] : p1->s_num;
+	t[0] = 0;
+	while (t[0] <= p1->s_num)
 	{
-		p1->s_v2[p1->s_num - i]  = tab[i];
-		++i;
+		p1->s_v2[p1->s_num - t[0]]  = tab[t[0]];
+		++t[0];
 	}
 }
 
@@ -107,26 +117,26 @@ void	join_sprites(t_player *p1, t_player *p2)
 	init_vector2_d(tab[0].s_v2);
 	init_vector2_d(tab[1].s_v2);
 	
-	tab[0].s_v2[0].s_dist = 2;
+	tab[0].s_v2[0].s_d = 2;
 	tab[0].s_v2[0].sprite = 2;//
-	tab[0].s_v2[1].s_dist = 4;
+	tab[0].s_v2[1].s_d = 4;
 	tab[0].s_v2[1].sprite = 4;//
-	tab[0].s_v2[2].s_dist = 10;
+	tab[0].s_v2[2].s_d = 10;
 	tab[0].s_v2[2].sprite = 10;//	
-	tab[0].s_v2[3].s_dist = 15;
+	tab[0].s_v2[3].s_d = 15;
 	tab[0].s_v2[3].sprite = 15;//
 
-	tab[1].s_v2[0].s_dist = 3;
+	tab[1].s_v2[0].s_d = 3;
 	tab[1].s_v2[0].sprite = 3;//
-	tab[1].s_v2[1].s_dist = 5;
+	tab[1].s_v2[1].s_d = 5;
 	tab[1].s_v2[1].sprite = 5;//
-	tab[1].s_v2[2].s_dist = 11;
+	tab[1].s_v2[2].s_d = 11;
 	tab[1].s_v2[2].sprite = 11;//
-	tab[1].s_v2[3].s_dist = 11.2;
+	tab[1].s_v2[3].s_d = 11.2;
 	tab[1].s_v2[3].sprite = 11;//
-	tab[1].s_v2[4].s_dist = 16;
+	tab[1].s_v2[4].s_d = 16;
 	tab[1].s_v2[4].sprite = 16;//
-	tab[1].s_v2[5].s_dist = 19;
+	tab[1].s_v2[5].s_d = 19;
 	tab[1].s_v2[5].sprite = 19;//
 
 	tab[0].s_num = 3;
@@ -136,7 +146,7 @@ void	join_sprites(t_player *p1, t_player *p2)
 	int i = 0;
 	while (i < tab[0].s_num)
 	{
-		printf("tab[0].s_v2[%d].s_dist : %f tab[0].s_v2[i].sprite : %d\n", i, tab[0].s_v2[i].s_dist , tab[0].s_v2[i].sprite);
+		printf("tab[0].s_v2[%d].s_d : %f tab[0].s_v2[i].sprite : %d\n", i, tab[0].s_v2[i].s_d , tab[0].s_v2[i].sprite);
 		++i;
 	}
 

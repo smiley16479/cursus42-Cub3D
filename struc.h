@@ -24,8 +24,12 @@ typedef	struct	s_vector2 {
 	int		y;
 }				t_vector2;
 
+
+/*
+s_d = s_distance
+*/
 typedef	struct	s_vector2_d {
-	double		s_dist;
+	double		s_d;
 	double		s_imp;
 	int			sprite;
 }				t_vector2_d;

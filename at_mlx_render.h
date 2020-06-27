@@ -27,8 +27,7 @@
 
 extern	t_app *g_su;
 
-int     render_next_frame(t_app *YourStruct);
-int     render_next_frame1(void);
+int     render_next_frame(void);
 void 	display_wall(int x, double distance);
 void 	display_textured_wall(int x, double distance, t_player *p);
 

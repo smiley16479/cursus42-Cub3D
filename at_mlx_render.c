@@ -95,7 +95,7 @@ void display_sprite(int x, int y, t_player *p)
 
 	while (p->s_num >= 0)
 	{
-		h = g_su->e_dist / p->s_v2[p->s_num].s_dist;
+		h = g_su->e_dist / p->s_v2[p->s_num].s_d;
 		(o = (h - g_su->size.y) / 2 * g_su->t->t_h
 		[p->s_v2[p->s_num].sprite] / h) < 0 ? o = 0 : 0;
 		y = -1;
@@ -138,7 +138,7 @@ void display_textured_wall(int x, double distance, t_player *p)
 	display_sprite(x, y, p);
 }
 
-int     render_next_frame1(void)
+int     render_next_frame(void)
 {
 	int x = 0;
 	double x_rad_to_add = deg_to_rad(60. / g_su->size.x);
