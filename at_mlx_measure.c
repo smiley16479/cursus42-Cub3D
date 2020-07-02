@@ -1,12 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   at_mlx_measure.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/01 16:51:12 by adtheus           #+#    #+#             */
+/*   Updated: 2020/07/01 16:57:20 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "at_mlx_measure.h"
 
-// http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/affichage/3d/raycasting/theorie/04-detection_des_murs
-// http://zupi.free.fr/PTuto/index.php?ch=ptuto&p=ray#53
+/*
+** http://forums.mediabox.fr/wiki/tutoriaux/flashplatform/
+**	affichage/3d/raycasting/theorie/04-detection_des_murs
+** http://zupi.free.fr/PTuto/index.php?ch=ptuto&p=ray#53
+*/
 
-
-void init_tab(int *t, double *tab, t_player *pl, int hor_ver)
+void	init_tab(int *t, double *tab, t_player *pl, int hor_ver)
 {
-// horizontal
 	if (hor_ver)
 	{
 		t[0] = tab[e_sin] > 0 ? (int)pl->pl_y : (int)(pl->pl_y + 1);
@@ -15,12 +28,11 @@ void init_tab(int *t, double *tab, t_player *pl, int hor_ver)
 		t[2] = tab[e_sin] > 0 ? -1 : 0;
 		tab[7] = -1 * t[1] / tab[e_tan];
 	}
-//verticale
-	else 
+	else
 	{
-		t[0] = tab[e_cos] < 0 ? (int)(pl->pl_x): (int)(pl->pl_x + 1);
+		t[0] = tab[e_cos] < 0 ? (int)(pl->pl_x) : (int)(pl->pl_x + 1);
 		tab[6] = pl->pl_y + (pl->pl_x - t[0]) * tab[e_tan];
-		t[1] = tab[e_cos] < 0  ? -1 : 1;
+		t[1] = tab[e_cos] < 0 ? -1 : 1;
 		t[2] = tab[e_cos] < 0 ? -1 : 0;
 		tab[7] = -1 * t[1] * tab[e_tan];
 	}
@@ -28,7 +40,7 @@ void init_tab(int *t, double *tab, t_player *pl, int hor_ver)
 	t[4] = 0;
 }
 
-double horizontal_intersection(t_player *pl, double *tab)
+double	horizontal_intersection(t_player *pl, double *tab)
 {
 	int		t[6];
 
@@ -41,20 +53,21 @@ double horizontal_intersection(t_player *pl, double *tab)
 		if (t[3] && t[4] < 100)
 		{
 			t[5] = 1;
-			tab[8] = (int)tab[6] + .5 - pl->pl_x;  // dist_x
-			tab[9] = pl->pl_y - (t[0] + t[2] + .5); // dist_y
+			tab[8] = (int)tab[6] + .5 - pl->pl_x;
+			tab[9] = pl->pl_y - (t[0] + t[2] + .5);
 			sprite(tab, t, pl);
-		}	
+		}
 		tab[6] += tab[7];
 		t[0] += t[1];
 	}
 	pl->w_o = tab[e_sin] > 0 ? NORD_vert : SUD_rouge;
-	pl->wall_impact = pl->w_o == NORD_vert ? tab[6] - (int)tab[6] : 1. - (tab[6] - (int)tab[6]);
+	pl->wall_impact = pl->w_o == NORD_vert ? tab[6] - (int)tab[6] :
+	1. - (tab[6] - (int)tab[6]);
 	pl->s_num = t[4] - 1;
-	return (fabs((pl->pl_x - tab[6]) / tab[e_cos])); // <-- distance entre le joueur et le mur
+	return (fabs((pl->pl_x - tab[6]) / tab[e_cos]));
 }
 
-double vertical_intersection(t_player *pl, double *tab)
+double	vertical_intersection(t_player *pl, double *tab)
 {
 	int		t[6];
 
@@ -67,8 +80,8 @@ double vertical_intersection(t_player *pl, double *tab)
 		if (t[3] && t[4] < 100)
 		{
 			t[5] = 0;
-			tab[8] = t[0] + t[2] + .5 - pl->pl_x; // dist_x
-			tab[9] = pl->pl_y - (int)tab[6] - .5; // dist_y
+			tab[8] = t[0] + t[2] + .5 - pl->pl_x;
+			tab[9] = pl->pl_y - (int)tab[6] - .5;
 			sprite(tab, t, pl);
 		}
 		t[0] += t[1];
@@ -81,10 +94,10 @@ double vertical_intersection(t_player *pl, double *tab)
 	return (fabs((pl->pl_x - t[0]) / tab[e_cos]));
 }
 
-double distance(t_player *pl, double x_rad)
+double	distance(t_player *pl, double x_rad)
 {
-	t_player p[2];
-	double tab[10];
+	t_player	p[2];
+	double		tab[10];
 
 	tab[e_sin] = sin(pl->player_orient);
 	tab[e_cos] = cos(pl->player_orient);
@@ -95,7 +108,7 @@ double distance(t_player *pl, double x_rad)
 	tab[e_h] = horizontal_intersection(&p[0], tab);
 	tab[e_v] = vertical_intersection(&p[1], tab);
 	*pl = tab[e_h] < tab[e_v] ? p[0] : p[1];
-	pl->dist = cos(x_rad)  * (tab[e_h] < tab[e_v] ? tab[e_h] : tab[e_v]);
+	pl->dist = cos(x_rad) * (tab[e_h] < tab[e_v] ? tab[e_h] : tab[e_v]);
 	join_sprites(pl, tab[e_h] > tab[e_v] ? &p[0] : &p[1]);
 	return (pl->dist);
 }
@@ -108,7 +121,7 @@ double distance(t_player *pl, double x_rad)
 **	double	x_a 		= -1 * y_a / tab[e_tan];
 **	int		ajusteur 	= tab[e_sin] > 0 ? -1 : 0;
 **	int		is_sprite 	= 0;
-**	int		i 			= 0; 
+**	int		i 			= 0;
 **	//vertical
 ** 	int 	x = tab[e_cos] < 0 ? (int)(pl->pl_x): (int)(pl->pl_x + 1);
 **	double 	y = pl->pl_y + (pl->pl_x - x) * tab[e_tan];

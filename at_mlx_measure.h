@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/19 22:40:58 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/12 18:01:59 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:58:22 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,9 @@
 # endif
 # include <math.h>
 # include <mlx.h>
-# include <stdio.h>  // est tu oblige de les integrer ?
-# include <unistd.h>  // est tu oblige de les integrer ?
 # include "struc.h"
-#include "at_mlx_sprite.h"
-#include "angle_convert.h"
+# include "at_mlx_sprite.h"
+# include "angle_convert.h"
 
 extern	t_app *g_su;
 enum	e_tab	{e_sin, e_cos, e_tan, e_h, e_v, e_x_rad};

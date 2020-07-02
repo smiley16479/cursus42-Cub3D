@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 21:17:07 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/25 16:18:51 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/01 15:29:56 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,18 @@ void	constructor_t_app(void)
 
 void	initializer_t_app(int x, int y, char *nam)
 {
+	int i;
+
 	g_su->size = create_vector2(x, y);
-	g_su->e_dist = x / 2 / 0.57735; // pour une FOV de 60° le 0.5.. correspond à tan(30°)
+	g_su->e_dist = x / 2 / 0.57735;
 	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y, nam);
-	int i = 0;
+	i = 0;
 	while (i < 300)
 		g_su->key_tab[i++] = 0;
 	g_su->su_img = NULL;
 }
 
-void application_create_content(void)
+void	application_create_content(void)
 {
 	g_su->su_img = malloc_image(g_su->size.x, g_su->size.y);
 }

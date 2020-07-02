@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 22:12:36 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/10 23:39:09 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:18:55 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,13 @@ t_image	*malloc_image(int size_x, int size_y)
 void	destroy_image(t_image *to_destroy)
 {
 	mlx_destroy_image(g_su->mlx, to_destroy->img_ptr);
-	// Ne pas free to_destroy.pixels. Ca fait planter la mlx
 }
 
-void free_image(t_image *to_free)
+/*
+** Ne pas free to_destroy.pixels. Ca fait planter la mlx
+*/
+
+void	free_image(t_image *to_free)
 {
 	destroy_image(to_free);
 	free(to_free);

@@ -1,38 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   at_bmp.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/01 15:59:27 by adtheus           #+#    #+#             */
+/*   Updated: 2020/07/01 16:15:45 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef AT_BMP_H
-#define AT_BMP_H
+# define AT_BMP_H
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include "struc.h"
+# include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <stdio.h>
+# include "struc.h"
 
-extern t_app *g_su;
+extern t_app	*g_su;
 
-typedef struct  s_BITMAPFILEHEADER	/**** BMP file header structure ****/
-    {
-    unsigned int   bfSize;           /* Size of file */
-    unsigned short bfReserved1;      /* Reserved */
-    unsigned short bfReserved2;      /* ... */
-    unsigned int   bfOffBits;        /* Offset to bitmap data */
-    } t_BITMAPFILEHEADER;
+/*
+**	__BMP file header structure__
+** Size of file
+** Reserved
+** ...
+** Offset to bitmap data
+*/
 
-typedef struct s_BITMAPINFOHEADER	/**** BMP file info structure ****/
-    {
-    unsigned int   biSize;           /* Size of info header */
-    int            biWidth;          /* Width of image */
-    int            biHeight;         /* Height of image */
-    unsigned short biPlanes;         /* Number of color planes */
-    unsigned short biBitCount;       /* Number of bits per pixel */
-    unsigned int   biCompression;    /* Type of compression to use */
-    unsigned int   biSizeImage;      /* Size of image data */
-    int            biXPelsPerMeter;  /* X pixels per meter */
-    int            biYPelsPerMeter;  /* Y pixels per meter */
-    unsigned int   biClrUsed;        /* Number of colors used */
-    unsigned int   biClrImportant;   /* Number of important colors */
-    } t_BITMAPINFOHEADER;
+typedef struct	s_bitmapfileheader
+{
+	unsigned int	bf_size;
+	unsigned short	bf_reserved1;
+	unsigned short	bf_reserved2;
+	unsigned int	bf_offbits;
+}				t_bitmapfileheader;
 
-int bitmap(void);
+typedef struct	s_bitmapinfoheader
+{
+	unsigned int	bi_size;
+	int				bi_width;
+	int				bi_height;
+	unsigned short	bi_planes;
+	unsigned short	bi_bitcount;
+	unsigned int	bi_compression;
+	unsigned int	bi_sizeimage;
+	int				bi_xpelspermeter;
+	int				bi_ypelspermeter;
+	unsigned int	bi_clrused;
+	unsigned int	bi_clrimportant;
+}				t_bitmapinfoheader;
+
+/*
+** BMP file info structure
+** Size of info header
+** Width of image
+** Height of image
+** Number of color planes
+** Number of bits per pixel
+** Type of compression to use
+** Size of image data
+** X pixels per meter
+** Y pixels per meter
+** Number of colors used
+** Number of important colors
+*/
+
+int				bitmap(void);
 
 #endif

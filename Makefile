@@ -6,7 +6,7 @@
 #    By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/09 23:20:17 by adtheus           #+#    #+#              #
-#    Updated: 2020/03/10 15:29:50 by adtheus          ###   ########.fr        #
+#    Updated: 2020/07/02 18:56:59 by adtheus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,8 +21,8 @@ OBJ_DIR = obj
 SRC = 	main.c 							angle_convert.c 			at_app_initializer.c \
 		at_image.c 						at_mlx_hook.c 				at_mlx_measure.c \
 		at_mlx_pixel_put.c				at_mlx_player_handler.c		at_mlx_render.c \
-		at_mlx_color_handler.c			at_mlx_sprite.c				cub3D_map_analyser_tools_1.c\
-		cub3D_map_analyser_tools_2.c	cub3D_map_analyser.c		cub3D_map_info_init.c\
+		at_mlx_color_handler.c			at_mlx_sprite.c				cub3d_map_analyser_tools_1.c\
+		cub3d_map_analyser_tools_2.c	cub3d_map_analyser.c		cub3d_map_info_init.c\
 		error_handling.c				ft_split.c					gnl.c\
 		gnl_2000.c						at_bmp.c					at_vector2.c
 
@@ -41,8 +41,10 @@ LFLAG = $(foreach lib, $(LIB), -l $(lib) ) $(foreach dir, $(LIB_DIR), -L $(dir) 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
 	LFLAG = -L/lib/x86_64-linux-gnu/ -lXext -lX11 -lmlx -lbsd -lm
+	CFLAG += -DLINUX=1
 else
 	LFLAG += $(foreach framework, $(FRAMEWORK), -framework $(framework) )
+	CFLAG += -DLINUX=0
 endif
 
 all		: $(NAME)

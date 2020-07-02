@@ -6,14 +6,14 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/10 16:15:07 by adtheus           #+#    #+#             */
-/*   Updated: 2020/02/23 21:39:10 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/01 16:29:59 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef AT_MLX_COLOR_HANDLER_H
 # define AT_MLX_COLOR_HANDLER_H
-#include <unistd.h>
-#include <stdio.h>
+# include <unistd.h>
+# include <stdio.h>
 
 int		get_t(int trgb);
 int		get_r(int trgb);

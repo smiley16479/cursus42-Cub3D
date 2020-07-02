@@ -1,8 +1,20 @@
-#include "cub3D_map_analyser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d_map_analyser_tools_2.c                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/02 17:25:12 by adtheus           #+#    #+#             */
+/*   Updated: 2020/07/02 17:28:13 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "cub3d_map_analyser.h"
 
 extern t_app *g_su;
 
-void check_info_num(char *check)
+void	check_info_num(char *check)
 {
 	int i;
 
@@ -12,8 +24,7 @@ void check_info_num(char *check)
 			print_error(1, g_su->err);
 }
 
-
-int str_cmp(char *str1, char *str2)
+int		str_cmp(char *str1, char *str2)
 {
 	int i;
 
@@ -25,15 +36,17 @@ int str_cmp(char *str1, char *str2)
 	return (str1[i] - str2[i]);
 }
 
-int len(char *str)
+int		len(char *str)
 {
-    char *tmp = str;
-    while (*str++);
-    return (str - tmp);
+	char *tmp;
+
+	tmp = str;
+	while (*str++)
+		;
+	return (str - tmp);
 }
 
-
-void erase_2dchar(char **strs)
+void	erase_2dchar(char **strs)
 {
 	int i;
 
@@ -43,9 +56,3 @@ void erase_2dchar(char **strs)
 			free(strs[i++]);
 	free(strs);
 }
-
-/* void main()
-{
-char **str = NULL;
-	erase_2dchar(str);
-} */

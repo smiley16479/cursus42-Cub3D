@@ -1,8 +1,7 @@
-#include "cub3D_map_analyser.h"
+#include "cub3d_map_analyser.h"
 #define BUFF_SIZE 10
 
-
-int alloc_line(char **line, char *buf)
+int		alloc_line(char **line, char *buf)
 {
 	int i = 0, j = 0, ret = 0;
 	char *tmp;
@@ -39,12 +38,15 @@ int alloc_line(char **line, char *buf)
 	return (ret);
 }
 
-int gnl(char **line, int fd)
+int		gnl(char **line, int fd)
 {
-	int ret = 0;
-	int read_ret = 1;
-	static char buf[BUFF_SIZE + 1];
-	if (line == NULL)// || *line == NULL)
+	int			ret;
+	int			read_ret;
+	static char	buf[BUFF_SIZE + 1];
+
+	ret = 0;
+	read_ret = 1;
+	if (line == NULL)
 		return (-1);
 	*line = NULL;
 	while ((ret = alloc_line(line, buf)) == 0 && read_ret != 0)
@@ -52,23 +54,21 @@ int gnl(char **line, int fd)
 		read_ret = read(fd, buf, BUFF_SIZE);
 		buf[read_ret] = '\0';
 	}
-//	printf("%s\n", *line);
 	return (ret > 0 && read_ret ? 1 : 0);
-	// return (**line != '\0'  ? 1 : 0);
 }
 
-
-/* int main()
-{
-	int ret;
-	char *line;
-	int fd =   open("map.txt", O_RDONLY);
-	while ((ret = gnl(&line, fd)) == 1)
-	{
-		printf("ret : %d, *line : %s\n", ret, line);
-		free(line);
-	}
-	printf("ret : %d, *line : %s\n", ret, line);
-	free(line);
-}
- */
+/*
+**int main()
+**{
+**	int ret;
+**	char *line;
+**	int fd =   open("map.txt", O_RDONLY);
+**	while ((ret = gnl(&line, fd)) == 1)
+**	{
+**		printf("ret : %d, *line : %s\n", ret, line);
+**		free(line);
+**	}
+**	printf("ret : %d, *line : %s\n", ret, line);
+**	free(line);
+**}
+*/

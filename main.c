@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/03/12 16:50:54 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/02 18:42:46 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <mlx.h>
 #include <math.h>
 #include <stdio.h>
-#include "map.h"
 #include "at_mlx_hook.h"
 #include "at_app_initializer.h"
 #include "at_mlx_measure.h"
@@ -23,12 +22,15 @@
 #include "at_mlx_render.h"
 #include "angle_convert.h"
 #include "at_mlx_render.h"
-#include "cub3D_map_analyser.h"
+#include "cub3d_map_analyser.h"
 #include "at_bmp.h"
-//GLOBALE
-	t_app  *g_su;
 
-int check_args(int ac, char **av)
+/*
+**GLOBALE
+*/
+t_app	*g_su;
+
+int	check_args(int ac, char **av)
 {
 	int	i;
 
@@ -46,14 +48,13 @@ int check_args(int ac, char **av)
 	return (0);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	constructor_t_app();
-    g_su->err = error_strs_init();
+	g_su->err = error_strs_init();
 	check_args(ac, av);
-    g_su->map = read_map(av[1]);
+	g_su->map = read_map(av[1]);
 	at_mlx_hook(g_su->p);
 	mlx_loop_hook(g_su->mlx, render_next_frame, (void*)g_su);
-	
 	return (mlx_loop(g_su->mlx));
 }
