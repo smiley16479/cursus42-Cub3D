@@ -19,7 +19,6 @@
 # include "at_image.h"
 # include "at_mlx_measure.h"
 # include "at_mlx_pixel_put.h"
-# include "at_mlx_color_handler.h"
 # include "at_mlx_player_handler.h"
 # include "at_bmp.h"
 # include "struc.h"

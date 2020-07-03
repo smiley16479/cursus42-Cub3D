@@ -179,7 +179,7 @@ int					render_next_frame(void)
 	}
 	// display_terminal();
 	if (g_su->save && !(g_su->save = 0))
-		bitmap();
+		bitmap(0);
 	mlx_put_image_to_window(g_su->mlx, g_su->mlx_win,
 							g_su->su_img->img_ptr, 0, 0);
 	player_mov_hook(g_su->p);

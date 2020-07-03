@@ -68,10 +68,18 @@ int		check_map_line(char *str, int *player)
 
 int		which_info_tp(char *str, char *check)
 {
-	char	*t_orient[8] = {"NO", "SO", "WE", "EA", "S", "R", "F", "C"};
+	char	*t_orient[8];
 	char	**split_return;
 	int		i;
 
+	t_orient[0] = "NO";
+	t_orient[1] = "SO";
+	t_orient[2] = "WE";
+	t_orient[3] = "EA"; 
+	t_orient[4] = "S"; 
+	t_orient[5] = "R"; 
+	t_orient[6] = "F";
+	t_orient[7] = "C";
 	split_return = ft_split(str, " ");
 	i = 0;
 	while (i < 8 && str_cmp(t_orient[i], *split_return))

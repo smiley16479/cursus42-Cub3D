@@ -33,14 +33,13 @@ static inline void	set_header(t_bitmapfileheader *bfh,
 	bih->bi_clrused = 0;
 	bih->bi_clrimportant = 0;
 }
-// Envoi une des variables en param pour aimer la norm
-int					bitmap(void)
+
+int					bitmap(int file)
 {
 	t_bitmapfileheader	bfh;
 	t_bitmapinfoheader	bih;
 	unsigned short		bf_type;
 	t_vector2			xy;
-	int					file;
 	unsigned int		color;
 
 	set_header(&bfh, &bih, &bf_type);

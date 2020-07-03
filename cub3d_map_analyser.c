@@ -11,8 +11,8 @@
 /* ************************************************************************** */
 
 #include "cub3d_map_analyser.h"
-#include <string.h>
-#include <errno.h>
+// #include <string.h>
+// #include <errno.h>
 
 /*
 **	FYI Meme include que dans at_bmp.c

@@ -12,9 +12,6 @@
 
 #include "cub3d_map_analyser.h"
 
-int		gnl(char **line, int fd);
-char	**gnl_2000(char **strs, char *str);
-
 char	**error_strs_init(void)
 {
 	int		gnl_ret;

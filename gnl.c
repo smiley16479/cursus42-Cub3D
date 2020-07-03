@@ -1,41 +1,53 @@
 #include "cub3d_map_analyser.h"
 #define BUFF_SIZE 10
 
+int		alloc_line_sub1(int *t, char **tmp, char *buf, char **line)
+{
+	if (*line != NULL)
+		while ((*line)[t[0]])
+			++t[0];
+	while (buf[t[1]] && buf[t[1]] != '\n')
+		++t[1];
+	if (!((*tmp) = (char*)malloc(sizeof(char) * (t[0] + t[1] + 1))))
+		return (-1);
+	t[0] = 0;
+	if (*line != NULL)
+		while ((*line)[t[0]])
+		{
+			(*tmp)[t[0]] = (*line)[t[0]];
+			++t[0];
+		}
+	t[1] = 0;
+	while (buf[t[1]] && buf[t[1]] != '\n')
+	{
+		(*tmp)[t[0] + t[1]] = buf[t[1]];
+		++t[1];
+	}
+	(*tmp)[t[0] + t[1]] = '\0';
+	return (0);
+}
+
+
 int		alloc_line(char **line, char *buf)
 {
-	int i = 0, j = 0, ret = 0;
+	int t[3];
 	char *tmp;
-	if (*line != NULL)
-		while ((*line)[i])
-			++i;
-	while (buf[j] && buf[j] != '\n')
-		++j;
-	if (!(tmp = (char*)malloc(sizeof(char) * (i + j + 1))))
+	
+	t[0] = 0;
+	t[1] = 0;
+	t[2] = 0;
+	if (alloc_line_sub1(t, &tmp, buf, line))
 		return (-1);
-	i = 0;
-	if (*line != NULL)
-		while ((*line)[i])
-		{
-			tmp[i] = (*line)[i];
-			++i;
-		}
-	j = 0;
-	while (buf[j] && buf[j] != '\n')
+	t[0] = 0;
+	if (buf[t[1]] == '\n' && ++t[1] && (t[2] = 1))
 	{
-		tmp[i + j] = buf[j];
-		++j;
-	}
-	tmp[i + j] = '\0';
-	i = 0;
-	if (buf[j] == '\n' && ++j && (ret = 1))
-	{
-		while (buf[j])
-			buf[i++] = buf[j++];
-		buf[i] = '\0';
+		while (buf[t[1]])
+			buf[t[0]++] = buf[t[1]++];
+		buf[t[0]] = '\0';
 	}
 	free(*line);
 	*line = tmp;
-	return (ret);
+	return (t[2]);
 }
 
 int		gnl(char **line, int fd)

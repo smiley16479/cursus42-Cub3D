@@ -27,8 +27,7 @@
 # define LEFTARROW 124
 
 int			ft_exit();
-int			player_mov_hook(t_player *pl);
-void		player_mov(t_player *pl);
+void		player_mov_hook(t_player *pl);
 void		player_rotate(t_player *pl);
 t_player	*player_constructeur(void);
 t_player	player_initializer(double pl_x, double pl_y, int deg);

@@ -68,6 +68,6 @@ typedef struct	s_bitmapinfoheader
 ** Number of important colors
 */
 
-int				bitmap(void);
+int				bitmap(int fd);
 
 #endif

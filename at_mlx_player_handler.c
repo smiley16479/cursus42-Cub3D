@@ -42,11 +42,14 @@ t_player	player_initializer(double pl_x, double pl_y, int deg)
 	return (to_return);
 }
 
-int			player_mov_hook(t_player *pl)
+void		player_rotate(t_player *pl)
 {
-	player_mov(pl);
-	player_rotate(pl);
-	return (0);
+	if (g_su->key_tab[RIGHTARROW])
+		pl->player_orient_origin += deg_to_rad(2.8);
+	else if (g_su->key_tab[LEFTARROW])
+		pl->player_orient_origin -= deg_to_rad(2.8);
+	if (g_su->key_tab[4])
+		ft_exit();
 }
 
 void		left_right(t_player *p, float v, double dir)
@@ -65,6 +68,7 @@ void		left_right(t_player *p, float v, double dir)
 		if (g_su->map[(int)(p->pl_y + cos(dir) * v)][(int)(p->pl_x)] != '1')
 			p->pl_y += cos(dir) * v;
 	}
+	player_rotate(p);
 }
 
 /*
@@ -76,7 +80,7 @@ void		left_right(t_player *p, float v, double dir)
 **	//up 13, down 1, left 0,right 2 (mac)
 */
 
-void		player_mov(t_player *p)
+void		player_mov_hook(t_player *p)
 {
 	float	v;
 	double	dir;
@@ -98,16 +102,6 @@ void		player_mov(t_player *p)
 			p->pl_y += sin(dir) * v;
 	}
 	left_right(p, v, dir);
-}
-
-void		player_rotate(t_player *pl)
-{
-	if (g_su->key_tab[RIGHTARROW])
-		pl->player_orient_origin += deg_to_rad(2.8);
-	else if (g_su->key_tab[LEFTARROW])
-		pl->player_orient_origin -= deg_to_rad(2.8);
-	if (g_su->key_tab[4])
-		ft_exit();
 }
 
 /*
