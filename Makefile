@@ -32,7 +32,7 @@ FRAMEWORK = AppKit OpenGL
 
 vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
-CFLAG = -fsanitize=address -g3
+CFLAG = -fsanitize=address -g3 -Wall -Wextra -Werror
 # flag : -o3 pour accelerer l'execution du code
 IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) )
 LFLAG = $(foreach lib, $(LIB), -l $(lib) ) $(foreach dir, $(LIB_DIR), -L $(dir) )

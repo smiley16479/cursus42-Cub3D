@@ -99,7 +99,7 @@ void	join_sprites_sub_func(t_player *p1, t_player *p2,
 		else
 		{
 			t[1] = p1->s_num != -1 ? 1 : 2;
-			if (p1->dist > t[1] == 1 ?
+			if ((p1->dist > t[1]) == 1 ?
 			p1->s_v2[p1->s_num].s_d : p2->s_v2[p2->s_num].s_d)
 			{
 				tab[t[0]] = t[1] == 1 ?

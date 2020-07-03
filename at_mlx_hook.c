@@ -54,6 +54,7 @@ int		at_mlx_hook(t_player *pl)
 
 int		msg_keypressed_window(int keycode, t_player *pl)
 {
+	(void)pl;
 	if (LINUX)
 		keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 1;
@@ -62,6 +63,7 @@ int		msg_keypressed_window(int keycode, t_player *pl)
 
 int		msg_keyreleased_window(int keycode, t_player *pl)
 {
+	(void)pl;
 	if (LINUX)
 		keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 0;
