@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 18:42:46 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 11:25:25 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	check_args(int ac, char **av)
 		print_error(15, g_su->err);
 	if (ac == 3)
 		if (str_cmp(av[2], "--save") || !(g_su->save = 1))
-			print_error(16, g_su->err);
+			if (str_cmp(av[2], "--old_style") || !(g_su->save = 2))
+				print_error(16, g_su->err);
 	return (0);
 }
 

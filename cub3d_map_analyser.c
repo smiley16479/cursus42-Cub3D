@@ -6,13 +6,11 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:13:42 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:13:47 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 15:15:57 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d_map_analyser.h"
-// #include <string.h>
-// #include <errno.h>
 
 /*
 **	FYI Meme include que dans at_bmp.c
@@ -63,12 +61,11 @@ int		check_map(char ***map_txt, char *check, int file, int *str_len)
 	return (0);
 }
 
-int		count_map_line(char *map_path, char ***map_txt)
+int		count_map_line(char *map_path, char ***map_txt, char *check)
 {
 	int		file;
 	int		str_len;
 	int		gnl_ret;
-	char	check[8] = {0};
 
 	str_len = 0;
 	gnl_ret = 1;
@@ -93,6 +90,11 @@ int		count_map_line(char *map_path, char ***map_txt)
 
 /*
 ** 	char *map_txt1;//= NULL;<-- SI ca plante grande chance que ça vienne de là
+**	...
+**	display_map_2d_ptr(map_txt); // <- le display est ICI
+**	display_map_2d_ptr(map_txt_cpy); // <- le display est ICI
+**	erase_2dchar(map_txt);
+**	// erase_2dchar(map_txt_cpy);// Veut on vrmt supprimer la map ?
 */
 
 char	**read_map(char *map_path)
@@ -101,9 +103,18 @@ char	**read_map(char *map_path)
 	char		**map_txt;
 	char		**map_txt_cpy;
 	int			map_len;
+	char		check[8];
 
+	check[0] = 0;
+	check[1] = 0;
+	check[2] = 0;
+	check[3] = 0;
+	check[4] = 0;
+	check[5] = 0;
+	check[6] = 0;
+	check[7] = 0;
 	map_txt = &map_txt1;
-	map_len = count_map_line(map_path, &map_txt);
+	map_len = count_map_line(map_path, &map_txt, check);
 	player_location_2darray(map_txt, g_su->p);
 	map_txt_cpy = duplicate_2dchar_array(map_txt, map_len);
 	if (c_b_2d_array(map_txt, g_su->p->pl_x, g_su->p->pl_y))
@@ -140,35 +151,6 @@ void	player_location_2darray(char **map, t_player *p)
 					map[t[1]][t[0]] = '0';
 					return ;
 				}
-}
-
-int		c_b_2d_array(char **map, int x, int y)
-{
-	if (0 > x || 0 > y || !map[y] || !map[y][x])
-		return (1);
-	if (map[y][x] == ' ')
-		print_error(12, g_su->err);
-	if (map[y][x] != '0' && map[y][x] != '2')
-		return (0);
-	map[y][x] = 'k';
-	if (c_b_2d_array(map, x + 1, y) || c_b_2d_array(map, x - 1, y) ||
-		c_b_2d_array(map, x, y - 1) || c_b_2d_array(map, x, y + 1))
-		return (1);
-	return (0);
-}
-
-void	display_map_2d_ptr(char **map)
-{
-	int i;
-
-	while (*map && (i = -1))
-	{
-		while ((*map)[++i])
-			write(1, &((*map)[i]), 1);
-		++map;
-		write(1, "\n", 1);
-	}
-	write(1, "fin de display_map_2d_ptr\n", 26);
 }
 
 /*

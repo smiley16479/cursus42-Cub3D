@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 18:37:41 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 12:21:41 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,22 @@ t_player	*player_constructeur(void)
 	return (to_return);
 }
 
+/*
+**	t_player	to_return;
+**
+**	to_return.pl_x = pl_x;
+**	to_return.pl_y = pl_y;
+**	to_return.player_orient = 0;
+**	to_return.player_orient_origin = deg_to_rad(deg);
+**	// cst_tab_init(to_return.cst_tab);
+**	// if (!(to_return.key_tab = (int*)malloc(sizeof(int) * 250)))
+**		// return (to_return);
+**	// i = -1;
+**	// while (++i < 10)
+**		// (to_return.key_tab)[i] = 0;
+**	return (to_return);
+*/
+
 t_player	player_initializer(double pl_x, double pl_y, int deg)
 {
 	t_player	to_return;
@@ -33,12 +49,6 @@ t_player	player_initializer(double pl_x, double pl_y, int deg)
 	to_return.pl_y = pl_y;
 	to_return.player_orient = 0;
 	to_return.player_orient_origin = deg_to_rad(deg);
-	// cst_tab_init(to_return.cst_tab);
-	// if (!(to_return.key_tab = (int*)malloc(sizeof(int) * 250)))
-		// return (to_return);
-	// i = -1;
-	// while (++i < 10)
-		// (to_return.key_tab)[i] = 0;
 	return (to_return);
 }
 
@@ -48,7 +58,7 @@ void		player_rotate(t_player *pl)
 		pl->player_orient_origin += deg_to_rad(2.8);
 	else if (g_su->key_tab[LEFTARROW])
 		pl->player_orient_origin -= deg_to_rad(2.8);
-	if (g_su->key_tab[4])
+	if (g_su->key_tab[4] || g_su->key_tab[ESC])
 		ft_exit();
 }
 

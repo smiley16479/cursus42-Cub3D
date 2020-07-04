@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:29:10 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 11:11:12 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 12:21:26 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define D_KEY		2
 # define RIGHTARROW 123
 # define LEFTARROW 124
+# define ESC 53
 
 int			ft_exit();
 void		player_mov_hook(t_player *pl);

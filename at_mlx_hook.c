@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 18:57:56 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 13:02:48 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,39 @@
 #include "at_mlx_player_handler.h"
 #include "cub3d_map_analyser.h"
 
+/*
+**int		ft_exit(void)
+**{
+**	printf("Je quite\n");
+**	release_textures();
+**	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
+**  //<-- c'est l'image ds le render qui leak (ligne au dessus)
+**	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
+**	free(g_su->mlx);
+**	erase_2dchar(g_su->map);
+**	exit(0);
+**}
+*/
+
 int		ft_exit(void)
 {
 	printf("Je quite\n");
 	release_textures();
-	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr); //<-- c'est l'image ds le render qui leak
 	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
 	free(g_su->mlx);
 	erase_2dchar(g_su->map);
 	exit(0);
 }
 
-int		close_window(int keycode)
-{
-	printf("keycode : %d\n", keycode);
-	if (keycode == 53)
-		mlx_destroy_window(g_su->mlx, g_su->mlx_win);
-	return (0);
-}
+/*
+**int		close_window(int keycode)
+**{
+**	printf("keycode : %d\n", keycode);
+**	if (keycode == 53)
+**		mlx_destroy_window(g_su->mlx, g_su->mlx_win);
+**	return (0);
+**}
+*/
 
 /*
 **	Voici les hook pour les interuptions de touches
@@ -55,6 +70,7 @@ int		at_mlx_hook(t_player *pl)
 int		msg_keypressed_window(int keycode, t_player *pl)
 {
 	(void)pl;
+	printf("Keycode : %d\n", keycode);
 	if (LINUX)
 		keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 1;

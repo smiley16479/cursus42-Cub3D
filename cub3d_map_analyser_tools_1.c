@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:14:02 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:23:48 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 12:28:25 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,9 @@ int		which_info_tp(char *str, char *check)
 	t_orient[0] = "NO";
 	t_orient[1] = "SO";
 	t_orient[2] = "WE";
-	t_orient[3] = "EA"; 
-	t_orient[4] = "S"; 
-	t_orient[5] = "R"; 
+	t_orient[3] = "EA";
+	t_orient[4] = "S";
+	t_orient[5] = "R";
 	t_orient[6] = "F";
 	t_orient[7] = "C";
 	split_return = ft_split(str, " ");

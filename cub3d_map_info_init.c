@@ -6,41 +6,12 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:45:29 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:50:26 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 15:18:02 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "at_app_initializer.h"
 #include "cub3d_map_analyser.h"
-
-static inline int	is_digit(char *str)
-{
-	while (*str)
-	{
-		if (!('0' <= *str && *str <= '9'))
-			return (0);
-		str++;
-	}
-	return (1);
-}
-
-static inline int	ft_atoi(char *str)
-{
-	int to_return;
-
-	to_return = 0;
-	while (*str)
-	{
-		to_return *= 10;
-		to_return += *str++ - '0';
-	}
-	return (to_return);
-}
-
-void				release_window(void)
-{
-	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
-}
 
 void				release_textures(void)
 {

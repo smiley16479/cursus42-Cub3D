@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   gnl.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: adtheus <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/07/04 15:33:05 by adtheus           #+#    #+#             */
+/*   Updated: 2020/07/04 15:33:09 by adtheus          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "cub3d_map_analyser.h"
 #define BUFF_SIZE 10
 
@@ -27,12 +39,11 @@ int		alloc_line_sub1(int *t, char **tmp, char *buf, char **line)
 	return (0);
 }
 
-
 int		alloc_line(char **line, char *buf)
 {
-	int t[3];
-	char *tmp;
-	
+	int		t[3];
+	char	*tmp;
+
 	t[0] = 0;
 	t[1] = 0;
 	t[2] = 0;

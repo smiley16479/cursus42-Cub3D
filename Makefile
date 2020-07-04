@@ -6,11 +6,12 @@
 #    By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/09 23:20:17 by adtheus           #+#    #+#              #
-#    Updated: 2020/07/02 18:56:59 by adtheus          ###   ########.fr        #
+#    Updated: 2020/07/04 12:42:33 by adtheus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = cub3D
+MAP_TEST = map/map1.cub
 
 # LIB_DIR = $(shell find lib -type d -maxdepth 1 | grep 'lib/')
 # INC_DIR = $(shell find includes -type d) $(foreach dir, $(LIB_DIR), $(shell find -f $(dir)/includes -type d))
@@ -18,13 +19,14 @@ NAME = cub3D
 LIB_DIR =  lib/minilibx_opengl_20191021
 OBJ_DIR = obj
 
-SRC = 	main.c 							angle_convert.c 			at_app_initializer.c \
-		at_image.c 						at_mlx_hook.c 				at_mlx_measure.c \
-		at_mlx_pixel_put.c				at_mlx_player_handler.c		at_mlx_render.c \
-		at_mlx_sprite.c				cub3d_map_analyser_tools_1.c	at_vector2.c\
-		cub3d_map_analyser_tools_2.c	cub3d_map_analyser.c		cub3d_map_info_init.c\
-		error_handling.c				ft_split.c					gnl.c\
-		gnl_2000.c						at_bmp.c					
+SRC = 	main.c 							angle_convert.c 				at_app_initializer.c \
+		at_image.c 						at_mlx_hook.c 					at_mlx_measure.c \
+		at_mlx_pixel_put.c				at_mlx_player_handler.c			at_mlx_render.c \
+		cub3d_map_analyser_tools_1.c	cub3d_map_analyser_tools_2.c	cub3d_map_analyser_tools_3.c\
+		at_mlx_sprite.c					at_vector2.c					cub3d_map_analyser.c\
+		error_handling.c				ft_split.c						gnl.c\
+		gnl_2000.c						at_bmp.c						cub3d_map_info_init.c\
+		at_terminal_display.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
 LIB = mlx
@@ -76,7 +78,7 @@ $(NAME)	: $(OBJ)
 	@gcc $(OBJ) $(CFLAG) $(IFLAG) $(LFLAG) -o $@
 
 debug : $(NAME)
-	@./$(NAME)
+	@./$(NAME) $(MAP_TEST)
 
 install :
 #	make -C lib/libft

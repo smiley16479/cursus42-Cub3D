@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:49:11 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:51:56 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 15:20:16 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ char	**error_strs_init(void)
 		gnl_ret = gnl(&str, fd);
 		strs = gnl_2000(strs, str);
 	}
-	close (fd);
+	close(fd);
 	return (strs);
 }
 
-void    print_error(int nu_of_error, char **strs)
+void	print_error(int nu_of_error, char **strs)
 {
 	int i;
 
@@ -48,7 +48,8 @@ void    print_error(int nu_of_error, char **strs)
 	exit(EXIT_FAILURE);
 }
 
-/* void erase_2dchar(char **strs)
+/*
+** void erase_2dchar(char **strs)
 **{
 **	int i;
 **

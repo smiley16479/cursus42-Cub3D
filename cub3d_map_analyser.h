@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 12:53:13 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:13:53 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 12:50:23 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,8 @@ char	**ft_split(char *str, char *charset);
 
 char	**read_map(char *map_path);
 void	player_location_2darray(char **map, t_player *lst);
-int		c_b_2d_array(char **map, int x, int y);
-void	display_map_2d_ptr(char **map);
 int		check_map(char ***map_txt, char *check, int file, int *str_len);
 char	**error_strs_init(void);
-void	print_error(int nu_of_error, char **strs);
 
 /*
 ** cub3D_map_analyser_tools.c
@@ -60,4 +57,14 @@ int		check_map_line(char *str, int *player);
 int		len(char *str);
 char	**duplicate_2dchar_array(char **strs, int map_len);
 void	erase_2dchar(char **strs);
+
+/*
+** cub3D_map_analyser_tools3.c
+*/
+void	print_error(int nu_of_error, char **strs);
+int		c_b_2d_array(char **map, int x, int y);
+void	display_map_2d_ptr(char **map);
+int		is_digit(char *str);
+int		ft_atoi(char *str);
+
 #endif
