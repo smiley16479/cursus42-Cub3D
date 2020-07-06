@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 17:08:19 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/06 18:21:40 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int		at_mlx_hook(t_player *pl)
 {
 	mlx_hook(g_su->mlx_win, 2, 1L << 0, msg_keypressed_window, pl);
 	mlx_hook(g_su->mlx_win, 3, 1L << 1, msg_keyreleased_window, pl);
+	mlx_hook(g_su->mlx_win, 17, 0, ft_exit, (void*)0);
 	return (0);
 }
 
