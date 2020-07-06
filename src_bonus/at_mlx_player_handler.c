@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 20:21:25 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 12:21:41 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/06 12:31:33 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,16 +66,16 @@ void		left_right(t_player *p, float v, double dir)
 {
 	if (g_su->key_tab[A_KEY])
 	{
-		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x - sin(dir) * v)] != '1')
+		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x - sin(dir) * v)] == '0')
 			p->pl_x -= sin(dir) * v;
-		if (g_su->map[(int)(p->pl_y - cos(dir) * v)][(int)(p->pl_x)] != '1')
+		if (g_su->map[(int)(p->pl_y - cos(dir) * v)][(int)(p->pl_x)] == '0')
 			p->pl_y -= cos(dir) * v;
 	}
 	if (g_su->key_tab[D_KEY])
 	{
-		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x + sin(dir) * v)] != '1')
+		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x + sin(dir) * v)] == '0')
 			p->pl_x += sin(dir) * v;
-		if (g_su->map[(int)(p->pl_y + cos(dir) * v)][(int)(p->pl_x)] != '1')
+		if (g_su->map[(int)(p->pl_y + cos(dir) * v)][(int)(p->pl_x)] == '0')
 			p->pl_y += cos(dir) * v;
 	}
 	player_rotate(p);
@@ -99,16 +99,16 @@ void		player_mov_hook(t_player *p)
 	dir = p->player_orient_origin;
 	if (g_su->key_tab[W_KEY])
 	{
-		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x + cos(dir) * v)] != '1')
+		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x + cos(dir) * v)] == '0')
 			p->pl_x += (cos(dir) * v);
-		if (g_su->map[(int)(p->pl_y - sin(dir) * v)][(int)(p->pl_x)] != '1')
+		if (g_su->map[(int)(p->pl_y - sin(dir) * v)][(int)(p->pl_x)] == '0')
 			p->pl_y -= (sin(dir) * v);
 	}
 	if (g_su->key_tab[S_KEY])
 	{
-		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x - cos(dir) * v)] != '1')
+		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x - cos(dir) * v)] == '0')
 			p->pl_x -= cos(dir) * v;
-		if (g_su->map[(int)(p->pl_y + sin(dir) * v)][(int)(p->pl_x)] != '1')
+		if (g_su->map[(int)(p->pl_y + sin(dir) * v)][(int)(p->pl_x)] == '0')
 			p->pl_y += sin(dir) * v;
 	}
 	left_right(p, v, dir);

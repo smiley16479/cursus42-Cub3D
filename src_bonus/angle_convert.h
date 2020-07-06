@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   at_mlx_color_handler.h                             :+:      :+:    :+:   */
+/*   angle_convert.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/10 16:15:07 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/01 16:29:59 by adtheus          ###   ########.fr       */
+/*   Created: 2020/01/10 15:58:34 by adtheus           #+#    #+#             */
+/*   Updated: 2020/07/01 15:27:29 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef AT_MLX_COLOR_HANDLER_H
-# define AT_MLX_COLOR_HANDLER_H
-# include <unistd.h>
-# include <stdio.h>
+#ifndef ANGLE_CONVERT_H
+# define ANGLE_CONVERT_H
+# include <math.h>
+# include "struc.h"
 
-int		get_t(int trgb);
-int		get_r(int trgb);
-int		get_g(int trgb);
-int		get_b(int trgb);
-int		get_oposite(int color);
-void	print_bin(char nb);
-int		add_shade(double distance, unsigned int color);
-int		invert_color(int color);
+extern	t_app	*g_su;
+void			cst_tab_init(double tab[][361]);
+double			deg_to_rad(double degre);
+double			rad_to_deg(double rad);
+double			atan_sur_360(double angle);
 
 #endif

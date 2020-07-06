@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 13:02:48 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/05 19:00:33 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@
 
 int		ft_exit(void)
 {
-	printf("Je quite\n");
 	release_textures();
 	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
 	free(g_su->mlx);
@@ -70,7 +69,6 @@ int		at_mlx_hook(t_player *pl)
 int		msg_keypressed_window(int keycode, t_player *pl)
 {
 	(void)pl;
-	printf("Keycode : %d\n", keycode);
 	if (LINUX)
 		keycode = convert_key_code_linux(keycode);
 	g_su->key_tab[keycode] = 1;

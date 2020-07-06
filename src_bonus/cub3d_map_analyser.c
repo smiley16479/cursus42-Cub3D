@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:13:42 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 15:15:57 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/04 18:18:11 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,10 +119,7 @@ char	**read_map(char *map_path)
 	map_txt_cpy = duplicate_2dchar_array(map_txt, map_len);
 	if (c_b_2d_array(map_txt, g_su->p->pl_x, g_su->p->pl_y))
 		print_error(13, g_su->err);
-	display_map_2d_ptr(map_txt); // <- le display est ICI
-	display_map_2d_ptr(map_txt_cpy); // <- le display est ICI
 	erase_2dchar(map_txt);
-	// erase_2dchar(map_txt_cpy);// Veut on vrmt supprimer la map ?
 	return (map_txt_cpy);
 }
 

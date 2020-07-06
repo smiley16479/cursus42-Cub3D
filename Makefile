@@ -6,7 +6,7 @@
 #    By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/09 23:20:17 by adtheus           #+#    #+#              #
-#    Updated: 2020/07/04 12:42:33 by adtheus          ###   ########.fr        #
+#    Updated: 2020/07/06 15:53:52 by adtheus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,22 +17,35 @@ MAP_TEST = map/map1.cub
 # INC_DIR = $(shell find includes -type d) $(foreach dir, $(LIB_DIR), $(shell find -f $(dir)/includes -type d))
 
 LIB_DIR =  lib/minilibx_opengl_20191021
+SRC_DIR = src
 OBJ_DIR = obj
+SRC_BONUS_DIR = src_bonus
+OBJ_BONUS_DIR = obj_bonus
 
-SRC = 	main.c 							angle_convert.c 				at_app_initializer.c \
-		at_image.c 						at_mlx_hook.c 					at_mlx_measure.c \
-		at_mlx_pixel_put.c				at_mlx_player_handler.c			at_mlx_render.c \
-		cub3d_map_analyser_tools_1.c	cub3d_map_analyser_tools_2.c	cub3d_map_analyser_tools_3.c\
-		at_mlx_sprite.c					at_vector2.c					cub3d_map_analyser.c\
-		error_handling.c				ft_split.c						gnl.c\
-		gnl_2000.c						at_bmp.c						cub3d_map_info_init.c\
-		at_terminal_display.c
+SRC = 			main.c 							angle_convert.c 				at_app_initializer.c \
+				at_image.c 						at_mlx_hook.c 					at_mlx_measure.c \
+				at_mlx_pixel_put.c				at_mlx_player_handler.c			at_mlx_render.c \
+				cub3d_map_analyser_tools_1.c	cub3d_map_analyser_tools_2.c	cub3d_map_analyser_tools_3.c\
+				at_mlx_sprite.c					at_vector2.c					cub3d_map_analyser.c\
+				error_handling.c				ft_split.c						gnl.c\
+				gnl_2000.c						at_bmp.c						cub3d_map_info_init.c\
+				at_terminal_display.c
+
+SRC_BONUS = 	main.c 							angle_convert.c 					at_app_initializer.c \
+				at_image.c 						at_mlx_hook.c 						at_mlx_measure.c \
+				at_mlx_pixel_put.c				at_mlx_player_handler.c				at_mlx_render.c \
+				cub3d_map_analyser_tools_1.c	cub3d_map_analyser_tools_2.c		cub3d_map_analyser_tools_3.c\
+				at_mlx_sprite.c					at_vector2.c						cub3d_map_analyser.c\
+				error_handling.c				ft_split.c							gnl.c\
+				gnl_2000.c						at_bmp.c							cub3d_map_info_init.c\
+				at_terminal_display.c	at_mlx_shape_square.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:%.c=%.o))
+OBJ_BONUS = $(addprefix $(OBJ_BONUS_DIR)/, $(SRC_BONUS:%.c=%.o))
 LIB = mlx
 FRAMEWORK = AppKit OpenGL
 
-vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
+#vpath %.c $(foreach dir, $(SRC_DIR), $(dir):)
 
 CFLAG = -fsanitize=address -g3 -Wall -Wextra -Werror
 # flag : -o3 pour accelerer l'execution du code
@@ -59,7 +72,10 @@ show	:
 	@echo "IFLAG : $(IFLAG)\n"
 	@echo "LFLAG : $(LFLAG)\n"
 	@echo "SRC :$(foreach file, $(SRC),\n\t$(file))\n"
+	@echo "ESSAI :$(foreach file, $(ESSAI),\n\t$(file))\n"
+	@echo "SRC_BONUS :$(foreach file, $(SRC_BONUS),\n\t$(file))\n"
 	@echo "OBJ :$(foreach file, $(OBJ),\n\t$(file))\n"
+	@echo "OBJ_BONUS :$(foreach file, $(OBJ_BONUS),\n\t$(file))\n"
 
 #@echo "LIB :$(foreach lib, $(LIB),\n\t$(lib))\n"
 #LIB = ft mlx
@@ -70,12 +86,23 @@ show	:
 ## $@ = la cible de la regle
 ## $< = la premiere dependance de la regle
 ## $^ = les dependances de la regle
-$(OBJ_DIR)/%.o : %.c
+$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
+	@gcc $(CFLAG) $(IFLAG) -c $< -o $@
+
+## $(OBJ_BONUS_DIR)
+#$(OBJ_BONUS_DIR)/%.o : %.c
+#	@mkdir -p $(OBJ_BONUS_DIR)
+
+$(OBJ_BONUS_DIR)/%.o : $(SRC_BONUS_DIR)/%.c
+	@mkdir -p $(OBJ_BONUS_DIR)  
 	@gcc $(CFLAG) $(IFLAG) -c $< -o $@
 
 $(NAME)	: $(OBJ)
 	@gcc $(OBJ) $(CFLAG) $(IFLAG) $(LFLAG) -o $@
+
+bonus : $(OBJ_BONUS)
+	@gcc $(OBJ_BONUS) $(CFLAG) $(IFLAG) $(LFLAG) -o $@
 
 debug : $(NAME)
 	@./$(NAME) $(MAP_TEST)
@@ -89,9 +116,10 @@ re-install :
 	make -C lib/mlx re
 
 clean	:
-	@rm -f $(OBJ)
+	@rm -f $(OBJ) $(OBJ_BONUS)
 
 fclean	: clean
 	@rm -f $(NAME)
+	@rm -f bonus
 
 re		: fclean all
