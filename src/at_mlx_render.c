@@ -91,6 +91,9 @@ void				display_sprite(int x, int y, t_player *p)
 	}
 }
 
+/*
+** h = g_su->e_dist / distance;
+*/
 void				display_textured_wall(int x, double distance, t_player *p)
 {
 	double		h;
@@ -98,7 +101,7 @@ void				display_textured_wall(int x, double distance, t_player *p)
 	int			y;
 	int			px;
 
-	h = g_su->e_dist / distance;
+	h = g_su->e_dist / (distance == 0 ? 0.001518 : distance);
 	(of = (h - g_su->size.y) / 2 * g_su->t->t_h[p->w_o] / h) < 0 ?
 	of = 0 : 0;
 	y = -1;
