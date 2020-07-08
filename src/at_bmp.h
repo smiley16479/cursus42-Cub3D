@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include "struc.h"
+# include "at_mlx_hook.h"
 
 extern t_app	*g_su;
 

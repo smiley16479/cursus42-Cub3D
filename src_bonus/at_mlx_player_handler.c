@@ -55,9 +55,9 @@ t_player	player_initializer(double pl_x, double pl_y, int deg)
 void		player_rotate(t_player *pl)
 {
 	if (g_su->key_tab[RIGHTARROW])
-		pl->player_orient_origin += deg_to_rad(2.8);
+		pl->player_orient_origin += deg_to_rad(2.81);
 	else if (g_su->key_tab[LEFTARROW])
-		pl->player_orient_origin -= deg_to_rad(2.8);
+		pl->player_orient_origin -= deg_to_rad(2.81);
 	if (g_su->key_tab[4] || g_su->key_tab[ESC])
 		ft_exit();
 }

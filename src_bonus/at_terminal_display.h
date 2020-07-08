@@ -21,7 +21,6 @@
 # include "struc.h"
 
 extern t_app *g_su;
-static inline void	clear_screen(void);
 void				display_terminal(void);
 
 #endif

@@ -44,8 +44,6 @@ char	**which_ft_split(int info_t, char *str)
 
 int		check_map_line(char *str, int *player)
 {
-	if (*str == '\0')
-		return (-1);
 	while (*str == ' ' || ('0' <= *str && *str <= '2')
 		|| *str == 'N' || *str == 'S' || *str == 'E' || *str == 'W')
 		if (*str == 'N' || *str == 'S' || *str == 'E' || *str == 'W')

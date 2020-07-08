@@ -33,6 +33,8 @@ char	**check_map_integrity(int file, char ***map_txt, int *str_len)
 		i = gnl(*map_txt, file);
 		strs = gnl_2000(strs, **map_txt);
 	}
+	if (check_no_empty_line_in_2dchar(strs))
+		print_error(10, g_su->err);
 	i = -1;
 	player = 0;
 	while (strs[++i])

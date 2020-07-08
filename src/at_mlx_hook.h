@@ -21,10 +21,10 @@ typedef struct	s_vars {
 }				t_vars;
 extern t_app	*g_su;
 
-int				convert_key_code_linux(int keycode);
-int				close_window(int keycode);
+int				ft_exit(void);
 int				at_mlx_hook(t_player *pl);
 int				msg_keypressed_window(int keycode, t_player *pl);
 int				msg_keyreleased_window(int keycode, t_player *pl);
+int				convert_key_code_linux(int keycode);
 
 #endif

@@ -56,3 +56,15 @@ void	erase_2dchar(char **strs)
 			free(strs[i++]);
 	free(strs);
 }
+
+int		check_no_empty_line_in_2dchar(char **strs)
+{
+	int i;
+
+	i = -1;
+	while (strs[++i])
+		if (*(strs[i]) == '\0' && strs[i + 1] != NULL)
+			if (*(strs[i + 1]) != '\0')
+				return (-1);
+	return (0);
+}

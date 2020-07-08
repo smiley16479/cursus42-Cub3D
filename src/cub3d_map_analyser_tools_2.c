@@ -65,9 +65,6 @@ int		check_no_empty_line_in_2dchar(char **strs)
 	while (strs[++i])
 		if (*(strs[i]) == '\0' && strs[i + 1] != NULL)
 			if (*(strs[i + 1]) != '\0')
-			{
-				printf("*(strs[i + 1]) != '%c' || strs[i + 1] != %p\n", *(strs[i + 1]), strs[i + 1] );
-				// return (-1);
-			}
+				return (-1);
 	return (0);
 }

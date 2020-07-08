@@ -17,4 +17,3 @@ Error\nWrong extention\n
 Error\nWrong 2nd argument\nUsage : screen saver with "--save"\n
 Error\nMalloc() failed in duplicate_2dchar_array_part2()\n
 Error\nNo such file or directory\n
-coucou

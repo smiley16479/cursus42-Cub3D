@@ -46,7 +46,7 @@ int					bitmap(int file)
 	if (!(file = open("a.bmp", O_CREAT | O_RDWR | O_TRUNC, 0666)))
 	{
 		write(1, "Error\nCould not write file\n", 27);
-		return (1);
+		return (ft_exit());
 	}
 	write(file, &bf_type, sizeof(bf_type));
 	write(file, &bfh, sizeof(bfh));
@@ -60,5 +60,5 @@ int					bitmap(int file)
 			write(file, &color, 4);
 		}
 	close(file);
-	return (0);
+	return (ft_exit());
 }

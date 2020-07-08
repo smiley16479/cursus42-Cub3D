@@ -47,16 +47,21 @@ int		check_map(char ***map_txt, char *check, int file, int *str_len);
 char	**error_strs_init(void);
 
 /*
-** cub3D_map_analyser_tools.c
+** cub3D_map_analyser_tools1.c
 */
-void	check_info_num(char *check);
 char	**which_ft_split(int info_t, char *str);
 int		which_info_tp(char *str, char *check);
-int		str_cmp(char *str1, char *str2);
 int		check_map_line(char *str, int *player);
-int		len(char *str);
 char	**duplicate_2dchar_array(char **strs, int map_len);
+
+/*
+** cub3D_map_analyser_tools2.c
+*/
+void	check_info_num(char *check);
+int		str_cmp(char *str1, char *str2);
+int		len(char *str);
 void	erase_2dchar(char **strs);
+int		check_no_empty_line_in_2dchar(char **strs);
 
 /*
 ** cub3D_map_analyser_tools3.c
