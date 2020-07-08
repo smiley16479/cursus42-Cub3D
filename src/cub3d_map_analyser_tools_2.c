@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:25:12 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/02 17:28:13 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/08 12:24:20 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,19 @@ void	erase_2dchar(char **strs)
 		while (strs[i])
 			free(strs[i++]);
 	free(strs);
+}
+
+int		check_no_empty_line_in_2dchar(char **strs)
+{
+	int i;
+
+	i = -1;
+	while (strs[++i])
+		if (*(strs[i]) == '\0' && strs[i + 1] != NULL)
+			if (*(strs[i + 1]) != '\0')
+			{
+				printf("*(strs[i + 1]) != '%c' || strs[i + 1] != %p\n", *(strs[i + 1]), strs[i + 1] );
+				// return (-1);
+			}
+	return (0);
 }

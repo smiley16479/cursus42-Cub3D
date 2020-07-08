@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:13:42 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/05 18:39:11 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/08 13:08:36 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ char	**check_map_integrity(int file, char ***map_txt, int *str_len)
 		i = gnl(*map_txt, file);
 		strs = gnl_2000(strs, **map_txt);
 	}
+	if (check_no_empty_line_in_2dchar(strs))
+		print_error(19, g_su->err);
 	i = -1;
 	player = 0;
 	while (strs[++i])
@@ -48,13 +50,13 @@ int		check_map(char ***map_txt, char *check, int file, int *str_len)
 	int		info_t;
 	char	**arg_strs;
 
-	if ((info_t = which_info_tp(**map_txt, check)) == 8)
+	if ((info_t = which_info_tp(**map_txt, check)) == 8) // si le tab d'info est plein alors on passe a l'analyse de la map 
 	{
 		check_info_num(check);
 		*map_txt = check_map_integrity(file, map_txt, str_len);
 		return (-1);
 	}
-	if (!(arg_strs = which_ft_split(info_t, **map_txt)))
+	if (!(arg_strs = which_ft_split(info_t, **map_txt))) // sinon on analyse les args fournis
 		print_error(2, g_su->err);
 	parse_info(info_t, arg_strs + 1);
 	erase_2dchar(arg_strs);
@@ -117,7 +119,7 @@ char	**read_map(char *map_path)
 	map_len = count_map_line(map_path, &map_txt, check);
 	player_location_2darray(map_txt, g_su->p);
 	map_txt_cpy = duplicate_2dchar_array(map_txt, map_len);
-	if (c_b_2d_array(map_txt, g_su->p->pl_x, g_su->p->pl_y))
+	if (c_b_2d_array(map_txt, g_su->p->pl_x, g_su->p->pl_y)) // le probleme vient d'ici si on met mat_txt_copy
 		print_error(13, g_su->err);
 	erase_2dchar(map_txt);
 	return (map_txt_cpy);

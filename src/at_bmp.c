@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/01 15:31:30 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/01 16:16:14 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/08 12:56:08 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int					bitmap(int file)
 	set_header(&bfh, &bih, &bf_type);
 	if (!(file = open("a.bmp", O_CREAT | O_RDWR | O_TRUNC, 0666)))
 	{
-		printf("Could not write file\n");
+		write(1, "Error\nCould not write file\n", 27);
 		return (1);
 	}
 	write(file, &bf_type, sizeof(bf_type));
