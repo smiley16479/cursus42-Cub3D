@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:14:02 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/08 12:59:14 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/10 10:25:17 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,6 @@ char	**which_ft_split(int info_t, char *str)
 
 int		check_map_line(char *str, int *player)
 {
-	// printf("str : %s\n", str);
-	// if (*str == '\0')
-	// 	return (-1);
 	while (*str == ' ' || ('0' <= *str && *str <= '2')
 		|| *str == 'N' || *str == 'S' || *str == 'E' || *str == 'W')
 		if (*str == 'N' || *str == 'S' || *str == 'E' || *str == 'W')

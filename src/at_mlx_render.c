@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/21 16:09:04 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 11:52:32 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/10 10:23:46 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void				display_sprite(int x, int y, t_player *p)
 /*
 ** h = g_su->e_dist / distance;
 */
+
 void				display_textured_wall(int x, double distance, t_player *p)
 {
 	double		h;

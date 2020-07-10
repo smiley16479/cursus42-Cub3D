@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/06 18:21:40 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/10 16:56:05 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,17 +91,13 @@ int		convert_key_code_linux(int keycode)
 		return (4);
 	if (keycode == 65293)
 		return (123);
-	if (keycode == 65362)
-		return (123);
-	if (keycode == 65364)
+	if (keycode == 65361 || keycode == 65362 || keycode == 65364)
 		return (123);
 	if (keycode == 65363)
 		return (124);
-	if (keycode == 65361)
-		return (123);
 	if (keycode == 65289)
 		return (0);
-	if (keycode == 122)
+	if (keycode == 122 || keycode == 119)
 		return (13);
 	if (keycode == 113)
 		return (0);
