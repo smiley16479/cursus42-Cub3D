@@ -49,13 +49,13 @@ FRAMEWORK = AppKit OpenGL
 
 CFLAG = -fsanitize=address -g3 -Wall -Wextra -Werror
 # flag : -o3 pour accelerer l'execution du code
-IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) )
+IFLAG = $(foreach dir, $(INC_DIR), -I $(dir) ) -I ./lib/minilibx_opengl_20191021
 LFLAG = $(foreach lib, $(LIB), -l $(lib) ) $(foreach dir, $(LIB_DIR), -L $(dir) )
 #LFLAG = -L lib/libft -L lib/mlx -l mlx -l libft
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAG = -L/lib/x86_64-linux-gnu/ -lXext -lX11 -lmlx -lbsd -lm
+	LFLAG = -L./lib -lmlx -lXext -lX11 -lbsd -lm
 	CFLAG += -DLINUX=1
 else
 	LFLAG += $(foreach framework, $(FRAMEWORK), -framework $(framework) )
@@ -72,7 +72,6 @@ show	:
 	@echo "IFLAG : $(IFLAG)\n"
 	@echo "LFLAG : $(LFLAG)\n"
 	@echo "SRC :$(foreach file, $(SRC),\n\t$(file))\n"
-	@echo "ESSAI :$(foreach file, $(ESSAI),\n\t$(file))\n"
 	@echo "SRC_BONUS :$(foreach file, $(SRC_BONUS),\n\t$(file))\n"
 	@echo "OBJ :$(foreach file, $(OBJ),\n\t$(file))\n"
 	@echo "OBJ_BONUS :$(foreach file, $(OBJ_BONUS),\n\t$(file))\n"
@@ -89,10 +88,6 @@ show	:
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	@gcc $(CFLAG) $(IFLAG) -c $< -o $@
-
-## $(OBJ_BONUS_DIR)
-#$(OBJ_BONUS_DIR)/%.o : %.c
-#	@mkdir -p $(OBJ_BONUS_DIR)
 
 $(OBJ_BONUS_DIR)/%.o : $(SRC_BONUS_DIR)/%.c
 	@mkdir -p $(OBJ_BONUS_DIR)  

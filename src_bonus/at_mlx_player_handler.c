@@ -99,10 +99,10 @@ void		player_mov_hook(t_player *p)
 	dir = p->player_orient_origin;
 	if (g_su->key_tab[W_KEY])
 	{
-		if (g_su->map[(int)(p->pl_y)][(int)(p->pl_x + cos(dir) * v)] == '0')
-			p->pl_x += (cos(dir) * v);
-		if (g_su->map[(int)(p->pl_y - sin(dir) * v)][(int)(p->pl_x)] == '0')
-			p->pl_y -= (sin(dir) * v);
+		(g_su->map[(int)(p->pl_y)][(int)(p->pl_x + cos(dir) * v)] == '0') ?
+			p->pl_x += (cos(dir) * v) : g_su->life.x--;
+		(g_su->map[(int)(p->pl_y - sin(dir) * v)][(int)(p->pl_x)] == '0') ?
+			p->pl_y -= (sin(dir) * v) : g_su->life.x--;
 	}
 	if (g_su->key_tab[S_KEY])
 	{

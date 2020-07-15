@@ -106,6 +106,7 @@ typedef struct	s_app {
 	void		*mlx;
 	void		*mlx_win;
 	t_vector2	size;
+	t_vector2	life;
 	int			e_dist;
 	char		**map;
 	t_vector2	ms;

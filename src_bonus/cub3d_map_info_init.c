@@ -54,6 +54,8 @@ void				init_resolution(char **info)
 	g_su->size.y = ft_atoi(*++info);
 	g_su->size.x = g_su->size.x < 2560 ? g_su->size.x : 2560;
 	g_su->size.y = g_su->size.y < 1440 ? g_su->size.y : 1440;
+	g_su->life.x = g_su->size.x * 2 / 5;
+	g_su->life.y = g_su->size.y / 50;
 	g_su->e_dist = g_su->size.x / 2 / 0.57735;
 	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y,
 				"Pinky_WinKi");

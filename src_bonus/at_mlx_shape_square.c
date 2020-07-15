@@ -59,10 +59,10 @@ void		draw_me_a_life_bar(void)
 	int j;
 
 	i = 0;
-	while (i < g_su->size.x * 2 / 5)
+	while (i < g_su->life.x)
 	{
 		j = 0;
-		while (j < g_su->size.y / 50)
+		while (j < g_su->life.y)
 		{
 			p_p(g_su->su_img, i + g_su->size.x / 50,
 							j + g_su->size.y / 50, 0x00FF0000);
