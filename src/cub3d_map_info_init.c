@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/02 17:45:29 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 15:18:02 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/15 16:55:56 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ void				init_resolution(char **info)
 	g_su->size.x = g_su->size.x < 2560 ? g_su->size.x : 2560;
 	g_su->size.y = g_su->size.y < 1440 ? g_su->size.y : 1440;
 	g_su->e_dist = g_su->size.x / 2 / 0.57735;
-	g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y,
+	if (g_su->save == 0)
+		g_su->mlx_win = mlx_new_window(g_su->mlx, g_su->size.x, g_su->size.y,
 				"Pinky_WinKi");
 	i = 0;
 	while (i < 300)

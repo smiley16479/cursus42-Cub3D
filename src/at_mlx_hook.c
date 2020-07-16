@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/10 16:56:05 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/15 17:08:31 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 **	release_textures();
 **	// mlx_destroy_image(g_su->mlx, g_su->su_img->img_ptr);
 **  //<-- c'est l'image ds le render qui leak (ligne au dessus)
-**	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
+**	mlx_destroy_window(g_su->mlx, g_su->mlx_win); <- retiré pour le --save
 **	free(g_su->mlx);
 **	erase_2dchar(g_su->map);
 **	exit(0);
@@ -33,7 +33,6 @@
 int		ft_exit(void)
 {
 	release_textures();
-	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
 	free(g_su->mlx);
 	erase_2dchar(g_su->map);
 	exit(0);

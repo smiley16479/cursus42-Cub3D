@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/18 17:17:35 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/04 11:25:25 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/15 17:03:02 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	main(int ac, char **av)
 	g_su->err = error_strs_init();
 	check_args(ac, av);
 	g_su->map = read_map(av[1]);
-	at_mlx_hook(g_su->p);
+	if (g_su->save == 0)
+		at_mlx_hook(g_su->p);
 	mlx_loop_hook(g_su->mlx, render_next_frame, (void*)g_su);
 	return (mlx_loop(g_su->mlx));
 }

@@ -6,7 +6,7 @@
 /*   By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 01:04:06 by adtheus           #+#    #+#             */
-/*   Updated: 2020/07/10 16:56:05 by adtheus          ###   ########.fr       */
+/*   Updated: 2020/07/15 17:09:03 by adtheus          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 int		ft_exit(void)
 {
 	release_textures();
-	mlx_destroy_window(g_su->mlx, g_su->mlx_win);
 	free(g_su->mlx);
 	erase_2dchar(g_su->map);
 	exit(0);

@@ -6,7 +6,7 @@
 #    By: adtheus <adtheus@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/02/09 23:20:17 by adtheus           #+#    #+#              #
-#    Updated: 2020/07/06 15:53:52 by adtheus          ###   ########.fr        #
+#    Updated: 2020/07/15 16:17:57 by adtheus          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,7 @@ LFLAG = $(foreach lib, $(LIB), -l $(lib) ) $(foreach dir, $(LIB_DIR), -L $(dir) 
 
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S), Linux)
-	LFLAG = -L./lib -lmlx -lXext -lX11 -lbsd -lm
+	LFLAG = -L./lib/linux_lib -lmlx -lXext -lX11 -lbsd -lm
 	CFLAG += -DLINUX=1
 else
 	LFLAG += $(foreach framework, $(FRAMEWORK), -framework $(framework) )
