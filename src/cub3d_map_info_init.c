@@ -74,14 +74,14 @@ void				init_fc_color(char **info, char fc)
 			if ((color[1] = ft_atoi(*++info)) <= 255)
 				if ((color[2] = ft_atoi(*++info)) <= 255)
 				{
-					*to_affect = *color;
+					*to_affect = color[2];
 					to_affect[1] = color[1];
-					to_affect[2] = color[2];
+					to_affect[2] = *color;
 					to_affect[3] = 0;
 					if (fc == 'f')
-						g_su->t->fc.x = *(int*)to_affect;
-					else if (fc == 'c')
 						g_su->t->fc.y = *(int*)to_affect;
+					else if (fc == 'c')
+						g_su->t->fc.x = *(int*)to_affect;
 					return ;
 				}
 	print_error(6, g_su->err);

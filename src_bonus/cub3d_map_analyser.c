@@ -142,9 +142,9 @@ void	player_location_2darray(char **map, t_player *p)
 					if (map[t[1]][t[0]] == 'N')
 						g_su->p->player_orient_origin = M_PI / 2;
 					if (map[t[1]][t[0]] == 'E')
-						g_su->p->player_orient_origin = M_PI;
-					if (map[t[1]][t[0]] == 'W')
 						g_su->p->player_orient_origin = 0;
+					if (map[t[1]][t[0]] == 'W')
+						g_su->p->player_orient_origin = M_PI;
 					if (map[t[1]][t[0]] == 'S')
 						g_su->p->player_orient_origin = M_PI * 3 / 2;
 					map[t[1]][t[0]] = '0';

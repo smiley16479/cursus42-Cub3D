@@ -26,7 +26,7 @@ int		is_digit(char *str)
 
 int		ft_atoi(char *str)
 {
-	int to_return;
+	long long to_return;
 
 	to_return = 0;
 	while (*str)
@@ -34,6 +34,8 @@ int		ft_atoi(char *str)
 		to_return *= 10;
 		to_return += *str++ - '0';
 	}
+	if (to_return > __INT32_MAX__)
+		to_return = 10000;
 	return (to_return);
 }
 
